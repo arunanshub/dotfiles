@@ -8,7 +8,7 @@ be of some interest to you.
 I recommend using `yadm`.
 
 ```shell
-yadm clone https://github.com/arunanshub/.configs.git
+yadm clone https://github.com/arunanshub/dotfiles.git
 ```
 
 And you're good to go!
