@@ -1,6 +1,6 @@
 # Arunanshu's dotfiles
 
-Configuration files than I use. The [`init.vim`](.config/nvim/init.vim) might
+Configuration files than I use. The [`init.vim`](/.config/nvim/init.vim) might
 be of some interest to you.
 
 # How to use
