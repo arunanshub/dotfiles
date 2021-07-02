@@ -1,7 +1,8 @@
 " File: init.vim
 " Author: Arunanshu Biswas (@arunanshub)
-" Description: A `init.vim` for the IDE beauty. Make sure you atleast
-" have node installed.
+" Description: A `init.vim` for the IDE beauty. Make sure you atleast have
+" node installed. You may need to install other binaries depending on the coc
+" extension.
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                      1. vim-plug installation                         "
@@ -16,6 +17,8 @@ endif
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                      2. vim-plug plugins                              "
+"  Make sure you run `:PlugInstall` after launching `neovim` for the    "
+"  first time.                                                          "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 call plug#begin()
 

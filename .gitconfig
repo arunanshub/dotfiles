@@ -1,0 +1,8 @@
+[alias]
+	st = status --short
+	gr = log --graph --branches --remotes
+[user]
+	email = mydellpc07@gmail.com
+	name = Arunanshu Biswas
+[init]
+	defaultBranch = master
