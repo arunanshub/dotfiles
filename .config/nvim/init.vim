@@ -67,10 +67,9 @@ vmap <S-Tab> <gv
 " neovim specific configuration
 filetype indent plugin on
 let g:pyindent_open_paren = 'shiftwidth()' " Fix python indentation
-set backspace=indent,eol,start
 set nocompatible
 set notimeout nottimeout
-set smartindent smartcase incsearch number expandtab
+set smartindent smartcase number expandtab
 set tabstop=4 shiftwidth=4
 syntax enable
 
@@ -121,7 +120,6 @@ let g:NERDTrimTrailingWhitespace = 1
 " <<< End NERD commenter
 
 " >>> CoC-Nvim
-set encoding=utf-8
 set hidden
 set nobackup
 set nowritebackup
