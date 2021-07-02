@@ -27,6 +27,7 @@ Plug 'honza/vim-snippets' " easy snippets
 Plug 'jiangmiao/auto-pairs' " bracket autocompletion
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } } " file finder
 Plug 'junegunn/fzf.vim' " file finder stuff
+Plug 'majutsushi/tagbar' " tagbar for easy code browsing (requires ctags)
 Plug 'mbbill/undotree' " undo tree
 Plug 'neoclide/coc.nvim', {'branch': 'release'} " code completion
 Plug 'plasticboy/vim-markdown' " proper markdown highlighting
@@ -76,6 +77,10 @@ syntax enable
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                      4.1 plugin configurations                        "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" >>> tagbar
+nmap <F8> :TagbarToggle<CR>
+" <<< end tagbar
+
 " >>> undotree
 nnoremap <F5> :UndotreeToggle<CR>
 " <<< end undotree
