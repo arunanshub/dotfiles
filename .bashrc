@@ -194,5 +194,16 @@ alias vi="nvim"
 alias vim="nvim"
 alias pp="bat"
 
-# export MANPAGER="sh -c 'sed -e s/.\\\\x08//g | bat --paging always -l man -p'"
-export MANPAGER="sh -c 'col -bx | bat --paging always -l man -p'"
+if [[ "$(uname -o)" == "Android" ]]; then
+    # Termux doesn't support complex MANPAGER commands
+    export LESS_TERMCAP_mb=$'\e[1;32m'
+    export LESS_TERMCAP_md=$'\e[1;32m'
+    export LESS_TERMCAP_me=$'\e[0m'
+    export LESS_TERMCAP_se=$'\e[0m'
+    export LESS_TERMCAP_so=$'\e[01;33m'
+    export LESS_TERMCAP_ue=$'\e[0m'
+    export LESS_TERMCAP_us=$'\e[1;4;31m'
+else
+    # export MANPAGER="sh -c 'sed -e s/.\\\\x08//g | bat --paging always -l man -p'"
+    export MANPAGER="sh -c 'col -bx | bat --paging always -l man -p'"
+fi
