@@ -38,7 +38,7 @@ Plug 'tpope/vim-sensible' " be sensible
 Plug 'tpope/vim-surround' " surround text with stuff
 Plug 'vim-airline/vim-airline' " the bottom bar
 " Theme: not necessary ofcourse
-Plug 'dracula/vim', { 'as': 'dracula' } " A nice looking theme
+Plug 'joshdick/onedark.vim'
 
 call plug#end()
 
@@ -59,11 +59,6 @@ let g:coc_global_extensions = [
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                      4. Misc. configurations                          "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-colorscheme dracula
-" for indenting
-vmap <Tab> >gv
-vmap <S-Tab> <gv
-
 " neovim specific configuration
 let g:pyindent_open_paren = 'shiftwidth()' " Fix python indentation
 set nocompatible
@@ -71,7 +66,16 @@ set notimeout nottimeout
 set cursorline
 set smartindent smartcase number expandtab
 set tabstop=4 shiftwidth=4
+if has("termguicolors")
+    set termguicolors " 24 bit colors for the love of life
+endif
 
+" for indenting
+vmap <Tab> >gv
+vmap <S-Tab> <gv
+
+let g:onedark_terminal_italics=1
+colorscheme onedark
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                      4.1 plugin configurations                        "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
