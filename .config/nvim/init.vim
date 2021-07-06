@@ -22,7 +22,6 @@ endif
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 call plug#begin()
 
-Plug 'airblade/vim-gitgutter'                       " git diffing in style
 Plug 'cespare/vim-toml'                             " TOML highlighting
 Plug 'godlygeek/tabular'                            " Super <TAB> and text alignment
 Plug 'honza/vim-snippets'                           " easy code snippets
@@ -33,6 +32,7 @@ Plug 'junegunn/fzf.vim'                             " file finder helper
 Plug 'luochen1990/rainbow'                          " color the braces for easy recognition
 Plug 'majutsushi/tagbar'                            " tagbar for easy code browsing (requires ctags)
 Plug 'mbbill/undotree'                              " undo tree
+Plug 'mhinz/vim-signify'                            " show diffs in style
 Plug 'neoclide/coc.nvim', {'branch': 'release'}     " code completion
 Plug 'plasticboy/vim-markdown'                      " proper markdown highlighting
 Plug 'scrooloose/nerdcommenter'                     " commenting functionality
