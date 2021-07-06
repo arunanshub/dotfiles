@@ -22,28 +22,29 @@ endif
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 call plug#begin()
 
-Plug 'cespare/vim-toml' " TOML highlighting
-Plug 'honza/vim-snippets' " easy snippets
-Plug 'jiangmiao/auto-pairs' " bracket autocompletion
+Plug 'cespare/vim-toml'                             " TOML highlighting
+Plug 'godlygeek/tabular'                            " Super <TAB> and text alignment
+Plug 'honza/vim-snippets'                           " easy snippets
+Plug 'jiangmiao/auto-pairs'                         " bracket autocompletion
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } } " file finder
-Plug 'junegunn/fzf.vim' " file finder stuff
-Plug 'majutsushi/tagbar' " tagbar for easy code browsing (requires ctags)
-Plug 'mbbill/undotree' " undo tree
-Plug 'neoclide/coc.nvim', {'branch': 'release'} " code completion
-Plug 'plasticboy/vim-markdown' " proper markdown highlighting
-Plug 'scrooloose/nerdcommenter' " commenting functionality
-Plug 'scrooloose/nerdtree' " tree
-Plug 'tpope/vim-repeat' " repetition being good
-Plug 'tpope/vim-sensible' " be sensible
-Plug 'tpope/vim-surround' " surround text with stuff
-Plug 'vim-airline/vim-airline' " the bottom bar
+Plug 'junegunn/fzf.vim'                             " file finder stuff
+Plug 'majutsushi/tagbar'                            " tagbar for easy code browsing (requires ctags)
+Plug 'mbbill/undotree'                              " undo tree
+Plug 'neoclide/coc.nvim', {'branch': 'release'}     " code completion
+Plug 'plasticboy/vim-markdown'                      " proper markdown highlighting
+Plug 'scrooloose/nerdcommenter'                     " commenting functionality
+Plug 'scrooloose/nerdtree'                          " directory tree
+Plug 'tpope/vim-repeat'                             " repetition being good
+Plug 'tpope/vim-sensible'                           " be sensible
+Plug 'tpope/vim-surround'                           " surround text with stuff
+Plug 'vim-airline/vim-airline'                      " the bottom bar
 " Theme: not necessary ofcourse
 Plug 'joshdick/onedark.vim'
 
 call plug#end()
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"                      3. coc-nvim extensions                           "
+"                      3. coc.nvim extensions                           "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:coc_global_extensions = [
     \ 'coc-clangd',
@@ -74,55 +75,66 @@ endif
 vmap <Tab> >gv
 vmap <S-Tab> <gv
 
-let g:onedark_terminal_italics=1
+" colorscheme
+let g:onedark_terminal_italics = 1
 colorscheme onedark
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                      4.1 plugin configurations                        "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" >>> tagbar
+
+""""""""""""""""""""""
+"  tagbar  "
+""""""""""""""""""""""
 nmap <F8> :TagbarToggle<CR>
-" <<< end tagbar
 
-" >>> undotree
+""""""""""""""""""""""
+"  undotree  "
+""""""""""""""""""""""
 nnoremap <F5> :UndotreeToggle<CR>
-" <<< end undotree
 
-" >>> auto pairs
-let g:AutoPairsMultilineClose = 0
+""""""""""""""""""""""
+"  auto-pairs  "
+""""""""""""""""""""""
+let g:AutoPairsMultilineClose     = 0
 let g:AutoPairsShortcutBackInsert = '<M-b>'
-" <<< end auto pairs
 
-" >>> vim-markdown
+""""""""""""""""""""""
+"  vim-markdown  "
+""""""""""""""""""""""
 let g:vim_markdown_folding_disabled = 1
-" <<< end vim-markdown
 
-" >>> fzf and ag
+""""""""""""""""""""""
+"  fzf fzf.vim ag  "
+""""""""""""""""""""""
 nnoremap <C-P> :Files<CR>
 nnoremap <C-I> :GFiles<CR>
 if executable("ag")
     nnoremap <C-G> :Ag<CR>
 endif
-" <<< end fzf and ag
 
-" >>> NERDTree
+""""""""""""""""""""""
+"  nerdtree  "
+""""""""""""""""""""""
 nnoremap <leader>n :NERDTreeFocus<CR>
-nnoremap <C-n> :NERDTreeToggle<CR>
-nnoremap <C-i> :NERDTreeFind<CR>
-" <<< end NERDTree
+nnoremap <C-n>     :NERDTreeToggle<CR>
+nnoremap <C-i>     :NERDTreeFind<CR>
 
-" >>> NERD commenter
-let g:NERDAltDelims_java = 1
-let g:NERDCommentEmptyLines = 1
-let g:NERDCompactSexyComs = 1
-let g:NERDCreateDefaultMappings = 1
-let g:NERDCustomDelimiters = { 'c': { 'left': '/**','right': '*/' } }
-let g:NERDDefaultAlign = 'left'
-let g:NERDSpaceDelims = 1
-let g:NERDToggleCheckAllLines = 1
+""""""""""""""""""""""
+"  nerdcommenter  "
+""""""""""""""""""""""
+let g:NERDAltDelims_java         = 1
+let g:NERDCommentEmptyLines      = 1
+let g:NERDCompactSexyComs        = 1
+let g:NERDCreateDefaultMappings  = 1
+let g:NERDCustomDelimiters       = { 'c': { 'left': '/**','right': '*/' } }
+let g:NERDDefaultAlign           = 'left'
+let g:NERDSpaceDelims            = 1
+let g:NERDToggleCheckAllLines    = 1
 let g:NERDTrimTrailingWhitespace = 1
-" <<< End NERD commenter
 
-" >>> CoC-Nvim
+""""""""""""""""""""""
+"  coc.nvim  "
+""""""""""""""""""""""
 set hidden
 set nobackup
 set nowritebackup
@@ -130,9 +142,9 @@ set shortmess+=c
 set updatetime=200
 
 if has("nvim-0.5.0") || has("patch-8.1.1564")
-    set signcolumn=number
+    set signcolumn = number
 else
-    set signcolumn=yes
+    set signcolumn = yes
 endif
 
 " Use tab for trigger completion with characters ahead and navigate.
