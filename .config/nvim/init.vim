@@ -68,6 +68,7 @@ vmap <S-Tab> <gv
 let g:pyindent_open_paren = 'shiftwidth()' " Fix python indentation
 set nocompatible
 set notimeout nottimeout
+set cursorline
 set smartindent smartcase number expandtab
 set tabstop=4 shiftwidth=4
 
