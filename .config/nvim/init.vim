@@ -65,8 +65,8 @@ let g:pyindent_open_paren = 'shiftwidth()' " Fix python indentation
 set nocompatible
 set notimeout nottimeout
 set cursorline
-set smartindent smartcase number expandtab
-set tabstop=4 shiftwidth=4
+set smartcase number expandtab
+set softtabstop=4 shiftwidth=4
 if has("termguicolors")
     set termguicolors " 24 bit colors for the love of life
 endif
@@ -104,7 +104,7 @@ let g:AutoPairsShortcutBackInsert = '<M-b>'
 let g:vim_markdown_folding_disabled = 1
 
 """"""""""""""""""""""
-"  fzf fzf.vim ag  "
+"  fzf,fzf.vim,ag  "
 """"""""""""""""""""""
 nnoremap <C-P> :Files<CR>
 nnoremap <C-I> :GFiles<CR>
