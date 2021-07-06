@@ -24,10 +24,10 @@ call plug#begin()
 
 Plug 'cespare/vim-toml'                             " TOML highlighting
 Plug 'godlygeek/tabular'                            " Super <TAB> and text alignment
-Plug 'honza/vim-snippets'                           " easy snippets
+Plug 'honza/vim-snippets'                           " easy code snippets
 Plug 'jiangmiao/auto-pairs'                         " bracket autocompletion
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } } " file finder
-Plug 'junegunn/fzf.vim'                             " file finder stuff
+Plug 'junegunn/fzf.vim'                             " file finder helper
 Plug 'majutsushi/tagbar'                            " tagbar for easy code browsing (requires ctags)
 Plug 'mbbill/undotree'                              " undo tree
 Plug 'neoclide/coc.nvim', {'branch': 'release'}     " code completion
@@ -35,9 +35,9 @@ Plug 'plasticboy/vim-markdown'                      " proper markdown highlighti
 Plug 'scrooloose/nerdcommenter'                     " commenting functionality
 Plug 'scrooloose/nerdtree'                          " directory tree
 Plug 'tpope/vim-repeat'                             " repetition being good
-Plug 'tpope/vim-sensible'                           " be sensible
+Plug 'tpope/vim-sensible'                           " sensible defaults
 Plug 'tpope/vim-surround'                           " surround text with stuff
-Plug 'vim-airline/vim-airline'                      " the bottom bar
+ Plug 'itchyny/lightline.vim'                       " the bottom bar
 " Theme: not necessary ofcourse
 Plug 'joshdick/onedark.vim'
 
@@ -81,6 +81,11 @@ colorscheme onedark
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                      4.1 plugin configurations                        "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+""""""""""""""""""""""
+"  lightline  "
+""""""""""""""""""""""
+let g:lightline = { 'colorscheme': 'onedark' }
 
 """"""""""""""""""""""
 "  tagbar  "
