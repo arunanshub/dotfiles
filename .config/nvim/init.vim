@@ -23,6 +23,7 @@ endif
 call plug#begin()
 
 Plug 'cespare/vim-toml'                             " TOML highlighting
+Plug 'easymotion/vim-easymotion'                    " Vim motion on speed
 Plug 'godlygeek/tabular'                            " Super <TAB> and text alignment
 Plug 'honza/vim-snippets'                           " easy code snippets
 Plug 'itchyny/lightline.vim'                        " the bottom bar
