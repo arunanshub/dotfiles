@@ -39,6 +39,7 @@ vmap <S-Tab> <gv
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 call plug#begin()
 
+Plug 'Yggdroot/indentLine'                          " display indent line for easy recognition
 Plug 'cespare/vim-toml'                             " TOML highlighting
 Plug 'easymotion/vim-easymotion'                    " Vim motion on speed
 Plug 'godlygeek/tabular'                            " Super <TAB> and text alignment
@@ -55,10 +56,11 @@ Plug 'mhinz/vim-signify'                            " show diffs in style
 Plug 'neoclide/coc.nvim', { 'branch': 'release' }   " code completion
 Plug 'plasticboy/vim-markdown'                      " proper markdown highlighting
 Plug 'scrooloose/nerdcommenter'                     " commenting functionality
-Plug 'scrooloose/nerdtree'                          " directory tree
 Plug 'tpope/vim-repeat'                             " repetition being good
 Plug 'tpope/vim-sensible'                           " sensible defaults
 Plug 'tpope/vim-surround'                           " surround text with stuff
+Plug 'scrooloose/nerdtree',                         " directory tree
+    \ { 'on': [ 'NERDTreeToggle', 'NERDTreeFind' ] }
 " NOTE: Treesitter only available on neovim 0.5.0
 if has('nvim-0.5.0')
     Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'} " better syntax highlighting
