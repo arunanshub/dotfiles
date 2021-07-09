@@ -70,7 +70,7 @@ endif
 call plug#end()
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"                      3. coc.nvim extensions                           "
+"                      4. coc.nvim extensions                           "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:coc_global_extensions = [
     \ 'coc-clangd',
@@ -84,7 +84,7 @@ let g:coc_global_extensions = [
 \ ]
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"                      4.1 plugin configurations                        "
+"                      5. plugin configurations                         "
 "              Header of each section is the plugin's name              "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
@@ -102,6 +102,7 @@ if has('nvim-0.5.0')
             "c",
             "cpp",
             "rust",
+            "bash",
         },
         highlight = {
             enable = true,
