@@ -16,7 +16,24 @@ if empty(glob(s:plug_dir)) || empty(glob(stdpath("config") . "/plugged"))
 endif
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"                      2. vim-plug plugins                              "
+"                      2. Neovim configurations                         "
+" Anything related to neovim in general and not specific to plugins.    "
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:pyindent_open_paren = 'shiftwidth()' " Fix python indentation
+set notimeout nottimeout
+set cursorline
+set smartcase number expandtab
+set softtabstop=4 shiftwidth=4
+if has("termguicolors")
+    set termguicolors " 24 bit colors for the love of life
+endif
+
+" for indenting
+vmap <Tab> >gv
+vmap <S-Tab> <gv
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"                      3. vim-plug plugins                              "
 "  Make sure you run `:PlugInstall` after launching `neovim` for the    "
 "  first time.                                                          "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -28,13 +45,14 @@ Plug 'godlygeek/tabular'                            " Super <TAB> and text align
 Plug 'honza/vim-snippets'                           " easy code snippets
 Plug 'itchyny/lightline.vim'                        " the bottom bar
 Plug 'jiangmiao/auto-pairs'                         " bracket autocompletion
+Plug 'joshdick/onedark.vim'                         " XXX: Theme: not necessary ofcourse
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } } " file finder
 Plug 'junegunn/fzf.vim'                             " file finder helper
 Plug 'luochen1990/rainbow'                          " color the braces for easy recognition
 Plug 'majutsushi/tagbar'                            " tagbar for easy code browsing (requires ctags)
 Plug 'mbbill/undotree'                              " undo tree
 Plug 'mhinz/vim-signify'                            " show diffs in style
-Plug 'neoclide/coc.nvim', {'branch': 'release'}     " code completion
+Plug 'neoclide/coc.nvim', { 'branch': 'release' }   " code completion
 Plug 'plasticboy/vim-markdown'                      " proper markdown highlighting
 Plug 'scrooloose/nerdcommenter'                     " commenting functionality
 Plug 'scrooloose/nerdtree'                          " directory tree
@@ -45,8 +63,6 @@ Plug 'tpope/vim-surround'                           " surround text with stuff
 if has('nvim-0.5.0')
     Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'} " better syntax highlighting
 endif
-" Theme: not necessary ofcourse
-Plug 'joshdick/onedark.vim'
 
 call plug#end()
 
@@ -63,28 +79,6 @@ let g:coc_global_extensions = [
     \ 'coc-snippets',
     \ 'coc-vimlsp',
 \ ]
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"                      4. Misc. configurations                          "
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" neovim specific configuration
-let g:pyindent_open_paren = 'shiftwidth()' " Fix python indentation
-set nocompatible
-set notimeout nottimeout
-set cursorline
-set smartcase number expandtab
-set softtabstop=4 shiftwidth=4
-if has("termguicolors")
-    set termguicolors " 24 bit colors for the love of life
-endif
-
-" for indenting
-vmap <Tab> >gv
-vmap <S-Tab> <gv
-
-" colorscheme
-let g:onedark_terminal_italics = 1
-colorscheme onedark
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                      4.1 plugin configurations                        "
@@ -112,6 +106,12 @@ if has('nvim-0.5.0')
     }
 EOF
 endif
+
+""""""""""""""""""""""
+"  onedark  "
+""""""""""""""""""""""
+let g:onedark_terminal_italics = 1
+colorscheme onedark
 
 """"""""""""""""""""""
 "  rainbow  "
