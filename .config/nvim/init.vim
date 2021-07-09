@@ -59,8 +59,9 @@ Plug 'scrooloose/nerdcommenter'                       " commenting functionality
 Plug 'tpope/vim-repeat'                               " repetition being good
 Plug 'tpope/vim-sensible'                             " sensible defaults
 Plug 'tpope/vim-surround'                             " surround text with stuff
-Plug 'scrooloose/nerdtree',                           " directory tree
-    \ { 'on': [ 'NERDTreeToggle', 'NERDTreeFind' ] }
+Plug 'scrooloose/nerdtree',
+    \ { 'on': [ 'NERDTreeFind', 'NERDTreeToggle' ] }  " directory tree
+
 if has('nvim-0.5.0')
     " better syntax highlighting
     Plug 'nvim-treesitter/nvim-treesitter', { 'do': ':TSUpdate' }
