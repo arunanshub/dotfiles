@@ -39,31 +39,31 @@ vmap <S-Tab> <gv
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 call plug#begin()
 
-Plug 'Yggdroot/indentLine'                          " display indent line for easy recognition
-Plug 'cespare/vim-toml'                             " TOML highlighting
-Plug 'easymotion/vim-easymotion'                    " Vim motion on speed
-Plug 'godlygeek/tabular'                            " Super <TAB> and text alignment
-Plug 'honza/vim-snippets'                           " easy code snippets
-Plug 'itchyny/lightline.vim'                        " the bottom bar
-Plug 'jiangmiao/auto-pairs'                         " bracket autocompletion
-Plug 'joshdick/onedark.vim'                         " XXX: Theme: not necessary ofcourse
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } } " file finder
-Plug 'junegunn/fzf.vim'                             " file finder helper
-Plug 'luochen1990/rainbow'                          " color the braces for easy recognition
-Plug 'majutsushi/tagbar'                            " tagbar for easy code browsing (requires ctags)
-Plug 'mbbill/undotree'                              " undo tree
-Plug 'mhinz/vim-signify'                            " show diffs in style
-Plug 'neoclide/coc.nvim', { 'branch': 'release' }   " code completion
-Plug 'plasticboy/vim-markdown'                      " proper markdown highlighting
-Plug 'scrooloose/nerdcommenter'                     " commenting functionality
-Plug 'tpope/vim-repeat'                             " repetition being good
-Plug 'tpope/vim-sensible'                           " sensible defaults
-Plug 'tpope/vim-surround'                           " surround text with stuff
-Plug 'scrooloose/nerdtree',                         " directory tree
+Plug 'Yggdroot/indentLine'                            " display indent line for easy recognition
+Plug 'cespare/vim-toml', { 'for': 'toml' }            " TOML highlighting
+Plug 'easymotion/vim-easymotion'                      " Vim motion on speed
+Plug 'godlygeek/tabular'                              " Super <TAB> and text alignment
+Plug 'honza/vim-snippets'                             " easy code snippets
+Plug 'itchyny/lightline.vim'                          " the bottom bar
+Plug 'jiangmiao/auto-pairs'                           " bracket autocompletion
+Plug 'joshdick/onedark.vim'                           " XXX: Theme: not necessary ofcourse
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }   " file finder
+Plug 'junegunn/fzf.vim'                               " file finder helper
+Plug 'luochen1990/rainbow'                            " color the braces for easy recognition
+Plug 'majutsushi/tagbar'                              " tagbar for easy code browsing (requires ctags)
+Plug 'mbbill/undotree'                                " undo tree
+Plug 'mhinz/vim-signify'                              " show diffs in style
+Plug 'neoclide/coc.nvim', { 'branch': 'release' }     " code completion
+Plug 'plasticboy/vim-markdown', { 'for': 'markdown' } " proper markdown highlighting
+Plug 'scrooloose/nerdcommenter'                       " commenting functionality
+Plug 'tpope/vim-repeat'                               " repetition being good
+Plug 'tpope/vim-sensible'                             " sensible defaults
+Plug 'tpope/vim-surround'                             " surround text with stuff
+Plug 'scrooloose/nerdtree',                           " directory tree
     \ { 'on': [ 'NERDTreeToggle', 'NERDTreeFind' ] }
-" NOTE: Treesitter only available on neovim 0.5.0
 if has('nvim-0.5.0')
-    Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'} " better syntax highlighting
+    " better syntax highlighting
+    Plug 'nvim-treesitter/nvim-treesitter', { 'do': ':TSUpdate' }
 endif
 
 call plug#end()
@@ -145,6 +145,8 @@ let g:AutoPairsShortcutBackInsert = '<M-b>'
 "  vim-markdown  "
 """"""""""""""""""""""
 let g:vim_markdown_folding_disabled = 1
+let g:vim_markdown_conceal = 0
+let g:vim_markdown_conceal_code_blocks = 0
 
 """"""""""""""""""""""
 "  fzf,fzf.vim,ag  "
