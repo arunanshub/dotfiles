@@ -41,6 +41,10 @@ Plug 'scrooloose/nerdtree'                          " directory tree
 Plug 'tpope/vim-repeat'                             " repetition being good
 Plug 'tpope/vim-sensible'                           " sensible defaults
 Plug 'tpope/vim-surround'                           " surround text with stuff
+" NOTE: Treesitter only available on neovim 0.5.0
+if has('nvim-0.5.0')
+    Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'} " better syntax highlighting
+endif
 " Theme: not necessary ofcourse
 Plug 'joshdick/onedark.vim'
 
@@ -86,6 +90,28 @@ colorscheme onedark
 "                      4.1 plugin configurations                        "
 "              Header of each section is the plugin's name              "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+""""""""""""""""""""""
+"  treesitter  "
+""""""""""""""""""""""
+if has('nvim-0.5.0')
+    lua << EOF
+    require 'nvim-treesitter.configs'.setup {
+        -- "maintained" is a not good idea, as it will install all possible
+        -- parsers
+        ensure_installed = {
+            "python",
+            "lua",
+            "c",
+            "cpp",
+            "rust",
+        },
+        highlight = {
+            enable = true,
+        },
+    }
+EOF
+endif
 
 """"""""""""""""""""""
 "  rainbow  "
@@ -150,6 +176,9 @@ let g:NERDTrimTrailingWhitespace = 1
 """"""""""""""""""""""
 "  coc.nvim  "
 """"""""""""""""""""""
+" avoid using Coc's highlighting
+let g:coc_default_semantic_highlight_groups = 0
+
 set hidden
 set nobackup
 set nowritebackup
