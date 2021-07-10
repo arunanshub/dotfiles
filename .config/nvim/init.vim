@@ -159,12 +159,15 @@ if executable("ag")
     nnoremap <C-G> :Ag<CR>
 endif
 
+" windows
+nnoremap <M-w> :Windows<CR>
+
 """"""""""""""""""""""
 "  nerdtree  "
 """"""""""""""""""""""
 nnoremap <leader>n :NERDTreeFocus<CR>
 nnoremap <C-n>     :NERDTreeToggle<CR>
-nnoremap <C-i>     :NERDTreeFind<CR>
+nnoremap <C-\>     :NERDTreeFind<CR>
 
 """"""""""""""""""""""
 "  nerdcommenter  "
