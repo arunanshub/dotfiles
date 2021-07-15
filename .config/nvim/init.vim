@@ -66,7 +66,6 @@ endif
 """"""""""""""""""""""
 "  lazy loaded  "
 """"""""""""""""""""""
-Plug 'cespare/vim-toml', { 'for': 'toml' }            " TOML highlighting
 Plug 'godlygeek/tabular', { 'on': 'Tabularize' }      " Super <TAB> and text alignment
 Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }    " tagbar for easy code browsing (requires ctags)
 Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }    " undo tree
@@ -78,6 +77,10 @@ Plug 'scrooloose/nerdtree', {
         \ 'NERDTreeFocus',
     \ ],
 \ }                                                   " directory tree
+
+if !has('nvim-0.5.0')
+    Plug 'cespare/vim-toml', { 'for': 'toml' }        " TOML highlighting
+endif
 
 call plug#end()
 
@@ -116,6 +119,7 @@ if has('nvim-0.5.0')
             "cpp",
             "rust",
             "bash",
+            "toml",
         },
         highlight = {
             enable = true,
