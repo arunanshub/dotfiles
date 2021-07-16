@@ -47,7 +47,7 @@ Plug 'easymotion/vim-easymotion'                    " Vim motion on speed
 Plug 'honza/vim-snippets'                           " easy code snippets
 Plug 'itchyny/lightline.vim'                        " the bottom bar
 Plug 'jiangmiao/auto-pairs'                         " bracket autocompletion
-Plug 'joshdick/onedark.vim'                         " XXX: Theme: not necessary ofcourse
+Plug 'joshdick/onedark.vim'                         " NOTE: Theme: not necessary ofcourse
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } } " file finder
 Plug 'junegunn/fzf.vim'                             " file finder helper
 Plug 'luochen1990/rainbow'                          " color the braces for easy recognition
@@ -61,6 +61,7 @@ Plug 'tpope/vim-surround'                           " surround text with stuff
 if has('nvim-0.5.0')
     " better syntax highlighting
     Plug 'nvim-treesitter/nvim-treesitter', { 'do': ':TSUpdate' }
+    Plug 'folke/todo-comments.nvim'                 " highlight instances of 'todo', 'fixme' etc.
 endif
 
 """"""""""""""""""""""
@@ -78,6 +79,7 @@ Plug 'scrooloose/nerdtree', {
     \ ],
 \ }                                                   " directory tree
 
+" toml is handled by treesitter now in nvim-0.5
 if !has('nvim-0.5.0')
     Plug 'cespare/vim-toml', { 'for': 'toml' }        " TOML highlighting
 endif
@@ -103,6 +105,15 @@ let g:coc_global_extensions = [
 "                      5. plugin configurations                         "
 "              Header of each section is the plugin's name              "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+""""""""""""""""""""""
+"  todo-comments  "
+""""""""""""""""""""""
+if has("nvim-0.5.0")
+    lua << EOF
+    require("todo-comments").setup()
+EOF
+endif
 
 """"""""""""""""""""""
 "  treesitter  "
