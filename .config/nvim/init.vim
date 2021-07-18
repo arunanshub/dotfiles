@@ -70,10 +70,11 @@ Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }        " tagbar for easy code
 Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }        " undo tree
 Plug 'plasticboy/vim-markdown', { 'for': 'markdown' }     " proper markdown highlighting
 
-let g:__fzf_cmds = [ 'Files', 'Ag', 'GFiles', 'Windows' ]
+let g:fzf_cmds = [ 'Files', 'GFiles', 'Windows', 'Rg' ]
 Plug 'junegunn/fzf',
-    \ { 'do': { -> fzf#install() }, 'on': g:__fzf_cmds }  " file finder
-Plug 'junegunn/fzf.vim', { 'on': g:__fzf_cmds }           " file finder helper
+    \ { 'do': { -> fzf#install() }, 'on': g:fzf_cmds }  " file finder
+Plug 'junegunn/fzf.vim', { 'on': g:fzf_cmds }           " file finder helper
+unlet g:fzf_cmds
 
 Plug 'scrooloose/nerdtree', {
     \ 'on': [
@@ -187,8 +188,8 @@ let g:vim_markdown_conceal_code_blocks = 0
 """"""""""""""""""""""
 nnoremap <C-P> :Files<CR>
 nnoremap <C-I> :GFiles<CR>
-if executable("ag")
-    nnoremap <C-G> :Ag<CR>
+if executable('rg')
+    nnoremap <C-G> :Rg<CR>
 endif
 
 " windows
