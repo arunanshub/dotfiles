@@ -48,7 +48,6 @@ Plug 'honza/vim-snippets'                           " easy code snippets
 Plug 'itchyny/lightline.vim'                        " the bottom bar
 Plug 'jiangmiao/auto-pairs'                         " bracket autocompletion
 Plug 'joshdick/onedark.vim'                         " NOTE: Theme: not necessary ofcourse
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } } " file finder
 Plug 'luochen1990/rainbow'                          " color the braces for easy recognition
 Plug 'mhinz/vim-signify'                            " show diffs in style
 Plug 'neoclide/coc.nvim', { 'branch': 'release' }   " code completion
@@ -66,29 +65,27 @@ endif
 """"""""""""""""""""""
 "  lazy loaded  "
 """"""""""""""""""""""
-Plug 'godlygeek/tabular', { 'on': 'Tabularize' }      " Super <TAB> and text alignment
-Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }    " tagbar for easy code browsing (requires ctags)
-Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }    " undo tree
-Plug 'plasticboy/vim-markdown', { 'for': 'markdown' } " proper markdown highlighting
-Plug 'junegunn/fzf.vim', {
-    \'on': [
-        \ 'Files',
-        \ 'Ag',
-        \ 'GFiles',
-        \ 'Windows',
-    \ ]
-\ }                                                   " file finder helper
+Plug 'godlygeek/tabular', { 'on': 'Tabularize' }          " Super <TAB> and text alignment
+Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }        " tagbar for easy code browsing (requires ctags)
+Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }        " undo tree
+Plug 'plasticboy/vim-markdown', { 'for': 'markdown' }     " proper markdown highlighting
+
+let g:__fzf_cmds = [ 'Files', 'Ag', 'GFiles', 'Windows' ]
+Plug 'junegunn/fzf',
+    \ { 'do': { -> fzf#install() }, 'on': g:__fzf_cmds }  " file finder
+Plug 'junegunn/fzf.vim', { 'on': g:__fzf_cmds }           " file finder helper
+
 Plug 'scrooloose/nerdtree', {
     \ 'on': [
         \ 'NERDTreeFind',
         \ 'NERDTreeToggle',
         \ 'NERDTreeFocus',
     \ ],
-\ }                                                   " directory tree
+\ }                                                     " directory tree
 
 " toml is handled by treesitter now in nvim-0.5
 if !has('nvim-0.5.0')
-    Plug 'cespare/vim-toml', { 'for': 'toml' }        " TOML highlighting
+    Plug 'cespare/vim-toml', { 'for': 'toml' }          " TOML highlighting
 endif
 
 call plug#end()
