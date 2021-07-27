@@ -112,6 +112,11 @@ let g:coc_global_extensions = [
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 """"""""""""""""""""""
+"  signify  "
+""""""""""""""""""""""
+nnoremap <F4> :SignifyHunkDiff<CR>
+
+""""""""""""""""""""""
 "  todo-comments  "
 """"""""""""""""""""""
 if has("nvim-0.5.0")
@@ -199,8 +204,8 @@ nnoremap <M-w> :Windows<CR>
 "  nerdtree  "
 """"""""""""""""""""""
 nnoremap <leader>n :NERDTreeFocus<CR>
-nnoremap <C-n>     :NERDTreeToggle<CR>
-nnoremap <C-\>     :NERDTreeFind<CR>
+nnoremap <F6>     :NERDTreeToggle<CR>
+nnoremap <F7>     :NERDTreeFind<CR>
 
 """"""""""""""""""""""
 "  nerdcommenter  "

@@ -207,3 +207,5 @@ else
     # export MANPAGER="sh -c 'sed -e s/.\\\\x08//g | bat --paging always -l man -p'"
     export MANPAGER="sh -c 'col -bx | bat --paging always -l man -p'"
 fi
+
+export EDITOR=/bin/nvim
