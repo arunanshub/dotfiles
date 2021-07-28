@@ -6,3 +6,5 @@
 	name = Arunanshu Biswas
 [init]
 	defaultBranch = master
+[credential]
+	helper = /usr/share/git/credential/netrc/git-credential-netrc.perl
