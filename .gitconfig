@@ -8,4 +8,4 @@
 [init]
 	defaultBranch = master
 [credential]
-        helper = netconf -d
+	helper = netconf -d
