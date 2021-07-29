@@ -2,6 +2,8 @@
 # ~/.bashrc
 #
 
+export GPG_TTY=$(tty)
+
 [[ $- != *i* ]] && return
 
 colors() {
@@ -209,4 +211,3 @@ else
 fi
 
 export EDITOR=/bin/nvim
-export GPG_TTY=$(tty)  # fix `ioctl error`
