@@ -1,6 +1,7 @@
 [alias]
 	st = status --short
 	gr = log --graph --branches --remotes
+	g = gr --oneline
 [user]
 	email = mydellpc07@gmail.com
 	name = Arunanshu Biswas
