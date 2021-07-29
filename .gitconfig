@@ -8,4 +8,4 @@
 [init]
 	defaultBranch = master
 [credential]
-	helper = /usr/share/git/credential/netrc/git-credential-netrc.perl
+	helper = netrc -f ~/.netrc.gpg -v
