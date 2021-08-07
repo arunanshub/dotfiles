@@ -176,12 +176,6 @@ nmap <F8> :TagbarToggle<CR>
 nnoremap <F5> :UndotreeToggle<CR>
 
 """"""""""""""""""""""
-"  auto-pairs  "
-""""""""""""""""""""""
-let g:AutoPairsMultilineClose     = 0
-let g:AutoPairsShortcutBackInsert = '<M-b>'
-
-""""""""""""""""""""""
 "  vim-markdown  "
 """"""""""""""""""""""
 let g:vim_markdown_folding_disabled = 1
