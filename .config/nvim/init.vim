@@ -22,6 +22,8 @@ endif
 let g:pyindent_open_paren = 'shiftwidth()' " Fix python indentation
 set notimeout nottimeout
 set cursorline
+set list " display hints about extra whitespace
+set colorcolumn=80
 set smartcase number expandtab
 set softtabstop=4 shiftwidth=4
 if has("termguicolors")
@@ -42,51 +44,55 @@ call plug#begin()
 """"""""""""""""""""""
 "  always present  "
 """"""""""""""""""""""
-Plug 'Yggdroot/indentLine'                          " display indent line for easy recognition
-Plug 'easymotion/vim-easymotion'                    " Vim motion on speed
-Plug 'honza/vim-snippets'                           " easy code snippets
-Plug 'itchyny/lightline.vim'                        " the bottom bar
-Plug 'vim-scripts/auto-pairs-gentle'                " bracket autocompletion
-Plug 'joshdick/onedark.vim'                         " NOTE: Theme: not necessary ofcourse
-Plug 'luochen1990/rainbow'                          " color the braces for easy recognition
-Plug 'mhinz/vim-signify'                            " show diffs in style
-Plug 'neoclide/coc.nvim', { 'branch': 'release' }   " code completion
-Plug 'scrooloose/nerdcommenter'                     " commenting functionality
-Plug 'tpope/vim-repeat'                             " repetition being good
-Plug 'tpope/vim-sensible'                           " sensible defaults
-Plug 'tpope/vim-surround'                           " surround text with stuff
+Plug 'Yggdroot/indentLine'                        " display indent line for easy recognition
+Plug 'antoinemadec/FixCursorHold.nvim'            " Improve performance
+Plug 'dkarter/bullets.vim'                        " create bullet points
+Plug 'easymotion/vim-easymotion'                  " Vim motion on speed
+Plug 'honza/vim-snippets'                         " easy code snippets
+Plug 'itchyny/lightline.vim'                      " the bottom bar
+Plug 'joshdick/onedark.vim'                       " NOTE: Theme: not necessary ofcourse
+Plug 'luochen1990/rainbow'                        " color the braces for easy recognition
+Plug 'mhinz/vim-signify'                          " show diffs in style
+Plug 'neoclide/coc.nvim', { 'branch': 'release' } " code completion
+Plug 'scrooloose/nerdcommenter'                   " commenting functionality
+Plug 'tpope/vim-repeat'                           " repetition being good
+Plug 'tpope/vim-sensible'                         " sensible defaults
+Plug 'tpope/vim-surround'                         " surround text with stuff
+Plug 'vim-scripts/auto-pairs-gentle'              " bracket autocompletion
 
 if has('nvim-0.5.0')
     Plug 'nvim-treesitter/nvim-treesitter',
-        \ { 'do': 'TSUpdate' }                      " better syntax highlighting
-    Plug 'folke/todo-comments.nvim'                 " highlight instances of 'todo', 'fixme' etc.
+        \ { 'do': 'TSUpdate' }                    " better syntax highlighting
+    Plug 'folke/todo-comments.nvim'               " highlight instances of 'todo', 'fixme' etc.
 endif
 
 """"""""""""""""""""""
 "  lazy loaded  "
 """"""""""""""""""""""
-Plug 'godlygeek/tabular', { 'on': 'Tabularize' }          " Super <TAB> and text alignment
-Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }        " tagbar for easy code browsing (requires ctags)
-Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }        " undo tree
-Plug 'plasticboy/vim-markdown', { 'for': 'markdown' }     " proper markdown highlighting
+Plug 'junegunn/vim-easy-align', { 'on': '<Plug>(EasyAlign)' } " alignment of text
+Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }            " tagbar for easy code browsing (requires ctags)
+Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }            " undo tree
+Plug 'plasticboy/vim-markdown', { 'for': 'markdown' }         " proper markdown highlighting
 
 let g:fzf_cmds = [ 'Files', 'GFiles', 'Windows', 'Rg' ]
+" file finder and helper
 Plug 'junegunn/fzf',
-    \ { 'do': { -> fzf#install() }, 'on': g:fzf_cmds }  " file finder
-Plug 'junegunn/fzf.vim', { 'on': g:fzf_cmds }           " file finder helper
+    \ { 'do': { -> fzf#install() }, 'on': g:fzf_cmds }
+Plug 'junegunn/fzf.vim', { 'on': g:fzf_cmds }
 unlet g:fzf_cmds
 
+" directory tree
 Plug 'scrooloose/nerdtree', {
     \ 'on': [
         \ 'NERDTreeFind',
         \ 'NERDTreeToggle',
         \ 'NERDTreeFocus',
     \ ],
-\ }                                                     " directory tree
+\ }
 
 " toml is handled by treesitter now in nvim-0.5
 if !has('nvim-0.5.0')
-    Plug 'cespare/vim-toml', { 'for': 'toml' }          " TOML highlighting
+    Plug 'cespare/vim-toml', { 'for': 'toml' }
 endif
 
 call plug#end()
@@ -110,6 +116,17 @@ let g:coc_global_extensions = [
 "                      5. plugin configurations                         "
 "              Header of each section is the plugin's name              "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+""""""""""""""""""""""
+"  auto-pairs-gentle "
+""""""""""""""""""""""
+let g:AutoPairsMapSpace = 0
+
+""""""""""""""""""""""
+"  vim-easy-align  "
+""""""""""""""""""""""
+xmap ga <Plug>(EasyAlign)
+nmap ga <Plug>(EasyAlign)
 
 """"""""""""""""""""""
 "  signify  "
