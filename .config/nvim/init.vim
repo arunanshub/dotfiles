@@ -46,7 +46,7 @@ Plug 'Yggdroot/indentLine'                          " display indent line for ea
 Plug 'easymotion/vim-easymotion'                    " Vim motion on speed
 Plug 'honza/vim-snippets'                           " easy code snippets
 Plug 'itchyny/lightline.vim'                        " the bottom bar
-Plug 'jiangmiao/auto-pairs'                         " bracket autocompletion
+Plug 'vim-scripts/auto-pairs-gentle'                " bracket autocompletion
 Plug 'joshdick/onedark.vim'                         " NOTE: Theme: not necessary ofcourse
 Plug 'luochen1990/rainbow'                          " color the braces for easy recognition
 Plug 'mhinz/vim-signify'                            " show diffs in style
