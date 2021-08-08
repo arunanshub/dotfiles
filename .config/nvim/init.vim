@@ -46,7 +46,6 @@ call plug#begin()
 """"""""""""""""""""""
 Plug 'Yggdroot/indentLine'                        " display indent line for easy recognition
 Plug 'antoinemadec/FixCursorHold.nvim'            " Improve performance
-Plug 'dkarter/bullets.vim'                        " create bullet points
 Plug 'easymotion/vim-easymotion'                  " Vim motion on speed
 Plug 'honza/vim-snippets'                         " easy code snippets
 Plug 'itchyny/lightline.vim'                      " the bottom bar
