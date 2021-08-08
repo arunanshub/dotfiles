@@ -63,6 +63,7 @@ Plug 'vim-scripts/auto-pairs-gentle'              " bracket autocompletion
 if has('nvim-0.5.0')
     Plug 'nvim-treesitter/nvim-treesitter',
         \ { 'do': 'TSUpdate' }                    " better syntax highlighting
+    Plug 'nvim-lua/plenary.nvim'                  " lua functions
     Plug 'folke/todo-comments.nvim'               " highlight instances of 'todo', 'fixme' etc.
 endif
 
