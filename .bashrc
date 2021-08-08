@@ -146,15 +146,14 @@ iblack()
     local d
     case $1 in
         -h|--help)
-            echo "usage: iblack [directory]"
+            echo "usage: iblack [directory or file]"
             return 0 ;;
     esac
     d=$1
     if [[ ! $d ]] ; then
         d=$PWD
     elif [[ ! -d $d ]]; then
-        echo "'$d' is not a directory"
-        return 1
+        >&2 echo "'$d' is a file"
     fi
     isort -m 3 $d && black -l 79 -t py39 $d
 }
