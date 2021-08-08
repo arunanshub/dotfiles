@@ -241,7 +241,7 @@ set hidden
 set nobackup
 set nowritebackup
 set shortmess+=c
-set updatetime=200
+set updatetime=100
 
 if has("nvim-0.5.0") || has("patch-8.1.1564")
     set signcolumn=number
