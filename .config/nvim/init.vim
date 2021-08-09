@@ -1,12 +1,11 @@
+" vim:set et sw=4 ts=8 tw=78 fdm=marker:
 " File: init.vim
 " Author: Arunanshu Biswas (@arunanshub)
 " Description: A `init.vim` for the IDE beauty. Make sure you atleast have
 " node installed. You may need to install other binaries depending on the coc
 " extension.
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"                      1. vim-plug installation                         "
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" 1. vim-plug installation {{{1 "
 let s:plug_dir = join([stdpath("config"), "autoload", "plug.vim"], "/")
 if empty(glob(s:plug_dir)) || empty(glob(stdpath("config") . "/plugged"))
     silent exec "!curl -fLo" s:plug_dir
@@ -14,11 +13,10 @@ if empty(glob(s:plug_dir)) || empty(glob(stdpath("config") . "/plugged"))
         \ "https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"
     autocmd VimEnter * PlugInstall
 endif
+" 1}}} "
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"                      2. Neovim configurations                         "
-" Anything related to neovim in general and not specific to plugins.    "
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" 2. Neovim configurations {{{1 "
+" Anything related to neovim in general and not specific to plugins.
 let g:pyindent_open_paren = 'shiftwidth()' " Fix python indentation
 set notimeout nottimeout
 set cursorline
@@ -33,12 +31,12 @@ endif
 " for indenting
 vmap <Tab> >gv
 vmap <S-Tab> <gv
+" 1}}} "
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"                      3. vim-plug plugins                              "
-"  Make sure you run `:PlugInstall` after launching `neovim` for the    "
-"  first time.                                                          "
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" 3. vim-plug plugins {{{1 "
+" Make sure you run `:PlugInstall` after launching `neovim` for the
+" first time.
+
 call plug#begin()
 
 """"""""""""""""""""""
@@ -97,10 +95,9 @@ if !has('nvim-0.5.0')
 endif
 
 call plug#end()
+" 1}}} "
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"                      4. coc.nvim extensions                           "
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" 4. coc.nvim extensions {{{1 "
 let g:coc_global_extensions = [
     \ 'coc-clangd',
     \ 'coc-json',
@@ -112,11 +109,10 @@ let g:coc_global_extensions = [
     \ 'coc-snippets',
     \ 'coc-vimlsp',
 \ ]
+" 1}}} "
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"                      5. plugin configurations                         "
-"              Header of each section is the plugin's name              "
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" 5. plugin configurations {{{1 "
+" Header of each section is the plugin's name
 
 """"""""""""""""""""""
 "  auto-pairs-gentle "
@@ -377,3 +373,4 @@ nnoremap <silent><nowait> <space>j  :<C-u>CocNext<CR>
 nnoremap <silent><nowait> <space>k  :<C-u>CocPrev<CR>
 " Resume latest coc list.
 nnoremap <silent><nowait> <space>p  :<C-u>CocListResume<CR>
+" 1}}} "
