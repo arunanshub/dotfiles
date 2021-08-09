@@ -222,11 +222,8 @@ nnoremap <F7>     :NERDTreeFind<CR>
 """"""""""""""""""""""
 "  nerdcommenter  "
 """"""""""""""""""""""
-let g:NERDAltDelims_java         = 1
 let g:NERDCommentEmptyLines      = 1
-let g:NERDCompactSexyComs        = 1
 let g:NERDCreateDefaultMappings  = 1
-let g:NERDCustomDelimiters       = { 'c': { 'left': '/**','right': '*/' } }
 let g:NERDDefaultAlign           = 'left'
 let g:NERDSpaceDelims            = 1
 let g:NERDToggleCheckAllLines    = 1
