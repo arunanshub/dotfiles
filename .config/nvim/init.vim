@@ -18,12 +18,18 @@ endif
 " 2. Neovim configurations {{{1 "
 " Anything related to neovim in general and not specific to plugins.
 let g:pyindent_open_paren = 'shiftwidth()' " Fix python indentation
-set notimeout nottimeout
-set cursorline
-set list " display hints about extra whitespace
 set colorcolumn=80
+set cursorline
+set hidden
+set list " display hints about extra whitespace
+set nobackup
+set notimeout nottimeout
+set nowritebackup
+set shortmess+=c
 set smartcase number expandtab
 set softtabstop=4 shiftwidth=4
+set updatetime=750
+
 if has("termguicolors")
     set termguicolors " 24 bit colors for the love of life
 endif
@@ -228,14 +234,9 @@ let g:NERDTrimTrailingWhitespace = 1
 """"""""""""""""""""""
 "  coc.nvim  "
 """"""""""""""""""""""
+" coc.nvim {{{2 "
 " avoid using Coc's highlighting
 let g:coc_default_semantic_highlight_groups = 0
-
-set hidden
-set nobackup
-set nowritebackup
-set shortmess+=c
-set updatetime=750
 
 if has("nvim-0.5.0") || has("patch-8.1.1564")
     set signcolumn=number
@@ -373,4 +374,5 @@ nnoremap <silent><nowait> <space>j  :<C-u>CocNext<CR>
 nnoremap <silent><nowait> <space>k  :<C-u>CocPrev<CR>
 " Resume latest coc list.
 nnoremap <silent><nowait> <space>p  :<C-u>CocListResume<CR>
+" 2}}} "
 " 1}}} "
