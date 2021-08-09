@@ -146,12 +146,13 @@ iblack()
     local d
     case $1 in
         -h|--help)
-            echo "usage: iblack [directory or file]"
+            echo "usage: iblack <directory or file>"
             return 0 ;;
     esac
     d=$1
     if [[ ! $d ]] ; then
-        d=$PWD
+        >&2 echo "No directory given. Stopping..."
+        return 1
     elif [[ ! -d $d ]]; then
         >&2 echo "'$d' is a file"
     fi
