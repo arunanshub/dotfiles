@@ -57,6 +57,7 @@ Plug 'scrooloose/nerdcommenter'                   " commenting functionality
 Plug 'tpope/vim-repeat'                           " repetition being good
 Plug 'tpope/vim-sensible'                         " sensible defaults
 Plug 'tpope/vim-surround'                         " surround text with stuff
+Plug 'tpope/vim-unimpaired'                       " useful mappings
 Plug 'vim-scripts/auto-pairs-gentle'              " bracket autocompletion
 
 if has('nvim-0.5.0')
@@ -241,7 +242,7 @@ set hidden
 set nobackup
 set nowritebackup
 set shortmess+=c
-set updatetime=100
+set updatetime=750
 
 if has("nvim-0.5.0") || has("patch-8.1.1564")
     set signcolumn=number
