@@ -27,8 +27,8 @@ set notimeout nottimeout
 set nowritebackup
 set shortmess+=c
 set smartcase number expandtab
-set softtabstop=4 shiftwidth=4
-set updatetime=750
+set updatetime=300
+set tabstop=4 shiftwidth=4 expandtab
 
 if has("termguicolors")
     set termguicolors " 24 bit colors for the love of life
@@ -58,6 +58,7 @@ Plug 'luochen1990/rainbow'                        " color the braces for easy re
 Plug 'mhinz/vim-signify'                          " show diffs in style
 Plug 'neoclide/coc.nvim', { 'branch': 'release' } " code completion
 Plug 'scrooloose/nerdcommenter'                   " commenting functionality
+Plug 'sheerun/vim-polyglot'                       " language pack for vim
 Plug 'tpope/vim-repeat'                           " repetition being good
 Plug 'tpope/vim-sensible'                         " sensible defaults
 Plug 'tpope/vim-surround'                         " surround text with stuff
@@ -65,10 +66,8 @@ Plug 'tpope/vim-unimpaired'                       " useful mappings
 Plug 'vim-scripts/auto-pairs-gentle'              " bracket autocompletion
 
 if has('nvim-0.5.0')
-    Plug 'nvim-treesitter/nvim-treesitter',
-        \ { 'do': 'TSUpdate' }                    " better syntax highlighting
-    Plug 'nvim-lua/plenary.nvim'                  " lua functions
     Plug 'folke/todo-comments.nvim'               " highlight instances of 'todo', 'fixme' etc.
+    Plug 'nvim-lua/plenary.nvim'                  " lua functions
 endif
 
 """"""""""""""""""""""
@@ -90,8 +89,8 @@ unlet g:fzf_cmds
 Plug 'scrooloose/nerdtree', {
     \ 'on': [
         \ 'NERDTreeFind',
-        \ 'NERDTreeToggle',
         \ 'NERDTreeFocus',
+        \ 'NERDTreeToggle',
     \ ],
 \ }
 
@@ -142,30 +141,6 @@ nnoremap <F4> :SignifyHunkDiff<CR>
 if has("nvim-0.5.0")
     lua << EOF
     require("todo-comments").setup()
-EOF
-endif
-
-""""""""""""""""""""""
-"  treesitter  "
-""""""""""""""""""""""
-if has('nvim-0.5.0')
-    lua << EOF
-    require 'nvim-treesitter.configs'.setup {
-        -- "maintained" is a not good idea, as it will install all possible
-        -- parsers
-        ensure_installed = {
-            "python",
-            "lua",
-            "c",
-            "cpp",
-            "rust",
-            "bash",
-            "toml",
-        },
-        highlight = {
-            enable = true,
-        },
-    }
 EOF
 endif
 
