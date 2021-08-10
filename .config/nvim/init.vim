@@ -6,6 +6,10 @@
 " extension.
 
 " 1. vim-plug installation {{{1 "
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"                       1. vim-plug installation                        "
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
 let s:plug_dir = join([stdpath("config"), "autoload", "plug.vim"], "/")
 if empty(glob(s:plug_dir)) || empty(glob(stdpath("config") . "/plugged"))
     silent exec "!curl -fLo" s:plug_dir
@@ -16,7 +20,11 @@ endif
 " 1}}} "
 
 " 2. Neovim configurations {{{1 "
-" Anything related to neovim in general and not specific to plugins.
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"                       2. Neovim configurations                        "
+"  Anything related to neovim in general and not specific to plugins.   "
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
 let g:pyindent_open_paren = 'shiftwidth()' " Fix python indentation
 set colorcolumn=80
 set cursorline
@@ -40,8 +48,11 @@ vmap <S-Tab> <gv
 " 1}}} "
 
 " 3. vim-plug plugins {{{1 "
-" Make sure you run `:PlugInstall` after launching `neovim` for the
-" first time.
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"                          3. vim-plug plugins                          "
+"   Make sure you run `:PlugInstall` after launching `neovim` for the   "
+"   first time.                                                         "
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 call plug#begin()
 
@@ -103,6 +114,10 @@ call plug#end()
 " 1}}} "
 
 " 4. coc.nvim extensions {{{1 "
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"                        4. coc.nvim extensions                         "
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
 let g:coc_global_extensions = [
     \ 'coc-clangd',
     \ 'coc-json',
@@ -117,7 +132,10 @@ let g:coc_global_extensions = [
 " 1}}} "
 
 " 5. plugin configurations {{{1 "
-" Header of each section is the plugin's name
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"                       5. plugin configurations                        "
+"              Header of each section is the plugin's name              "
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 """"""""""""""""""""""
 "  auto-pairs-gentle "
