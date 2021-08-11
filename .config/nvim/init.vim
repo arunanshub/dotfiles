@@ -67,6 +67,7 @@ Plug 'itchyny/lightline.vim'                      " the bottom bar
 Plug 'joshdick/onedark.vim'                       " NOTE: Theme: not necessary ofcourse
 Plug 'luochen1990/rainbow'                        " color the braces for easy recognition
 Plug 'mhinz/vim-signify'                          " show diffs in style
+Plug 'mhinz/vim-startify'                         " fancy startpage for vim
 Plug 'neoclide/coc.nvim', { 'branch': 'release' } " code completion
 Plug 'scrooloose/nerdcommenter'                   " commenting functionality
 Plug 'sheerun/vim-polyglot'                       " language pack for vim
