@@ -86,7 +86,7 @@ endif
 "  lazy loaded  "
 """"""""""""""""""""""
 Plug 'junegunn/vim-easy-align', { 'on': '<Plug>(EasyAlign)' } " alignment of text
-Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }            " tagbar for easy code browsing (requires ctags)
+Plug 'majutsushi/tagbar', { 'on': 'TagbarOpenAutoClose' }     " tagbar for easy code browsing (requires ctags)
 Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }            " undo tree
 Plug 'plasticboy/vim-markdown', { 'for': 'markdown' }         " proper markdown highlighting
 
@@ -187,7 +187,7 @@ let g:lightline = { 'colorscheme': 'onedark' }
 """"""""""""""""""""""
 "  tagbar  "
 """"""""""""""""""""""
-nmap <F8> :TagbarToggle<CR>
+nmap <F8> :TagbarOpenAutoClose<CR>
 
 """"""""""""""""""""""
 "  undotree  "
