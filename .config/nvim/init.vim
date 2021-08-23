@@ -63,7 +63,7 @@ Plug 'Yggdroot/indentLine'                        " display indent line for easy
 Plug 'antoinemadec/FixCursorHold.nvim'            " Improve performance
 Plug 'easymotion/vim-easymotion'                  " Vim motion on speed
 Plug 'honza/vim-snippets'                         " easy code snippets
-Plug 'itchyny/lightline.vim'                      " the bottom bar
+Plug 'vim-airline/vim-airline'                    " the bottom bar
 Plug 'joshdick/onedark.vim'                       " NOTE: Theme: not necessary ofcourse
 Plug 'luochen1990/rainbow'                        " color the braces for easy recognition
 Plug 'mhinz/vim-signify'                          " show diffs in style
@@ -180,9 +180,9 @@ colorscheme onedark
 let g:rainbow_active = 1
 
 """"""""""""""""""""""
-"  lightline  "
+"  airline  "
 """"""""""""""""""""""
-let g:lightline = { 'colorscheme': 'onedark' }
+let g:airline_theme = 'onedark'
 
 """"""""""""""""""""""
 "  tagbar  "
