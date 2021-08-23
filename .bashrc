@@ -196,6 +196,21 @@ alias vi="nvim"
 alias vim="nvim"
 alias pp="bat"
 
+# some useful aliases from garuda linux's bashrc
+alias dir='dir --color=auto'
+alias fixpacman="sudo rm /var/lib/pacman/db.lck"
+alias hw='hwinfo --short'
+alias psmem10='ps auxf | sort -nr -k 4 | head -10'
+alias psmem='ps auxf | sort -nr -k 4'
+alias rmpkg="sudo pacman -Rdd"
+alias tarnow='tar -acf '
+alias untar='tar -zxvf '
+alias vdir='vdir --color=auto'
+alias wget='wget -c '
+alias cleanup='sudo pacman -Rns `pacman -Qtdq`'
+alias jctl="journalctl -p 3 -xb"
+alias rip="expac --timefmt='%Y-%m-%d %T' '%l\t%n %v' | sort | tail -200 | nl"
+
 if [[ "$(uname -o)" == "Android" ]]; then
     # Termux doesn't support complex MANPAGER commands
     export LESS_TERMCAP_mb=$'\e[1;32m'
@@ -211,3 +226,5 @@ else
 fi
 
 export EDITOR=/bin/nvim
+
+# export PATH=$PATH:~/.local/share/gem/ruby/3.0.0/bin
