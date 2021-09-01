@@ -175,13 +175,13 @@ cindent()
         pattern=".*/*\.((c)|(cc)|(cpp)|(h)|(hpp)|(cxx))"
     fi
     if [[ ! $style ]] ; then
-        style="WebKit"
+        style="Google"
     fi
 
     for i in $(find "$dir_" -regextype egrep -regex "$pattern" -type f)
     do
         echo "$i"
-        clang-format -style="$style" -i "$i"
+        clang-format -style="{BasedOnStyle: $style, ColumnLimit: 79, IndentWidth: 4}" -i "$i"
     done
 }
 
@@ -228,3 +228,4 @@ fi
 export EDITOR=/bin/nvim
 
 # export PATH=$PATH:~/.local/share/gem/ruby/3.0.0/bin
+export PATH=$PATH:/home/arunanshub/.cargo/bin
