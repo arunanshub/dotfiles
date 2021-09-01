@@ -76,6 +76,7 @@ Plug 'tpope/vim-sensible'                         " sensible defaults
 Plug 'tpope/vim-surround'                         " surround text with stuff
 Plug 'tpope/vim-unimpaired'                       " useful mappings
 Plug 'vim-scripts/auto-pairs-gentle'              " bracket autocompletion
+Plug 'dstein64/vim-win'                           " easy window navigation
 
 if has('nvim-0.5.0')
     Plug 'folke/todo-comments.nvim'               " highlight instances of 'todo', 'fixme' etc.
@@ -137,6 +138,11 @@ let g:coc_global_extensions = [
 "                       5. plugin configurations                        "
 "              Header of each section is the plugin's name              "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+""""""""""""""""""""""
+"  vim-win  "
+""""""""""""""""""""""
+let g:win_ext_command_map = {"\<cr>": 'Win#exit'}
 
 """"""""""""""""""""""
 "  indentLine  "
