@@ -37,6 +37,7 @@ set shortmess+=c
 set smartcase number expandtab
 set updatetime=300
 set tabstop=4 shiftwidth=4
+set completeopt=menuone,noselect
 
 if has("termguicolors")
     set termguicolors " 24 bit colors for the love of life
