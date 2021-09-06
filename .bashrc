@@ -210,6 +210,7 @@ alias wget='wget -c '
 alias cleanup='sudo pacman -Rns `pacman -Qtdq`'
 alias jctl="journalctl -p 3 -xb"
 alias rip="expac --timefmt='%Y-%m-%d %T' '%l\t%n %v' | sort | tail -200 | nl"
+alias sudo='sudo ' # allows using other aliases in sudo
 
 if [[ "$(uname -o)" == "Android" ]]; then
     # Termux doesn't support complex MANPAGER commands
