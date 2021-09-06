@@ -108,11 +108,6 @@ Plug 'scrooloose/nerdtree', {
     \ ],
 \ }
 
-" toml is handled by treesitter now in nvim-0.5
-if !has('nvim-0.5.0')
-    Plug 'cespare/vim-toml', { 'for': 'toml' }
-endif
-
 call plug#end()
 " 1}}} "
 
