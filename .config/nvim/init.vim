@@ -40,6 +40,7 @@ set tabstop=4 shiftwidth=4
 set completeopt=menuone,noselect
 set background=dark
 set noshowmode
+set inccommand=nosplit
 
 if has("termguicolors")
     set termguicolors " 24 bit colors for the love of life
