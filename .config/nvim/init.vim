@@ -27,7 +27,6 @@ endif
 
 let g:pyindent_open_paren = 'shiftwidth()' " Fix python indentation
 set colorcolumn=80
-set lazyredraw
 set hidden
 set list " display hints about extra whitespace
 set nobackup
@@ -41,10 +40,21 @@ set completeopt=menuone,noselect
 set background=dark
 set noshowmode
 set inccommand=nosplit
+set tw=80
+set showtabline=0
+
+set nocursorline
+set scrolljump=5
+set lazyredraw
+set redrawtime=10000
+set synmaxcol=180
+set re=1
 
 if has("termguicolors")
     set termguicolors " 24 bit colors for the love of life
 endif
+
+let loaded_netrw = 0
 
 " for indenting
 vmap <Tab> >gv
@@ -68,7 +78,7 @@ Plug 'antoinemadec/FixCursorHold.nvim'            " Improve performance
 Plug 'dstein64/vim-win'                           " easy window navigation
 Plug 'easymotion/vim-easymotion'                  " Vim motion on speed
 Plug 'honza/vim-snippets'                         " easy code snippets
-Plug 'itchyny/lightline.vim'                      " the bottom bar
+Plug 'vim-airline/vim-airline'
 Plug 'joshdick/onedark.vim'                       " NOTE: Theme: not necessary ofcourse
 Plug 'luochen1990/rainbow'                        " color the braces for easy recognition
 Plug 'mhinz/vim-signify'                          " show diffs in style
@@ -86,7 +96,7 @@ Plug 'dstein64/vim-win'                           " easy window navigation
 if has('nvim-0.5.0')
     Plug 'nvim-lua/plenary.nvim'                  " lua functions
     Plug 'folke/todo-comments.nvim'               " highlight instances of 'todo', 'fixme' etc.
-endif 
+endif
 
 """"""""""""""""""""""
 "  lazy loaded  "
@@ -124,6 +134,7 @@ call plug#end()
 
 let g:coc_global_extensions = [
     \ 'coc-clangd',
+    \ 'coc-highlight',
     \ 'coc-json',
     \ 'coc-lua',
     \ 'coc-markdownlint',
