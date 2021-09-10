@@ -27,7 +27,7 @@ endif
 
 let g:pyindent_open_paren = 'shiftwidth()' " Fix python indentation
 set colorcolumn=80
-set cursorline
+set lazyredraw
 set hidden
 set list " display hints about extra whitespace
 set nobackup
@@ -38,6 +38,8 @@ set smartcase number expandtab
 set updatetime=300
 set tabstop=4 shiftwidth=4
 set completeopt=menuone,noselect
+set background=dark
+set noshowmode
 
 if has("termguicolors")
     set termguicolors " 24 bit colors for the love of life
@@ -62,9 +64,10 @@ call plug#begin()
 """"""""""""""""""""""
 Plug 'Yggdroot/indentLine'                        " display indent line for easy recognition
 Plug 'antoinemadec/FixCursorHold.nvim'            " Improve performance
+Plug 'dstein64/vim-win'                           " easy window navigation
 Plug 'easymotion/vim-easymotion'                  " Vim motion on speed
 Plug 'honza/vim-snippets'                         " easy code snippets
-Plug 'vim-airline/vim-airline'                    " the bottom bar
+Plug 'itchyny/lightline.vim'                      " the bottom bar
 Plug 'joshdick/onedark.vim'                       " NOTE: Theme: not necessary ofcourse
 Plug 'luochen1990/rainbow'                        " color the braces for easy recognition
 Plug 'mhinz/vim-signify'                          " show diffs in style
@@ -80,9 +83,9 @@ Plug 'vim-scripts/auto-pairs-gentle'              " bracket autocompletion
 Plug 'dstein64/vim-win'                           " easy window navigation
 
 if has('nvim-0.5.0')
-    Plug 'folke/todo-comments.nvim'               " highlight instances of 'todo', 'fixme' etc.
     Plug 'nvim-lua/plenary.nvim'                  " lua functions
-endif
+    Plug 'folke/todo-comments.nvim'               " highlight instances of 'todo', 'fixme' etc.
+endif 
 
 """"""""""""""""""""""
 "  lazy loaded  "
@@ -92,12 +95,10 @@ Plug 'majutsushi/tagbar', { 'on': 'TagbarOpenAutoClose' }     " tagbar for easy 
 Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }            " undo tree
 Plug 'plasticboy/vim-markdown', { 'for': 'markdown' }         " proper markdown highlighting
 
-let g:fzf_cmds = [ 'Files', 'GFiles', 'Windows', 'Rg' ]
 " file finder and helper
-Plug 'junegunn/fzf',
-    \ { 'do': { -> fzf#install() }, 'on': g:fzf_cmds }
+let g:fzf_cmds = [ 'Files', 'GFiles', 'Windows', 'Rg' ]
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() }, 'on': g:fzf_cmds }
 Plug 'junegunn/fzf.vim', { 'on': g:fzf_cmds }
-unlet g:fzf_cmds
 
 " directory tree
 Plug 'scrooloose/nerdtree', {
@@ -107,7 +108,6 @@ Plug 'scrooloose/nerdtree', {
         \ 'NERDTreeToggle',
     \ ],
 \ }
-
 call plug#end()
 " 1}}} "
 
@@ -125,6 +125,7 @@ let g:coc_global_extensions = [
     \ 'coc-rust-analyzer',
     \ 'coc-sh',
     \ 'coc-snippets',
+    \ 'coc-syntax',
     \ 'coc-vimlsp',
 \ ]
 " 1}}} "
@@ -144,6 +145,7 @@ let g:win_ext_command_map = {"\<cr>": 'Win#exit'}
 "  indentLine  "
 """"""""""""""""""""""
 let g:indentLine_char = '▏'
+let g:indentLine_fileTypeExclude = ['startify']
 
 """"""""""""""""""""""
 "  auto-pairs-gentle "
@@ -184,7 +186,9 @@ let g:rainbow_active = 1
 """"""""""""""""""""""
 "  airline  "
 """"""""""""""""""""""
-let g:airline_theme = 'onedark'
+let g:lightline = {
+    \ 'colorscheme': 'one',
+\}
 
 """"""""""""""""""""""
 "  tagbar  "
@@ -260,11 +264,7 @@ function! s:check_back_space() abort
 endfunction
 
 " Use <c-space> to trigger completion.
-if has('nvim')
-    inoremap <silent><expr> <c-space> coc#refresh()
-else
-    inoremap <silent><expr> <c-@> coc#refresh()
-endif
+inoremap <silent><expr> <c-space> coc#refresh()
 
 " Make <CR> auto-select the first completion item and notify coc.nvim to
 " format on enter, <cr> could be remapped by other vim plugin
