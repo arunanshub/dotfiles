@@ -91,9 +91,14 @@ endif
 "  lazy loaded  "
 """"""""""""""""""""""
 Plug 'junegunn/vim-easy-align', { 'on': '<Plug>(EasyAlign)' } " alignment of text
-Plug 'majutsushi/tagbar', { 'on': 'TagbarOpenAutoClose' }     " tagbar for easy code browsing (requires ctags)
 Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }            " undo tree
 Plug 'plasticboy/vim-markdown', { 'for': 'markdown' }         " proper markdown highlighting
+
+if executable("ctags")
+    Plug 'majutsushi/tagbar', { 'on': 'TagbarOpenAutoClose' } " tagbar for easy code browsing (requires ctags)
+else
+    echom "ctags is missing. Please install ctags."
+endif
 
 " file finder and helper
 let g:fzf_cmds = [ 'Files', 'GFiles', 'Windows', 'Rg' ]
@@ -214,6 +219,8 @@ nnoremap <C-P> :Files<CR>
 nnoremap <C-I> :GFiles<CR>
 if executable('rg')
     nnoremap <C-G> :Rg<CR>
+else
+    echom "Ripgrep (rg) is missing. Please install Ripgrep"
 endif
 
 " windows
