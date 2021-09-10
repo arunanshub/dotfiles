@@ -46,7 +46,6 @@ set showtabline=0
 set nocursorline
 set scrolljump=5
 set lazyredraw
-set redrawtime=10000
 set synmaxcol=180
 set re=1
 
@@ -78,20 +77,20 @@ Plug 'antoinemadec/FixCursorHold.nvim'            " Improve performance
 Plug 'dstein64/vim-win'                           " easy window navigation
 Plug 'easymotion/vim-easymotion'                  " Vim motion on speed
 Plug 'honza/vim-snippets'                         " easy code snippets
-Plug 'vim-airline/vim-airline'
 Plug 'joshdick/onedark.vim'                       " NOTE: Theme: not necessary ofcourse
 Plug 'luochen1990/rainbow'                        " color the braces for easy recognition
 Plug 'mhinz/vim-signify'                          " show diffs in style
 Plug 'mhinz/vim-startify'                         " fancy startpage for vim
 Plug 'neoclide/coc.nvim', { 'branch': 'release' } " code completion
+Plug 'ryanoasis/vim-devicons'                     " pretty icons everywhere
 Plug 'scrooloose/nerdcommenter'                   " commenting functionality
 Plug 'sheerun/vim-polyglot'                       " language pack for vim
 Plug 'tpope/vim-repeat'                           " repetition being good
 Plug 'tpope/vim-sensible'                         " sensible defaults
 Plug 'tpope/vim-surround'                         " surround text with stuff
 Plug 'tpope/vim-unimpaired'                       " useful mappings
+Plug 'vim-airline/vim-airline'                    " the bottom bar
 Plug 'vim-scripts/auto-pairs-gentle'              " bracket autocompletion
-Plug 'dstein64/vim-win'                           " easy window navigation
 
 if has('nvim-0.5.0')
     Plug 'nvim-lua/plenary.nvim'                  " lua functions
@@ -199,13 +198,6 @@ colorscheme onedark
 "  rainbow  "
 """"""""""""""""""""""
 let g:rainbow_active = 1
-
-""""""""""""""""""""""
-"  airline  "
-""""""""""""""""""""""
-let g:lightline = {
-    \ 'colorscheme': 'one',
-\}
 
 """"""""""""""""""""""
 "  tagbar  "
