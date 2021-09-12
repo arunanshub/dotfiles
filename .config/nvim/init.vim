@@ -45,15 +45,15 @@ set showtabline=0
 
 set nocursorline
 set scrolljump=5
-set lazyredraw
 set synmaxcol=180
-set re=1
 
 if has("termguicolors")
     set termguicolors " 24 bit colors for the love of life
 endif
 
-let loaded_netrw = 0
+" disable netrw plugin
+let g:loaded_netrw       = 1
+let g:loaded_netrwPlugin = 1
 
 " for indenting
 vmap <Tab> >gv
@@ -143,6 +143,7 @@ let g:coc_global_extensions = [
     \ 'coc-snippets',
     \ 'coc-syntax',
     \ 'coc-vimlsp',
+    \ 'coc-yank',
 \ ]
 " 1}}} "
 
