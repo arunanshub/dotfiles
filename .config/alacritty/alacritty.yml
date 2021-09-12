@@ -1,0 +1,54 @@
+# vim:set et sw=2 ts=4 tw=80 fdm=marker:
+
+# Font configuration {{{1 #
+font:
+  normal:
+    family: 'Fira Mono Medium'
+    style: Regular
+
+  bold:
+    family: 'Fira Mono'
+    style: Bold
+
+  medium:
+    family: 'Fira Mono'
+    style: Medium
+
+  size: 13
+# 1}}} #
+
+# Key bindings {{{1 #
+key_bindings:
+  - { key: N, mods: Control|Shift, action: SpawnNewInstance }
+# 1}}} #
+
+# Colorscheme {{{1 #
+# Colors (Dracula)
+colors:
+  # Default colors
+  primary:
+    background: '#282a36'
+    foreground: '#f8f8f2'
+
+  # Normal colors
+  normal:
+    black:   '#000000'
+    red:     '#ff5555'
+    green:   '#50fa7b'
+    yellow:  '#f1fa8c'
+    blue:    '#caa9fa'
+    magenta: '#ff79c6'
+    cyan:    '#8be9fd'
+    white:   '#bfbfbf'
+
+  # Bright colors
+  bright:
+    black:   '#575b70'
+    red:     '#ff6e67'
+    green:   '#5af78e'
+    yellow:  '#f4f99d'
+    blue:    '#caa9fa'
+    magenta: '#ff92d0'
+    cyan:    '#9aedfe'
+    white:   '#e6e6e6'
+# 1}}} #
