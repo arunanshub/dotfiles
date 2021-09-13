@@ -41,7 +41,6 @@ set background=dark
 set noshowmode
 set inccommand=nosplit
 set tw=80
-set showtabline=0
 
 set nocursorline
 set scrolljump=5
@@ -72,6 +71,7 @@ call plug#begin()
 """"""""""""""""""""""
 "  always present  "
 """"""""""""""""""""""
+Plug 'SirVer/ultisnips'                           " snippet engine
 Plug 'Yggdroot/indentLine'                        " display indent line for easy recognition
 Plug 'antoinemadec/FixCursorHold.nvim'            " Improve performance
 Plug 'dstein64/vim-win'                           " easy window navigation
@@ -140,7 +140,7 @@ let g:coc_global_extensions = [
     \ 'coc-pyright',
     \ 'coc-rust-analyzer',
     \ 'coc-sh',
-    \ 'coc-snippets',
+    \ 'coc-ultisnips',
     \ 'coc-syntax',
     \ 'coc-vimlsp',
     \ 'coc-yank',
@@ -152,6 +152,12 @@ let g:coc_global_extensions = [
 "                       5. plugin configurations                        "
 "              Header of each section is the plugin's name              "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+"""""""""""""""
+"  ultisnips  "
+"""""""""""""""
+" map an unused key to expand trigger to prevent it from interfering with Coc.
+let g:UltiSnipsExpandTrigger="<F12>"
 
 """"""""""""""""""""""
 "  vim-win  "
