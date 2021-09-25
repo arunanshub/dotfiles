@@ -102,7 +102,6 @@ endif
 """"""""""""""""""""""
 Plug 'junegunn/vim-easy-align', { 'on': '<Plug>(EasyAlign)' } " alignment of text
 Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }            " undo tree
-Plug 'plasticboy/vim-markdown', { 'for': 'markdown' }         " proper markdown highlighting
 
 if executable("ctags")
     Plug 'majutsushi/tagbar', { 'on': 'TagbarOpenAutoClose' } " tagbar for easy code browsing (requires ctags)
@@ -143,7 +142,6 @@ let g:coc_global_extensions = [
     \ 'coc-ultisnips',
     \ 'coc-syntax',
     \ 'coc-vimlsp',
-    \ 'coc-yank',
 \ ]
 " 1}}} "
 
