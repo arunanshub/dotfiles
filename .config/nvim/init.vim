@@ -93,8 +93,8 @@ Plug 'vim-airline/vim-airline'                    " the bottom bar
 Plug 'vim-scripts/auto-pairs-gentle'              " bracket autocompletion
 
 if has('nvim-0.5.0')
-    Plug 'nvim-lua/plenary.nvim'                  " lua functions
-    Plug 'folke/todo-comments.nvim'               " highlight instances of 'todo', 'fixme' etc.
+    " Plug 'nvim-lua/plenary.nvim'                  " lua functions
+    " Plug 'folke/todo-comments.nvim'               " highlight instances of 'todo', 'fixme' etc.
 endif
 
 """"""""""""""""""""""
@@ -189,7 +189,7 @@ nnoremap <F4> :SignifyHunkDiff<CR>
 """"""""""""""""""""""
 if has("nvim-0.5.0")
     lua << EOF
-    require("todo-comments").setup()
+    -- require("todo-comments").setup()
 EOF
 endif
 
