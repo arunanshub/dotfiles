@@ -175,7 +175,7 @@ cindent()
         pattern=".*/*\.((c)|(cc)|(cpp)|(h)|(hpp)|(cxx))"
     fi
     if [[ ! $style ]] ; then
-        style="Google"
+        style="Chromium"
     fi
 
     for i in $(find "$dir_" -regextype egrep -regex "$pattern" -type f)
