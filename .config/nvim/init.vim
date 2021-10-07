@@ -76,6 +76,7 @@ Plug 'Yggdroot/indentLine'                        " display indent line for easy
 Plug 'antoinemadec/FixCursorHold.nvim'            " Improve performance
 Plug 'dstein64/vim-win'                           " easy window navigation
 Plug 'easymotion/vim-easymotion'                  " Vim motion on speed
+Plug 'editorconfig/editorconfig-vim'              " maintain consistent coding styles
 Plug 'honza/vim-snippets'                         " easy code snippets
 Plug 'joshdick/onedark.vim'                       " NOTE: Theme: not necessary ofcourse
 Plug 'luochen1990/rainbow'                        " color the braces for easy recognition
@@ -85,6 +86,7 @@ Plug 'neoclide/coc.nvim', { 'branch': 'release' } " code completion
 Plug 'ryanoasis/vim-devicons'                     " pretty icons everywhere
 Plug 'scrooloose/nerdcommenter'                   " commenting functionality
 Plug 'sheerun/vim-polyglot'                       " language pack for vim
+Plug 'tpope/vim-fugitive'                         " Git within vim
 Plug 'tpope/vim-repeat'                           " repetition being good
 Plug 'tpope/vim-sensible'                         " sensible defaults
 Plug 'tpope/vim-surround'                         " surround text with stuff
