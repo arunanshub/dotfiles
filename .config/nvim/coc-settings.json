@@ -1,3 +1,11 @@
 {
-    "rust-analyzer.inlayHints.chainingHints": false
+    "rust-analyzer.inlayHints.chainingHints": false,
+
+    "coc.preferences.useQuickfixForLocations": true,
+    // "suggest.defaultSortMethod": "length",
+    "suggest.enablePreselect": true,
+    "suggest.acceptSuggestionOnCommitCharacter": true,
+    "suggest.removeDuplicateItems": true,
+
+    "diagnostic.refreshOnInsertMode": true
 }
