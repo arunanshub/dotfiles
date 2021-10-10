@@ -83,7 +83,6 @@ Plug 'luochen1990/rainbow'                        " color the braces for easy re
 Plug 'mhinz/vim-signify'                          " show diffs in style
 Plug 'mhinz/vim-startify'                         " fancy startpage for vim
 Plug 'neoclide/coc.nvim', { 'branch': 'release' } " code completion
-Plug 'ryanoasis/vim-devicons'                     " pretty icons everywhere
 Plug 'scrooloose/nerdcommenter'                   " commenting functionality
 Plug 'sheerun/vim-polyglot'                       " language pack for vim
 Plug 'tpope/vim-fugitive'                         " Git within vim
@@ -124,6 +123,9 @@ Plug 'scrooloose/nerdtree', {
         \ 'NERDTreeToggle',
     \ ],
 \ }
+
+" NOTE: Load devicons as the last plugin
+Plug 'ryanoasis/vim-devicons'
 call plug#end()
 " 1}}} "
 
