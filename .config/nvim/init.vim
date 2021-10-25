@@ -36,7 +36,7 @@ set shortmess+=c
 set smartcase number expandtab
 set updatetime=300
 set tabstop=4 shiftwidth=4
-set completeopt=menuone,noselect
+set completeopt=longest,menuone
 set background=dark
 set noshowmode
 set inccommand=nosplit
@@ -71,7 +71,6 @@ call plug#begin()
 """"""""""""""""""""""
 "  always present  "
 """"""""""""""""""""""
-Plug 'SirVer/ultisnips'                           " snippet engine
 Plug 'Yggdroot/indentLine'                        " display indent line for easy recognition
 Plug 'antoinemadec/FixCursorHold.nvim'            " Improve performance
 Plug 'dstein64/vim-win'                           " easy window navigation
@@ -85,7 +84,6 @@ Plug 'mhinz/vim-startify'                         " fancy startpage for vim
 Plug 'neoclide/coc.nvim', { 'branch': 'release' } " code completion
 Plug 'scrooloose/nerdcommenter'                   " commenting functionality
 Plug 'sheerun/vim-polyglot'                       " language pack for vim
-Plug 'tpope/vim-fugitive'                         " Git within vim
 Plug 'tpope/vim-repeat'                           " repetition being good
 Plug 'tpope/vim-sensible'                         " sensible defaults
 Plug 'tpope/vim-surround'                         " surround text with stuff
@@ -101,6 +99,7 @@ endif
 """"""""""""""""""""""
 "  lazy loaded  "
 """"""""""""""""""""""
+Plug 'tpope/vim-fugitive', { 'on': [ 'G', 'Git' ] }           " Git within vim
 Plug 'junegunn/vim-easy-align', { 'on': '<Plug>(EasyAlign)' } " alignment of text
 Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }            " undo tree
 
@@ -109,6 +108,12 @@ if executable("ctags")
 else
     echom "ctags is missing. Please install ctags."
 endif
+
+Plug 'iamcco/markdown-preview.nvim', {
+    \ 'do': { -> mkdp#util#install() },
+    \ 'for': [ 'markdown', 'vim-plug' ],
+    \ 'on': [ 'MarkdownPreviewToggle' ],
+\ }
 
 " file finder and helper
 let g:fzf_cmds = [ 'Files', 'GFiles', 'Windows', 'Rg' ]
@@ -143,7 +148,7 @@ let g:coc_global_extensions = [
     \ 'coc-pyright',
     \ 'coc-rust-analyzer',
     \ 'coc-sh',
-    \ 'coc-ultisnips',
+    \ 'coc-snippets',
     \ 'coc-syntax',
     \ 'coc-vimlsp',
 \ ]
@@ -154,6 +159,11 @@ let g:coc_global_extensions = [
 "                       5. plugin configurations                        "
 "              Header of each section is the plugin's name              "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+""""""""""""""""""""""
+"  markdown-preview  "
+""""""""""""""""""""""
+nnoremap <M-m> :MarkdownPreview<CR>
 
 """""""""""""""
 "  ultisnips  "
