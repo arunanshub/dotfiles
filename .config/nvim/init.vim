@@ -25,7 +25,6 @@ endif
 "  Anything related to neovim in general and not specific to plugins.   "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-let g:pyindent_open_paren = 'shiftwidth()' " Fix python indentation
 set colorcolumn=80
 set hidden
 set list " display hints about extra whitespace
@@ -41,6 +40,7 @@ set background=dark
 set noshowmode
 set inccommand=nosplit
 set tw=80
+set lazyredraw
 
 set nocursorline
 set scrolljump=5
@@ -68,16 +68,17 @@ vmap <S-Tab> <gv
 
 call plug#begin()
 
-""""""""""""""""""""""
-"  always present  "
-""""""""""""""""""""""
+""""""""""""""""""""
+"  Always present  "
+""""""""""""""""""""
 Plug 'Yggdroot/indentLine'                        " display indent line for easy recognition
 Plug 'antoinemadec/FixCursorHold.nvim'            " Improve performance
 Plug 'dstein64/vim-win'                           " easy window navigation
 Plug 'easymotion/vim-easymotion'                  " Vim motion on speed
 Plug 'editorconfig/editorconfig-vim'              " maintain consistent coding styles
-Plug 'honza/vim-snippets'                         " easy code snippets
-Plug 'joshdick/onedark.vim'                       " NOTE: Theme: not necessary ofcourse
+Plug 'SirVer/ultisnips'                           " Ultisnips snippet engine
+Plug 'honza/vim-snippets'                         " Snippet source
+Plug 'navarasu/onedark.nvim'                      " dark theme
 Plug 'luochen1990/rainbow'                        " color the braces for easy recognition
 Plug 'mhinz/vim-signify'                          " show diffs in style
 Plug 'mhinz/vim-startify'                         " fancy startpage for vim
@@ -90,35 +91,36 @@ Plug 'tpope/vim-surround'                         " surround text with stuff
 Plug 'tpope/vim-unimpaired'                       " useful mappings
 Plug 'vim-airline/vim-airline'                    " the bottom bar
 Plug 'vim-scripts/auto-pairs-gentle'              " bracket autocompletion
+" Plug 'nvim-lua/plenary.nvim'                  " lua functions
+" Plug 'folke/todo-comments.nvim'               " highlight instances of 'todo', 'fixme' etc.
 
-if has('nvim-0.5.0')
-    " Plug 'nvim-lua/plenary.nvim'                  " lua functions
-    " Plug 'folke/todo-comments.nvim'               " highlight instances of 'todo', 'fixme' etc.
-endif
-
-""""""""""""""""""""""
-"  lazy loaded  "
-""""""""""""""""""""""
+"""""""""""""""""
+"  Lazy Loaded  "
+"""""""""""""""""
 Plug 'tpope/vim-fugitive', { 'on': [ 'G', 'Git' ] }           " Git within vim
 Plug 'junegunn/vim-easy-align', { 'on': '<Plug>(EasyAlign)' } " alignment of text
 Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }            " undo tree
 
+" file finder and helper
+let fzf_cmds = [ 'Files', 'GFiles', 'Windows', 'Rg' ]
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() }, 'on': fzf_cmds }
+Plug 'junegunn/fzf.vim', { 'on': fzf_cmds }
+unlet fzf_cmds
+
 if executable("ctags")
-    Plug 'majutsushi/tagbar', { 'on': 'TagbarOpenAutoClose' } " tagbar for easy code browsing (requires ctags)
+    " tagbar for easy code browsing (requires ctags)
+    Plug 'majutsushi/tagbar', { 'on': 'TagbarOpenAutoClose' }
 else
     echom "ctags is missing. Please install ctags."
 endif
 
+" Live Markdown preview
 Plug 'iamcco/markdown-preview.nvim', {
     \ 'do': { -> mkdp#util#install() },
     \ 'for': [ 'markdown', 'vim-plug' ],
     \ 'on': [ 'MarkdownPreviewToggle' ],
 \ }
 
-" file finder and helper
-let g:fzf_cmds = [ 'Files', 'GFiles', 'Windows', 'Rg' ]
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() }, 'on': g:fzf_cmds }
-Plug 'junegunn/fzf.vim', { 'on': g:fzf_cmds }
 
 " directory tree
 Plug 'scrooloose/nerdtree', {
@@ -129,8 +131,11 @@ Plug 'scrooloose/nerdtree', {
     \ ],
 \ }
 
-" NOTE: Load devicons as the last plugin
+"""""""""""""""""
+"  Loaded last  "
+"""""""""""""""""
 Plug 'ryanoasis/vim-devicons'
+
 call plug#end()
 " 1}}} "
 
@@ -148,7 +153,7 @@ let g:coc_global_extensions = [
     \ 'coc-pyright',
     \ 'coc-rust-analyzer',
     \ 'coc-sh',
-    \ 'coc-snippets',
+    \ 'coc-ultisnips',
     \ 'coc-syntax',
     \ 'coc-vimlsp',
 \ ]
@@ -201,16 +206,15 @@ nnoremap <F4> :SignifyHunkDiff<CR>
 """"""""""""""""""""""
 "  todo-comments  "
 """"""""""""""""""""""
-if has("nvim-0.5.0")
-    lua << EOF
+lua << EOF
     -- require("todo-comments").setup()
 EOF
-endif
 
 """"""""""""""""""""""
 "  onedark  "
 """"""""""""""""""""""
 let g:onedark_terminal_italics = 1
+let g:onedark_style = 'darker'
 colorscheme onedark
 
 """"""""""""""""""""""
