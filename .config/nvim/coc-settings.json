@@ -1,11 +1,9 @@
 {
     "rust-analyzer.inlayHints.chainingHints": false,
-
     "suggest.enablePreselect": true,
     "suggest.noselect": false,
-    "suggest.defaultSortMethod": "alphabetical",
     "suggest.acceptSuggestionOnCommitCharacter": true,
     "suggest.removeDuplicateItems": true,
-
+    "coc.preferences.formatOnSaveFiletypes": ["css", "markdown"],
     "diagnostic.refreshOnInsertMode": true
 }
