@@ -12,10 +12,15 @@
 
 let s:plug_dir = join([stdpath("config"), "autoload", "plug.vim"], "/")
 if empty(glob(s:plug_dir)) || empty(glob(stdpath("config") . "/plugged"))
+    echo "Now installing vim-plug..."
     silent exec "!curl -fLo" s:plug_dir
         \ "--create-dirs"
         \ "https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"
-    autocmd VimEnter * PlugInstall
+
+    echo "Installing and Upgrading all Plugins"
+    autocmd VimEnter * PlugInstall --sync
+
+    echo "Done!"
 endif
 " 1}}} "
 
@@ -24,7 +29,7 @@ endif
 "                       2. Neovim configurations                        "
 "  Anything related to neovim in general and not specific to plugins.   "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
+set encoding=utf-8
 set colorcolumn=80
 set hidden
 set list " display hints about extra whitespace
@@ -72,12 +77,11 @@ call plug#begin()
 "  Always present  "
 """"""""""""""""""""
 Plug 'Yggdroot/indentLine'                        " display indent line for easy recognition
+Plug 'vim-scripts/auto-pairs-gentle'              " bracket autocompletion
 Plug 'antoinemadec/FixCursorHold.nvim'            " Improve performance
 Plug 'dstein64/vim-win'                           " easy window navigation
 Plug 'easymotion/vim-easymotion'                  " Vim motion on speed
 Plug 'editorconfig/editorconfig-vim'              " maintain consistent coding styles
-Plug 'SirVer/ultisnips'                           " Ultisnips snippet engine
-Plug 'honza/vim-snippets'                         " Snippet source
 Plug 'navarasu/onedark.nvim'                      " dark theme
 Plug 'luochen1990/rainbow'                        " color the braces for easy recognition
 Plug 'mhinz/vim-signify'                          " show diffs in style
@@ -90,16 +94,19 @@ Plug 'tpope/vim-sensible'                         " sensible defaults
 Plug 'tpope/vim-surround'                         " surround text with stuff
 Plug 'tpope/vim-unimpaired'                       " useful mappings
 Plug 'vim-airline/vim-airline'                    " the bottom bar
-Plug 'vim-scripts/auto-pairs-gentle'              " bracket autocompletion
-" Plug 'nvim-lua/plenary.nvim'                  " lua functions
-" Plug 'folke/todo-comments.nvim'               " highlight instances of 'todo', 'fixme' etc.
+" Plug 'nvim-lua/plenary.nvim'                    " lua functions
+" Plug 'folke/todo-comments.nvim'                 " highlight instances of 'todo', 'fixme' etc.
+
 
 """""""""""""""""
 "  Lazy Loaded  "
 """""""""""""""""
+Plug 'SirVer/ultisnips', { 'on': [] }                         " Ultisnips snippet engine
+Plug 'honza/vim-snippets', { 'on': [] }                       " Snippet source
 Plug 'tpope/vim-fugitive', { 'on': [ 'G', 'Git' ] }           " Git within vim
 Plug 'junegunn/vim-easy-align', { 'on': '<Plug>(EasyAlign)' } " alignment of text
 Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }            " undo tree
+Plug 'vim-autoformat/vim-autoformat', { 'on': 'Autoformat' }  " Autoformat
 
 " file finder and helper
 let fzf_cmds = [ 'Files', 'GFiles', 'Windows', 'Rg' ]
@@ -131,6 +138,16 @@ Plug 'scrooloose/nerdtree', {
     \ ],
 \ }
 
+" Load only on insert mode
+augroup load_on_insert
+    autocmd!
+    autocmd InsertEnter * call plug#load(
+        \ 'ultisnips',
+        \ 'vim-snippets',
+    \ )
+    \ | autocmd! load_on_insert
+augroup END
+
 """""""""""""""""
 "  Loaded last  "
 """""""""""""""""
@@ -152,6 +169,7 @@ let g:coc_global_extensions = [
     \ 'coc-markdownlint',
     \ 'coc-pyright',
     \ 'coc-rust-analyzer',
+    \ 'coc-prettier',
     \ 'coc-sh',
     \ 'coc-ultisnips',
     \ 'coc-syntax',
@@ -164,6 +182,11 @@ let g:coc_global_extensions = [
 "                       5. plugin configurations                        "
 "              Header of each section is the plugin's name              "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+""""""""""""""""""""
+"  vim-autoformat  "
+""""""""""""""""""""
+noremap <F3> :Autoformat<CR> :w<CR>
 
 """"""""""""""""""""""
 "  markdown-preview  "
@@ -207,7 +230,7 @@ nnoremap <F4> :SignifyHunkDiff<CR>
 "  todo-comments  "
 """"""""""""""""""""""
 lua << EOF
-    -- require("todo-comments").setup()
+-- require("todo-comments").setup()
 EOF
 
 """"""""""""""""""""""
@@ -274,10 +297,10 @@ let g:NERDTrimTrailingWhitespace = 1
 "  coc.nvim  "
 """"""""""""""""""""""
 " coc.nvim {{{2 "
-" avoid using Coc's highlighting
-let g:coc_default_semantic_highlight_groups = 0
-
+" Always show the signcolumn, otherwise it would shift the text each time
+" diagnostics appear/become resolved.
 if has("nvim-0.5.0") || has("patch-8.1.1564")
+    " Recently vim can merge signcolumn and number column into one
     set signcolumn=number
 else
     set signcolumn=yes
@@ -287,9 +310,9 @@ endif
 " NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
 " other plugin before putting this into your config.
 inoremap <silent><expr> <TAB>
-    \ pumvisible() ? "\<C-n>" :
-    \ <SID>check_back_space() ? "\<TAB>" :
-    \ coc#refresh()
+            \ pumvisible() ? "\<C-n>" :
+            \ <SID>check_back_space() ? "\<TAB>" :
+            \ coc#refresh()
 inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
 function! s:check_back_space() abort
@@ -298,12 +321,16 @@ function! s:check_back_space() abort
 endfunction
 
 " Use <c-space> to trigger completion.
-inoremap <silent><expr> <c-space> coc#refresh()
+if has('nvim')
+    inoremap <silent><expr> <c-space> coc#refresh()
+else
+    inoremap <silent><expr> <c-@> coc#refresh()
+endif
 
 " Make <CR> auto-select the first completion item and notify coc.nvim to
 " format on enter, <cr> could be remapped by other vim plugin
 inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
-                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+            \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 
 " Use `[g` and `]g` to navigate diagnostics
 " Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
@@ -312,9 +339,9 @@ nmap <silent> ]g <Plug>(coc-diagnostic-next)
 
 " GoTo code navigation.
 nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
-nmap <silent> gy <Plug>(coc-type-definition)
 
 " Use K to show documentation in preview window.
 nnoremap <silent> K :call <SID>show_documentation()<CR>
@@ -359,23 +386,23 @@ nmap <leader>qf  <Plug>(coc-fix-current)
 
 " Map function and class text objects
 " NOTE: Requires 'textDocument.documentSymbol' support from the language server.
-omap ac <Plug>(coc-classobj-a)
-omap af <Plug>(coc-funcobj-a)
-omap ic <Plug>(coc-classobj-i)
-omap if <Plug>(coc-funcobj-i)
-xmap ac <Plug>(coc-classobj-a)
-xmap af <Plug>(coc-funcobj-a)
-xmap ic <Plug>(coc-classobj-i)
 xmap if <Plug>(coc-funcobj-i)
+omap if <Plug>(coc-funcobj-i)
+xmap af <Plug>(coc-funcobj-a)
+omap af <Plug>(coc-funcobj-a)
+xmap ic <Plug>(coc-classobj-i)
+omap ic <Plug>(coc-classobj-i)
+xmap ac <Plug>(coc-classobj-a)
+omap ac <Plug>(coc-classobj-a)
 
 " Remap <C-f> and <C-b> for scroll float windows/popups.
 if has('nvim-0.4.0') || has('patch-8.2.0750')
-    inoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(0)\<cr>" : "\<Left>"
-    inoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(1)\<cr>" : "\<Right>"
-    nnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
     nnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
-    vnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
+    nnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
+    inoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(1)\<cr>" : "\<Right>"
+    inoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(0)\<cr>" : "\<Left>"
     vnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
+    vnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
 endif
 
 " Use CTRL-S for selections ranges.
@@ -391,6 +418,11 @@ command! -nargs=? Fold :call     CocAction('fold', <f-args>)
 
 " Add `:OR` command for organize imports of the current buffer.
 command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
+
+" Add (Neo)Vim's native statusline support.
+" NOTE: Please see `:h coc-status` for integrations with external plugins that
+" provide custom statusline: lightline.vim, vim-airline.
+set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
 
 " Mappings for CoCList
 " Show all diagnostics.
