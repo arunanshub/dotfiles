@@ -76,6 +76,7 @@ call plug#begin()
 """"""""""""""""""""
 "  Always present  "
 """"""""""""""""""""
+" Plug 'github/copilot.vim'
 Plug 'Yggdroot/indentLine'                        " display indent line for easy recognition
 Plug 'vim-scripts/auto-pairs-gentle'              " bracket autocompletion
 Plug 'antoinemadec/FixCursorHold.nvim'            " Improve performance
@@ -94,9 +95,9 @@ Plug 'tpope/vim-sensible'                         " sensible defaults
 Plug 'tpope/vim-surround'                         " surround text with stuff
 Plug 'tpope/vim-unimpaired'                       " useful mappings
 Plug 'vim-airline/vim-airline'                    " the bottom bar
+Plug 'vim-airline/vim-airline-themes'             " Airline themes
 " Plug 'nvim-lua/plenary.nvim'                    " lua functions
 " Plug 'folke/todo-comments.nvim'                 " highlight instances of 'todo', 'fixme' etc.
-
 
 """""""""""""""""
 "  Lazy Loaded  "
@@ -109,10 +110,10 @@ Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }            " undo tree
 Plug 'vim-autoformat/vim-autoformat', { 'on': 'Autoformat' }  " Autoformat
 
 " file finder and helper
-let fzf_cmds = [ 'Files', 'GFiles', 'Windows', 'Rg' ]
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() }, 'on': fzf_cmds }
-Plug 'junegunn/fzf.vim', { 'on': fzf_cmds }
-unlet fzf_cmds
+let g:fzf_cmds = [ 'Files', 'GFiles', 'Windows', 'Rg' ]
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() }, 'on': g:fzf_cmds }
+Plug 'junegunn/fzf.vim', { 'on': g:fzf_cmds }
+unlet g:fzf_cmds
 
 if executable("ctags")
     " tagbar for easy code browsing (requires ctags)
@@ -173,6 +174,7 @@ let g:coc_global_extensions = [
     \ 'coc-sh',
     \ 'coc-ultisnips',
     \ 'coc-syntax',
+    \ 'coc-word',
     \ 'coc-vimlsp',
 \ ]
 " 1}}} "
@@ -182,6 +184,13 @@ let g:coc_global_extensions = [
 "                       5. plugin configurations                        "
 "              Header of each section is the plugin's name              "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+"""""""""""""""""
+"  vim-airline  "
+"""""""""""""""""
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
+let g:airline_theme = 'onedark'
 
 """"""""""""""""""""
 "  vim-autoformat  "
@@ -197,7 +206,7 @@ nnoremap <M-m> :MarkdownPreview<CR>
 "  ultisnips  "
 """""""""""""""
 " map an unused key to expand trigger to prevent it from interfering with Coc.
-let g:UltiSnipsExpandTrigger="<F12>"
+let g:UltiSnipsExpandTrigger="<F13>"
 
 """"""""""""""""""""""
 "  vim-win  "
@@ -236,7 +245,6 @@ EOF
 """"""""""""""""""""""
 "  onedark  "
 """"""""""""""""""""""
-let g:onedark_terminal_italics = 1
 let g:onedark_style = 'darker'
 colorscheme onedark
 
