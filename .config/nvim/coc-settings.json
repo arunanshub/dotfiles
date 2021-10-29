@@ -5,5 +5,6 @@
     "suggest.acceptSuggestionOnCommitCharacter": true,
     "suggest.removeDuplicateItems": true,
     "coc.preferences.formatOnSaveFiletypes": ["css", "markdown"],
+    "coc.source.word.filetypes": ["markdown", "txt", "rst"],
     "diagnostic.refreshOnInsertMode": true
 }
