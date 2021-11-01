@@ -34,7 +34,7 @@ set colorcolumn=80
 set hidden
 set list " display hints about extra whitespace
 set nobackup
-set notimeout nottimeout
+set nottimeout notimeout
 set nowritebackup
 set shortmess+=c
 set smartcase number expandtab
@@ -102,7 +102,7 @@ Plug 'vim-airline/vim-airline-themes'             " Airline themes
 """""""""""""""""
 "  Lazy Loaded  "
 """""""""""""""""
-Plug 'SirVer/ultisnips', { 'on': [] }                         " Ultisnips snippet engine
+Plug 'SirVer/ultisnips', { 'for': ['markdown'] }              " Ultisnips snippet engine
 Plug 'honza/vim-snippets', { 'on': [] }                       " Snippet source
 Plug 'tpope/vim-fugitive', { 'on': [ 'G', 'Git' ] }           " Git within vim
 Plug 'junegunn/vim-easy-align', { 'on': '<Plug>(EasyAlign)' } " alignment of text
@@ -200,7 +200,7 @@ noremap <F3> :Autoformat<CR> :w<CR>
 """"""""""""""""""""""
 "  markdown-preview  "
 """"""""""""""""""""""
-nnoremap <M-m> :MarkdownPreview<CR>
+nnoremap <M-m> :MarkdownPreviewToggle<CR>
 
 """""""""""""""
 "  ultisnips  "
@@ -217,7 +217,7 @@ let g:win_ext_command_map = {"\<cr>": 'Win#exit'}
 "  indentLine  "
 """"""""""""""""""""""
 let g:indentLine_char = '▏'
-let g:indentLine_fileTypeExclude = ['startify']
+let g:indentLine_fileTypeExclude = ['startify', 'markdown']
 
 """"""""""""""""""""""
 "  auto-pairs-gentle "
