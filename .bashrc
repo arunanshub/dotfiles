@@ -186,6 +186,7 @@ cindent()
 }
 
 # "gud" aliases
+alias diff="diff --color"
 alias gpp="g++ -Wall -Wextra -pedantic -O3"
 alias gp="gcc -Wall -Wextra -pedantic -O3"
 alias l="lsd -F --group-dirs last"
