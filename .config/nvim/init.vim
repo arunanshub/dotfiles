@@ -40,28 +40,30 @@ set shortmess+=c
 set smartcase number expandtab
 set updatetime=300
 set tabstop=4 shiftwidth=4
-set completeopt=longest,menuone
 set background=dark
 set noshowmode
 set inccommand=nosplit
-set tw=80
-set lazyredraw
 
+" speedup tweaks
 set nocursorline
+set lazyredraw
 set scrolljump=5
-set synmaxcol=180
+set synmaxcol=128
 
 if has("termguicolors")
     set termguicolors " 24 bit colors for the love of life
 endif
 
 " disable netrw plugin
-let g:loaded_netrw       = 1
-let g:loaded_netrwPlugin = 1
+let g:loaded_netrw       = 0
+let g:loaded_netrwPlugin = 0
 
 " for indenting
 vmap <Tab> >gv
 vmap <S-Tab> <gv
+
+vnoremap <leader>y "+y<CR>
+nnoremap <leader>p "+p<CR>
 " 1}}} "
 
 " 3. vim-plug plugins {{{1 "
@@ -96,14 +98,14 @@ Plug 'tpope/vim-surround'                         " surround text with stuff
 Plug 'tpope/vim-unimpaired'                       " useful mappings
 Plug 'vim-airline/vim-airline'                    " the bottom bar
 Plug 'vim-airline/vim-airline-themes'             " Airline themes
+Plug 'honza/vim-snippets'                         " Snippet source
+" Plug 'godlygeek/tabular'
 " Plug 'nvim-lua/plenary.nvim'                    " lua functions
 " Plug 'folke/todo-comments.nvim'                 " highlight instances of 'todo', 'fixme' etc.
 
 """""""""""""""""
 "  Lazy Loaded  "
 """""""""""""""""
-Plug 'SirVer/ultisnips', { 'for': ['markdown'] }              " Ultisnips snippet engine
-Plug 'honza/vim-snippets', { 'on': [] }                       " Snippet source
 Plug 'tpope/vim-fugitive', { 'on': [ 'G', 'Git' ] }           " Git within vim
 Plug 'junegunn/vim-easy-align', { 'on': '<Plug>(EasyAlign)' } " alignment of text
 Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }            " undo tree
@@ -129,7 +131,6 @@ Plug 'iamcco/markdown-preview.nvim', {
     \ 'on': [ 'MarkdownPreviewToggle' ],
 \ }
 
-
 " directory tree
 Plug 'scrooloose/nerdtree', {
     \ 'on': [
@@ -140,14 +141,13 @@ Plug 'scrooloose/nerdtree', {
 \ }
 
 " Load only on insert mode
-augroup load_on_insert
-    autocmd!
-    autocmd InsertEnter * call plug#load(
-        \ 'ultisnips',
-        \ 'vim-snippets',
-    \ )
-    \ | autocmd! load_on_insert
-augroup END
+" augroup load_on_insert
+"     autocmd!
+"     autocmd InsertEnter * call plug#load(
+"         \ 'vim-snippets',
+"     \ )
+"     \ | autocmd! load_on_insert
+" augroup END
 
 """""""""""""""""
 "  Loaded last  "
@@ -172,7 +172,7 @@ let g:coc_global_extensions = [
     \ 'coc-rust-analyzer',
     \ 'coc-prettier',
     \ 'coc-sh',
-    \ 'coc-ultisnips',
+    \ 'coc-snippets',
     \ 'coc-syntax',
     \ 'coc-word',
     \ 'coc-vimlsp',
@@ -262,13 +262,6 @@ nmap <F8> :TagbarOpenAutoClose<CR>
 "  undotree  "
 """"""""""""""""""""""
 nnoremap <F5> :UndotreeToggle<CR>
-
-""""""""""""""""""""""
-"  vim-markdown  "
-""""""""""""""""""""""
-let g:vim_markdown_folding_disabled = 1
-let g:vim_markdown_conceal = 0
-let g:vim_markdown_conceal_code_blocks = 0
 
 """"""""""""""""""""""
 "  fzf,fzf.vim,ag  "
