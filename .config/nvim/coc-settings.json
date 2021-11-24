@@ -6,5 +6,7 @@
     "suggest.removeDuplicateItems": true,
     "coc.preferences.formatOnSaveFiletypes": ["css", "markdown"],
     "coc.source.word.filetypes": ["markdown", "txt", "rst"],
-    "diagnostic.refreshOnInsertMode": true
+    // "prettier.tabWidth": 4,
+    "diagnostic.refreshOnInsertMode": true,
+    "diagnostic.virtualText": true
 }
