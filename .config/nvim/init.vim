@@ -33,9 +33,8 @@ set encoding=utf-8
 set colorcolumn=80
 set hidden
 set list " display hints about extra whitespace
-set nobackup
+set nobackup nowritebackup
 set nottimeout notimeout
-set nowritebackup
 set shortmess+=c
 set smartcase number expandtab
 set updatetime=300
@@ -91,7 +90,7 @@ Plug 'mhinz/vim-signify'                          " show diffs in style
 Plug 'mhinz/vim-startify'                         " fancy startpage for vim
 Plug 'neoclide/coc.nvim', { 'branch': 'release' } " code completion
 Plug 'scrooloose/nerdcommenter'                   " commenting functionality
-Plug 'sheerun/vim-polyglot'                       " language pack for vim
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'tpope/vim-repeat'                           " repetition being good
 Plug 'tpope/vim-sensible'                         " sensible defaults
 Plug 'tpope/vim-surround'                         " surround text with stuff
@@ -184,6 +183,25 @@ let g:coc_global_extensions = [
 "                       5. plugin configurations                        "
 "              Header of each section is the plugin's name              "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+""""""""""""""""""""""
+"  treesitter  "
+""""""""""""""""""""""
+lua <<EOF
+require'nvim-treesitter.configs'.setup {
+  -- One of "all", "maintained" (parsers with maintainers), or a list of languages
+  ensure_installed = "maintained",
+  highlight = {
+    -- `false` will disable the whole extension
+    enable = true,
+    -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
+    -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
+    -- Using this option may slow down your editor, and you may see some duplicate highlights.
+    -- Instead of true it can also be a list of languages
+    additional_vim_regex_highlighting = false,
+  },
+}
+EOF
 
 """""""""""""""""
 "  vim-airline  "
