@@ -18,7 +18,11 @@ if empty(glob(s:plug_dir)) || empty(glob(stdpath("config") . "/plugged"))
         \ "https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"
 
     echo "Installing and Upgrading all Plugins"
-    autocmd VimEnter * PlugInstall --sync
+
+    augroup plugin_installer
+        autocmd!
+        autocmd VimEnter * PlugInstall
+    augroup END
 
     echo "Done!"
 endif
@@ -47,14 +51,13 @@ set inccommand=nosplit
 set nocursorline
 set lazyredraw
 set scrolljump=5
-set synmaxcol=128
 
 if has("termguicolors")
     set termguicolors " 24 bit colors for the love of life
 endif
 
 " disable netrw plugin
-let g:loaded_netrw       = 0
+let g:loaded_netrw = 0
 let g:loaded_netrwPlugin = 0
 
 " for indenting
@@ -63,6 +66,8 @@ vmap <S-Tab> <gv
 
 vnoremap <leader>y "+y<CR>
 nnoremap <leader>p "+p<CR>
+
+cnoreabbrev W w
 " 1}}} "
 
 " 3. vim-plug plugins {{{1 "
@@ -78,75 +83,62 @@ call plug#begin()
 "  Always present  "
 """"""""""""""""""""
 " Plug 'github/copilot.vim'
-Plug 'Yggdroot/indentLine'                        " display indent line for easy recognition
-Plug 'vim-scripts/auto-pairs-gentle'              " bracket autocompletion
-Plug 'antoinemadec/FixCursorHold.nvim'            " Improve performance
-Plug 'dstein64/vim-win'                           " easy window navigation
-Plug 'easymotion/vim-easymotion'                  " Vim motion on speed
-Plug 'editorconfig/editorconfig-vim'              " maintain consistent coding styles
-Plug 'navarasu/onedark.nvim'                      " dark theme
-Plug 'luochen1990/rainbow'                        " color the braces for easy recognition
-Plug 'mhinz/vim-signify'                          " show diffs in style
-Plug 'mhinz/vim-startify'                         " fancy startpage for vim
-Plug 'neoclide/coc.nvim', { 'branch': 'release' } " code completion
-Plug 'scrooloose/nerdcommenter'                   " commenting functionality
-Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-Plug 'tpope/vim-repeat'                           " repetition being good
-Plug 'tpope/vim-sensible'                         " sensible defaults
-Plug 'tpope/vim-surround'                         " surround text with stuff
-Plug 'tpope/vim-unimpaired'                       " useful mappings
-Plug 'vim-airline/vim-airline'                    " the bottom bar
-Plug 'vim-airline/vim-airline-themes'             " Airline themes
-Plug 'honza/vim-snippets'                         " Snippet source
-" Plug 'godlygeek/tabular'
-" Plug 'nvim-lua/plenary.nvim'                    " lua functions
-" Plug 'folke/todo-comments.nvim'                 " highlight instances of 'todo', 'fixme' etc.
+Plug 'SirVer/ultisnips'                                     " snippet engine
+Plug 'Yggdroot/indentLine'                                  " display indent line for easy recognition
+Plug 'antoinemadec/FixCursorHold.nvim'                      " Improve performance
+Plug 'dstein64/vim-win'                                     " easy window navigation
+Plug 'easymotion/vim-easymotion'                            " Vim motion on speed
+Plug 'editorconfig/editorconfig-vim'                        " maintain consistent coding styles
+Plug 'folke/todo-comments.nvim'                             " highlight instances of 'todo', 'fixme' etc.
+Plug 'honza/vim-snippets'                                   " Snippet source
+Plug 'mhinz/vim-signify'                                    " show diffs in style
+Plug 'mhinz/vim-startify'                                   " fancy startpage for vim
+Plug 'navarasu/onedark.nvim'                                " dark theme
+Plug 'neoclide/coc.nvim', {'branch': 'release'}             " code completion
+Plug 'nvim-lua/plenary.nvim'                                " lua functions
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'} " syntax highlighting
+Plug 'scrooloose/nerdcommenter'                             " commenting functionality
+Plug 'tpope/vim-abolish'                                    " text manipulation
+Plug 'tpope/vim-repeat'                                     " repetition being good
+Plug 'tpope/vim-sensible'                                   " sensible defaults
+Plug 'tpope/vim-surround'                                   " surround text with stuff
+Plug 'tpope/vim-unimpaired'                                 " useful mappings
+Plug 'vim-airline/vim-airline'                              " status/tabline for vim
+Plug 'vim-airline/vim-airline-themes'                       " themes for vim-airline
+Plug 'vim-scripts/auto-pairs-gentle'                        " bracket autocompletion
 
 """""""""""""""""
 "  Lazy Loaded  "
 """""""""""""""""
-Plug 'tpope/vim-fugitive', { 'on': [ 'G', 'Git' ] }           " Git within vim
-Plug 'junegunn/vim-easy-align', { 'on': '<Plug>(EasyAlign)' } " alignment of text
-Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }            " undo tree
-Plug 'vim-autoformat/vim-autoformat', { 'on': 'Autoformat' }  " Autoformat
+Plug 'tpope/vim-fugitive', {'on': ['G', 'Git']}             " Git within vim
+Plug 'junegunn/vim-easy-align', {'on': '<Plug>(EasyAlign)'} " alignment of text
+Plug 'mbbill/undotree', {'on': 'UndotreeToggle'}            " undo tree
+Plug 'vim-autoformat/vim-autoformat', {'on': 'Autoformat'}  " Autoformat
 
 " file finder and helper
-let g:fzf_cmds = [ 'Files', 'GFiles', 'Windows', 'Rg' ]
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() }, 'on': g:fzf_cmds }
-Plug 'junegunn/fzf.vim', { 'on': g:fzf_cmds }
+let g:fzf_cmds = ['Files', 'GFiles', 'Windows', 'Rg', 'BLines']
+Plug 'junegunn/fzf', {'do': {-> fzf#install()}, 'on': g:fzf_cmds}
+Plug 'junegunn/fzf.vim', {'on': g:fzf_cmds}
 unlet g:fzf_cmds
 
 if executable("ctags")
     " tagbar for easy code browsing (requires ctags)
-    Plug 'majutsushi/tagbar', { 'on': 'TagbarOpenAutoClose' }
+    Plug 'majutsushi/tagbar', {'on': 'TagbarOpenAutoClose'}
 else
     echom "ctags is missing. Please install ctags."
 endif
 
 " Live Markdown preview
 Plug 'iamcco/markdown-preview.nvim', {
-    \ 'do': { -> mkdp#util#install() },
-    \ 'for': [ 'markdown', 'vim-plug' ],
-    \ 'on': [ 'MarkdownPreviewToggle' ],
+    \ 'do': {-> mkdp#util#install()},
+    \ 'for': ['markdown', 'vim-plug'],
+    \ 'on': ['MarkdownPreviewToggle'],
 \ }
 
 " directory tree
 Plug 'scrooloose/nerdtree', {
-    \ 'on': [
-        \ 'NERDTreeFind',
-        \ 'NERDTreeFocus',
-        \ 'NERDTreeToggle',
-    \ ],
+    \ 'on': ['NERDTreeFind', 'NERDTreeFocus', 'NERDTreeToggle'],
 \ }
-
-" Load only on insert mode
-" augroup load_on_insert
-"     autocmd!
-"     autocmd InsertEnter * call plug#load(
-"         \ 'vim-snippets',
-"     \ )
-"     \ | autocmd! load_on_insert
-" augroup END
 
 """""""""""""""""
 "  Loaded last  "
@@ -171,7 +163,7 @@ let g:coc_global_extensions = [
     \ 'coc-rust-analyzer',
     \ 'coc-prettier',
     \ 'coc-sh',
-    \ 'coc-snippets',
+    \ 'coc-ultisnips',
     \ 'coc-syntax',
     \ 'coc-word',
     \ 'coc-vimlsp',
@@ -184,20 +176,23 @@ let g:coc_global_extensions = [
 "              Header of each section is the plugin's name              "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
+"""""""""""""""""""
+"  todo-comments  "
+"""""""""""""""""""
+lua << EOF
+require'todo-comments'.setup()
+EOF
+
 """"""""""""""""""""""
 "  treesitter  "
 """"""""""""""""""""""
-lua <<EOF
+lua << EOF
 require'nvim-treesitter.configs'.setup {
   -- One of "all", "maintained" (parsers with maintainers), or a list of languages
-  ensure_installed = "maintained",
+  ensure_installed = {"python", "rust", "c", "cpp", "bash", "go", "html"},
   highlight = {
     -- `false` will disable the whole extension
     enable = true,
-    -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
-    -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
-    -- Using this option may slow down your editor, and you may see some duplicate highlights.
-    -- Instead of true it can also be a list of languages
     additional_vim_regex_highlighting = false,
   },
 }
@@ -209,6 +204,7 @@ EOF
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
 let g:airline_theme = 'onedark'
+let g:airline_highlighting_cache = 1
 
 """"""""""""""""""""
 "  vim-autoformat  "
@@ -241,6 +237,7 @@ let g:indentLine_fileTypeExclude = ['startify', 'markdown']
 "  auto-pairs-gentle "
 """"""""""""""""""""""
 let g:AutoPairsMapSpace = 0
+let g:AutoPairs = {'(':')', '[':']', '{':'}',"'":"'",'"':'"', '`':'`', '<':'>'}
 
 """"""""""""""""""""""
 "  vim-easy-align  "
@@ -267,11 +264,6 @@ let g:onedark_style = 'darker'
 colorscheme onedark
 
 """"""""""""""""""""""
-"  rainbow  "
-""""""""""""""""""""""
-let g:rainbow_active = 1
-
-""""""""""""""""""""""
 "  tagbar  "
 """"""""""""""""""""""
 nmap <F8> :TagbarOpenAutoClose<CR>
@@ -286,14 +278,12 @@ nnoremap <F5> :UndotreeToggle<CR>
 """"""""""""""""""""""
 nnoremap <C-P> :Files<CR>
 nnoremap <C-I> :GFiles<CR>
+nnoremap <C-K> :BLines<CR>
 if executable('rg')
     nnoremap <C-G> :Rg<CR>
 else
     echom "Ripgrep (rg) is missing. Please install Ripgrep"
 endif
-
-" windows
-nnoremap <M-w> :Windows<CR>
 
 """"""""""""""""""""""
 "  nerdtree  "
@@ -319,37 +309,37 @@ let g:NERDTrimTrailingWhitespace = 1
 " Always show the signcolumn, otherwise it would shift the text each time
 " diagnostics appear/become resolved.
 if has("nvim-0.5.0") || has("patch-8.1.1564")
-    " Recently vim can merge signcolumn and number column into one
-    set signcolumn=number
+  " Recently vim can merge signcolumn and number column into one
+  set signcolumn=number
 else
-    set signcolumn=yes
+  set signcolumn=yes
 endif
 
 " Use tab for trigger completion with characters ahead and navigate.
 " NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
 " other plugin before putting this into your config.
 inoremap <silent><expr> <TAB>
-            \ pumvisible() ? "\<C-n>" :
-            \ <SID>check_back_space() ? "\<TAB>" :
-            \ coc#refresh()
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
 inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
 function! s:check_back_space() abort
-    let col = col('.') - 1
-    return !col || getline('.')[col - 1]  =~# '\s'
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
 
 " Use <c-space> to trigger completion.
 if has('nvim')
-    inoremap <silent><expr> <c-space> coc#refresh()
+  inoremap <silent><expr> <c-space> coc#refresh()
 else
-    inoremap <silent><expr> <c-@> coc#refresh()
+  inoremap <silent><expr> <c-@> coc#refresh()
 endif
 
 " Make <CR> auto-select the first completion item and notify coc.nvim to
 " format on enter, <cr> could be remapped by other vim plugin
 inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
-            \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 
 " Use `[g` and `]g` to navigate diagnostics
 " Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
@@ -366,13 +356,13 @@ nmap <silent> gr <Plug>(coc-references)
 nnoremap <silent> K :call <SID>show_documentation()<CR>
 
 function! s:show_documentation()
-    if (index(['vim','help'], &filetype) >= 0)
-        execute 'h '.expand('<cword>')
-    elseif (coc#rpc#ready())
-        call CocActionAsync('doHover')
-    else
-        execute '!' . &keywordprg . " " . expand('<cword>')
-    endif
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  elseif (coc#rpc#ready())
+    call CocActionAsync('doHover')
+  else
+    execute '!' . &keywordprg . " " . expand('<cword>')
+  endif
 endfunction
 
 " Highlight the symbol and its references when holding the cursor.
@@ -386,11 +376,11 @@ xmap <leader>f  <Plug>(coc-format-selected)
 nmap <leader>f  <Plug>(coc-format-selected)
 
 augroup mygroup
-    autocmd!
-    " Setup formatexpr specified filetype(s).
-    autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
-    " Update signature help on jump placeholder.
-    autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
+  autocmd!
+  " Setup formatexpr specified filetype(s).
+  autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
+  " Update signature help on jump placeholder.
+  autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
 augroup end
 
 " Applying codeAction to the selected region.
@@ -402,6 +392,9 @@ nmap <leader>a  <Plug>(coc-codeaction-selected)
 nmap <leader>ac  <Plug>(coc-codeaction)
 " Apply AutoFix to problem on the current line.
 nmap <leader>qf  <Plug>(coc-fix-current)
+
+" Run the Code Lens action on the current line.
+nmap <leader>cl  <Plug>(coc-codelens-action)
 
 " Map function and class text objects
 " NOTE: Requires 'textDocument.documentSymbol' support from the language server.
@@ -416,12 +409,12 @@ omap ac <Plug>(coc-classobj-a)
 
 " Remap <C-f> and <C-b> for scroll float windows/popups.
 if has('nvim-0.4.0') || has('patch-8.2.0750')
-    nnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
-    nnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
-    inoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(1)\<cr>" : "\<Right>"
-    inoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(0)\<cr>" : "\<Left>"
-    vnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
-    vnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
+  nnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
+  nnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
+  inoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(1)\<cr>" : "\<Right>"
+  inoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(0)\<cr>" : "\<Left>"
+  vnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
+  vnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
 endif
 
 " Use CTRL-S for selections ranges.
@@ -436,7 +429,7 @@ command! -nargs=0 Format :call CocAction('format')
 command! -nargs=? Fold :call     CocAction('fold', <f-args>)
 
 " Add `:OR` command for organize imports of the current buffer.
-command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
+command! -nargs=0 OR   :call     CocActionAsync('runCommand', 'editor.action.organizeImport')
 
 " Add (Neo)Vim's native statusline support.
 " NOTE: Please see `:h coc-status` for integrations with external plugins that
