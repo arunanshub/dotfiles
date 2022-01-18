@@ -185,6 +185,10 @@ cindent()
     done
 }
 
+mkcd() {
+    mkdir -p $1; cd $1
+}
+
 # "gud" aliases
 alias diff="diff --color"
 alias gpp="g++ -Wall -Wextra -pedantic -O3"
@@ -231,3 +235,16 @@ export EDITOR=/bin/nvim
 
 # export PATH=$PATH:~/.local/share/gem/ruby/3.0.0/bin
 export PATH=$PATH:/home/arunanshub/.cargo/bin
+
+# heroku autocomplete setup
+HEROKU_AC_BASH_SETUP_PATH=/home/arunanshub/.cache/heroku/autocomplete/bash_setup && test -f $HEROKU_AC_BASH_SETUP_PATH && source $HEROKU_AC_BASH_SETUP_PATH;
+
+# pip bash completion start
+_pip_completion()
+{
+    COMPREPLY=( $( COMP_WORDS="${COMP_WORDS[*]}" \
+        COMP_CWORD=$COMP_CWORD \
+        PIP_AUTO_COMPLETE=1 $1 2>/dev/null ) )
+    }
+complete -o default -F _pip_completion pip
+# pip bash completion end
