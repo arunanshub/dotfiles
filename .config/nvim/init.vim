@@ -11,7 +11,7 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 let s:plug_dir = join([stdpath("config"), "autoload", "plug.vim"], "/")
-if empty(glob(s:plug_dir)) || empty(glob(stdpath("config") . "/plugged"))
+if empty(glob(s:plug_dir)) || empty(glob(stdpath("data") . "/plugged"))
     echo "Now installing vim-plug..."
     silent exec "!curl -fLo" s:plug_dir
         \ "--create-dirs"
@@ -110,10 +110,11 @@ Plug 'vim-scripts/auto-pairs-gentle'                        " bracket autocomple
 """""""""""""""""
 "  Lazy Loaded  "
 """""""""""""""""
-Plug 'tpope/vim-fugitive', {'on': ['G', 'Git']}             " Git within vim
-Plug 'junegunn/vim-easy-align', {'on': '<Plug>(EasyAlign)'} " alignment of text
-Plug 'mbbill/undotree', {'on': 'UndotreeToggle'}            " undo tree
-Plug 'vim-autoformat/vim-autoformat', {'on': 'Autoformat'}  " Autoformat
+Plug 'junegunn/vim-easy-align', {'on': '<Plug>(EasyAlign)'}   " alignment of text
+Plug 'mbbill/undotree', {'on': 'UndotreeToggle'}              " undo tree
+Plug 'raimon49/requirements.txt.vim', {'for': 'requirements'} " python requirements file
+Plug 'tpope/vim-fugitive', {'on': ['G', 'Git']}               " Git within vim
+Plug 'vim-autoformat/vim-autoformat', {'on': 'Autoformat'}    " Autoformat
 
 " file finder and helper
 let g:fzf_cmds = ['Files', 'GFiles', 'Windows', 'Rg', 'BLines']
@@ -156,6 +157,7 @@ call plug#end()
 let g:coc_global_extensions = [
     \ 'coc-clangd',
     \ 'coc-highlight',
+    \ 'coc-html',
     \ 'coc-json',
     \ 'coc-lua',
     \ 'coc-markdownlint',
@@ -236,7 +238,7 @@ let g:indentLine_fileTypeExclude = ['startify', 'markdown']
 """"""""""""""""""""""
 "  auto-pairs-gentle "
 """"""""""""""""""""""
-let g:AutoPairsMapSpace = 0
+" let g:AutoPairsMapSpace = 0
 let g:AutoPairs = {'(':')', '[':']', '{':'}',"'":"'",'"':'"', '`':'`', '<':'>'}
 
 """"""""""""""""""""""
@@ -260,7 +262,7 @@ EOF
 """"""""""""""""""""""
 "  onedark  "
 """"""""""""""""""""""
-let g:onedark_style = 'darker'
+let g:onedark_config = {"style": "darker"}
 colorscheme onedark
 
 """"""""""""""""""""""
