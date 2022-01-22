@@ -52,7 +52,7 @@ set list
 " show effect of command incrementally
 set inccommand=nosplit
 " set completeopt for better completion experience
-set completeopt=menuone,noselect
+set completeopt=menu,menuone,noselect
 " set incremental search
 set incsearch
 " do not show the current mode of Neovim
@@ -108,11 +108,13 @@ Plug 'hrsh7th/cmp-cmdline'
 Plug 'hrsh7th/nvim-cmp'
 
 " snippets
-Plug 'L3MON4D3/LuaSnip'
-Plug 'saadparwaiz1/cmp_luasnip'
+Plug 'hrsh7th/cmp-vsnip'
+Plug 'hrsh7th/vim-vsnip'
+Plug 'rafamadriz/friendly-snippets'
 
 " customizations over LSP
 Plug 'tami5/lspsaga.nvim'
+Plug 'onsails/lspkind-nvim'
 
 " statusline support
 Plug 'nvim-lua/lsp-status.nvim'
@@ -136,9 +138,9 @@ Plug 'editorconfig/editorconfig-vim'                        " maintain consisten
 Plug 'scrooloose/nerdcommenter'                             " commenting functionality
 Plug 'mhinz/vim-signify'                                    " show diffs in style
 Plug 'tpope/vim-surround'                                   " surround text with stuff
+Plug 'easymotion/vim-easymotion'                            " Vim motion on speed
 " Plug 'nvim-lua/plenary.nvim'                                " lua functions
 " Plug 'dstein64/vim-win'                                     " easy window navigation
-" Plug 'easymotion/vim-easymotion'                            " Vim motion on speed
 " Plug 'mhinz/vim-startify'                                   " fancy startpage for vim
 " Plug 'tpope/vim-abolish'                                    " text manipulation
 " Plug 'tpope/vim-repeat'                                     " repetition being good
@@ -150,6 +152,7 @@ Plug 'tpope/vim-surround'                                   " surround text with
 Plug 'junegunn/vim-easy-align', {'on': '<Plug>(EasyAlign)'}   " alignment of text
 Plug 'mbbill/undotree', {'on': 'UndotreeToggle'}              " undo tree
 Plug 'raimon49/requirements.txt.vim', {'for': 'requirements'} " python requirements file
+Plug 'glench/vim-jinja2-syntax', {'for': ['html', 'jinja2']}
 Plug 'tpope/vim-fugitive', {'on': ['G', 'Git']}               " Git within vim
 Plug 'vim-autoformat/vim-autoformat', {'on': 'Autoformat'}    " Autoformat
 
@@ -195,6 +198,7 @@ lua << EOF
 require('lspsaga').init_lsp_saga()
 
 local lsp_status = require('lsp-status')
+lsp_status.register_progress()
 
 local lsp_installer = require("nvim-lsp-installer")
 local nvim_lsp = require("lspconfig")
@@ -202,6 +206,8 @@ local nvim_lsp = require("lspconfig")
 -- Use an on_attach function to only map the following keys
 -- after the language server attaches to the current buffer
 local on_attach = function(client, bufnr)
+  lsp_status.on_attach(client)
+
   local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
   local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
 
@@ -221,16 +227,29 @@ local on_attach = function(client, bufnr)
   buf_set_keymap('v', '<leader>a', "<cmd>lua require('lspsaga.codeaction').range_code_action()<CR>", opts)
 end
 
+capabilities = require('cmp_nvim_lsp')
+  .update_capabilities(vim.lsp.protocol.make_client_capabilities())
+capabilities = vim.tbl_extend('keep', capabilities or {}, lsp_status.capabilities)
+
 lsp_installer.on_server_ready(function(server)
   local opts = {
     on_attach = on_attach,
     flags = {debounce_text_changes = 150},
-    capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities()),
+    capabilities = capabilities,
   }
   server:setup(opts)
 end)
 EOF
 " 2}}} "
+
+" Statusline
+function! LspStatus() abort
+  if luaeval('#vim.lsp.buf_get_clients() > 0')
+    return luaeval("require('lsp-status').status()")
+  endif
+
+  return ''
+endfunction
 
 " LSP Completer {{{2 "
 """""""""""""""""""
@@ -242,20 +261,72 @@ local has_words_before = function()
   return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
 end
 
+local feedkey = function(key, mode)
+  vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(key, true, true, true), mode, true)
+end
+
 -- Setup nvim-cmp.
 local cmp = require('cmp')
-local luasnip = require('luasnip')
+local lspkind = require('lspkind')
+
+local cmp_kinds = {
+  Text = "",
+  Method = "",
+  Function = "",
+  Constructor = "",
+  Field = "ﰠ",
+  Variable = "",
+  Class = "ﴯ",
+  Interface = "",
+  Module = "",
+  Property = "ﰠ",
+  Unit = "塞",
+  Value = "",
+  Enum = "",
+  Keyword = "",
+  Snippet = "",
+  Color = "",
+  File = "",
+  Reference = "",
+  Folder = "",
+  EnumMember = "",
+  Constant = "",
+  Struct = "פּ",
+  Event = "",
+  Operator = "",
+  TypeParameter = "",
+}
 
 cmp.setup({
+  formatting = {
+    format = lspkind.cmp_format({
+      with_text = true,
+      preset = 'codicons',
+      symbol_map = cmp_kinds,
+      menu = ({
+        buffer = "[Buffer]",
+        nvim_lsp = "[LSP]",
+        luasnip = "[LuaSnip]",
+        nvim_lua = "[Lua]",
+        latex_symbols = "[Latex]",
+      }),
+    }),
+  },
+
   snippet = {
-    expand = function(args)
-      require('luasnip').lsp_expand(args.body)
-    end,
+      expand = function(args)
+        vim.fn["vsnip#anonymous"](args.body)
+      end,
   },
 
   mapping = {
+    ['<C-b>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), { 'i', 'c' }),
+    ['<C-f>'] = cmp.mapping(cmp.mapping.scroll_docs(4), { 'i', 'c' }),
     ['<C-Space>'] = cmp.mapping(cmp.mapping.complete(), { 'i', 'c' }),
-    ['<CR>'] = cmp.mapping.confirm({ select = true }),
+    ['<CR>'] = cmp.mapping.confirm({
+      select = true,
+      behavior = cmp.ConfirmBehavior.Replace,
+    }),
     ['<C-y>'] = cmp.config.disable,
 
     ['<C-e>'] = cmp.mapping({
@@ -263,34 +334,33 @@ cmp.setup({
       c = cmp.mapping.close(),
     }),
 
-    ['<Tab>'] = cmp.mapping(function(fallback)
+    ["<Tab>"] = cmp.mapping(function(fallback)
       if cmp.visible() then
         cmp.select_next_item()
-      elseif luasnip.expand_or_jumpable() then
-        luasnip.expand_or_jump()
+      elseif vim.fn["vsnip#available"](1) == 1 then
+        feedkey("<Plug>(vsnip-expand-or-jump)", "")
       elseif has_words_before() then
         cmp.complete()
       else
-        fallback()
+        fallback() -- The fallback function sends a already mapped key. In this case, it's probably `<Tab>`.
       end
     end, { "i", "s" }),
 
-    ['<S-Tab>'] = cmp.mapping(function(fallback)
+    ["<S-Tab>"] = cmp.mapping(function()
       if cmp.visible() then
         cmp.select_prev_item()
-      elseif luasnip.jumpable(-1) then
-        luasnip.jump(-1)
-      else
-        fallback()
+      elseif vim.fn["vsnip#jumpable"](-1) == 1 then
+        feedkey("<Plug>(vsnip-jump-prev)", "")
       end
     end, { "i", "s" }),
   },
 
   -- sources for completion
   sources = cmp.config.sources({
-    { name = 'nvim_lsp' },
-    { name = 'luasnip' },
-    { name = 'buffer' },
+      { name = 'nvim_lsp' },
+      { name = 'vsnip' },
+    }, {
+      { name = 'buffer' },
   }),
 })
 
