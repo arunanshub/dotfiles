@@ -237,6 +237,15 @@ lsp_installer.on_server_ready(function(server)
     flags = {debounce_text_changes = 150},
     capabilities = capabilities,
   }
+  if server.name == "pylsp" then
+    opts.settings = {
+      pylsp = {
+        plugins = {
+          jedi_completion = { include_params = true },
+        }
+      }
+    }
+  end
   server:setup(opts)
 end)
 EOF
@@ -356,12 +365,12 @@ cmp.setup({
   },
 
   -- sources for completion
-  sources = cmp.config.sources({
-      { name = 'nvim_lsp' },
-      { name = 'vsnip' },
-    }, {
-      { name = 'buffer' },
-  }),
+  sources = {
+    { name = 'nvim_lsp' },
+    { name = 'buffer' },
+    { name = "nvim_lua" },
+    -- { name = 'vsnip' },
+  },
 })
 
 -- Use buffer source for `/` (if you enabled `native_menu`, this won't work anymore).
