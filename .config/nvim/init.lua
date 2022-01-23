@@ -172,6 +172,9 @@ local servers = {
   "rust_analyzer",
   "sumneko_lua",
   "html",
+  "clangd",
+  "vimls",
+  "emmet_ls",
 }
 
 for _, name in pairs(servers) do
