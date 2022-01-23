@@ -61,6 +61,9 @@ require('packer').startup(function()
   -- editorconfig support for neovim
   use 'editorconfig/editorconfig-vim'
 
+  -- colorscheme
+  use 'navarasu/onedark.nvim'
+
   -- LSP
   use 'neovim/nvim-lspconfig'
 
@@ -112,9 +115,6 @@ require('packer').startup(function()
       'rafamadriz/friendly-snippets',
     }
   }
-
-  -- colorscheme
-  use 'navarasu/onedark.nvim'
 end)
 -- 1}}}
 
@@ -226,6 +226,8 @@ local enhanced_server_opts = {
   sumneko_lua = function(opts)
     opts.settings = {
       Lua = {
+        -- NOTE: This is required for expansion of lua function signatures!
+        completion = {callSnippet = "Replace"},
         diagnostics = {
           globals = { 'vim' }
         }
@@ -372,6 +374,9 @@ cmp.setup.cmdline(':', {
   })
 })
 -- 2}}}
+
+-- todo-comments
+require("todo-comments").setup()
 
 -- onedark
 require("onedark").setup({
