@@ -28,13 +28,11 @@ require('packer').startup(function()
   -- Package manager
   use 'wbthomason/packer.nvim'
 
-  -- use 'tpope/vim-rhubarb' -- Fugitive-companion to interact with github
+  -- Fugitive-companion to interact with github
+  -- use 'tpope/vim-rhubarb'
 
   -- Automatic tags management
-  use 'ludovicchabant/vim-gutentags'
-
-  -- Fancier statusline
-  use 'nvim-lualine/lualine.nvim'
+  -- use 'ludovicchabant/vim-gutentags'
 
   -- Add indentation guides even on blank lines
   use 'lukas-reineke/indent-blankline.nvim'
@@ -48,14 +46,8 @@ require('packer').startup(function()
   -- "gc" to comment visual regions/lines
   use 'numToStr/Comment.nvim'
 
-  -- FZF
-  use {
-    'junegunn/fzf.vim',
-    requires = {'junegunn/fzf', run = 'call fzf#install()'},
-  }
-
   -- Git signs
-  use {'mhinz/vim-signify', run = {'Files', 'BLines', 'GFiles', 'Rg'}}
+  use 'mhinz/vim-signify'
 
   -- Git commands in nvim
   use 'tpope/vim-fugitive'
@@ -77,11 +69,41 @@ require('packer').startup(function()
   use 'tami5/lspsaga.nvim'
   use 'onsails/lspkind-nvim'
 
+  -- Tagbar
+  use {'majutsushi/tagbar', cmd = 'TagbarOpenAutoClose'}
+
+  -- Fancier statusline
+  use {
+    'nvim-lualine/lualine.nvim',
+    requires = 'kyazdani42/nvim-web-devicons',
+  }
+
+  -- highlight instances of 'todo', 'fixme' etc.
+  use {
+    'folke/todo-comments.nvim',
+    requires = 'nvim-lua/plenary.nvim',
+  }
+
+  -- FZF
+  use {
+    'junegunn/fzf.vim',
+    requires = {
+      'junegunn/fzf',
+      run = ':call fzf#install()',
+      cmd = {'Files', 'BLines', 'GFiles', 'Rg'},
+    },
+  }
+
   -- Autocompletion plugin
-  use {'hrsh7th/nvim-cmp', requires = {'hrsh7th/cmp-nvim-lsp'}}
-  use 'hrsh7th/cmp-buffer'
-  use 'hrsh7th/cmp-path'
-  use 'hrsh7th/cmp-cmdline'
+  use {
+    'hrsh7th/nvim-cmp',
+    requires = {
+      'hrsh7th/cmp-nvim-lsp',
+      'hrsh7th/cmp-buffer',
+      'hrsh7th/cmp-path',
+      'hrsh7th/cmp-cmdline',
+    }
+  }
 
   -- snippets
   use {
@@ -191,8 +213,11 @@ local enhanced_server_opts = {
   pylsp = function(opts)
     opts.settings = {
       pylsp = {
+        -- configurationSources = {"flake8"},
         plugins = {
           jedi_completion = {include_params = true},
+          flake8 = {enabled = true},
+          pycodestyle = {enabled = false},
         }
       }
     }
@@ -379,6 +404,11 @@ require('nvim-treesitter.configs').setup {
     enable = true, -- false will disable the whole extension
   },
 }
+
+-- Tagbar
+vim.cmd [[
+nmap <F8> :TagbarOpenAutoClose<CR>
+]]
 
 -- FZF
 vim.cmd [[
