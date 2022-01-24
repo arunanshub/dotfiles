@@ -223,8 +223,11 @@ local on_attach = function(_, bufnr)
   buf_set_keymap('v', '<leader>a', ":<C-U><cmd>lua require('lspsaga.codeaction').range_code_action()<CR>", opts)
 
   -- Floating terminal
-  buf_set_keymap('n', '<A-d>', "<cmd>lua require('lspsaga.floaterm').open_float_terminal()<CR>", opts)
-  buf_set_keymap('n', '<A-d>', "<C-\\><C-n>:lua require('lspsaga.floaterm').open_float_terminal()<CR>", opts)
+  -- NOTE: Use `vim.cmd` since `buf_set_keymap` is not working with `tnoremap...`
+  vim.cmd [[
+  nnoremap <silent> <A-d> <cmd>lua require('lspsaga.floaterm').open_float_terminal()<CR>
+  tnoremap <silent> <A-d> <C-\><C-n>:lua require('lspsaga.floaterm').close_float_terminal()<CR>
+  ]]
 end
 
 -- nvim-cmp supports additional completion capabilities
