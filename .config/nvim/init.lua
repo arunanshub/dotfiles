@@ -49,9 +49,6 @@ require('packer').startup(function()
   -- Git signs
   use 'mhinz/vim-signify'
 
-  -- Git commands in nvim
-  use 'tpope/vim-fugitive'
-
   -- surround text with stuff
   use 'tpope/vim-surround'
 
@@ -61,16 +58,24 @@ require('packer').startup(function()
   -- editorconfig support for neovim
   use 'editorconfig/editorconfig-vim'
 
-  -- colorscheme
+  -- NOTE: colorscheme
   use 'navarasu/onedark.nvim'
 
   -- LSP
   use 'neovim/nvim-lspconfig'
 
+  -- LSP Server installer
+  use {
+    'williamboman/nvim-lsp-installer',
+    requires = 'neovim/nvim-lspconfig',
+  }
+
   -- LSP customizations
-  use 'williamboman/nvim-lsp-installer'
   use 'onsails/lspkind-nvim'
   use {'tami5/lspsaga.nvim', requires = {'neovim/nvim-lspconfig'}}
+
+  -- Git commands in nvim
+  use {'tpope/vim-fugitive', cmd = {"G", "Git"}}
 
   -- Tagbar
   use {'majutsushi/tagbar', cmd = 'TagbarOpenAutoClose'}
