@@ -78,7 +78,10 @@ require('packer').startup(function()
   -- Fancier statusline
   use {
     'nvim-lualine/lualine.nvim',
-    requires = 'kyazdani42/nvim-web-devicons',
+    requires = {
+      'kyazdani42/nvim-web-devicons',
+      'arkav/lualine-lsp-progress',
+    },
   }
 
   -- highlight instances of 'todo', 'fixme' etc.
@@ -220,7 +223,7 @@ local on_attach = function(_, bufnr)
 
   -- codeaction
   buf_set_keymap('n', '<leader>ac', "<cmd>lua require('lspsaga.codeaction').code_action()<CR>", opts)
-  buf_set_keymap('v', '<leader>a', ":<C-U><cmd>lua require('lspsaga.codeaction').range_code_action()<CR>", opts)
+  buf_set_keymap('v', '<leader>a', ":<C-U>lua require('lspsaga.codeaction').range_code_action()<CR>", opts)
 
   -- Floating terminal
   -- NOTE: Use `vim.cmd` since `buf_set_keymap` is not working with `tnoremap...`
@@ -410,7 +413,13 @@ require("lspsaga").init_lsp_saga({
   finder_action_keys = {
     open = '<CR>',
     quit = {'q', '<esc>'},
-  }
+  },
+  code_action_keys = {
+    quit = {'q', '<esc>'},
+  },
+  rename_action_keys = {
+    quit = '<esc>',
+  },
 })
 
 -- todo-comments
@@ -423,7 +432,14 @@ require("onedark").setup({
 require('onedark').load()
 
 -- Lualine
-require('lualine').setup()
+require('lualine').setup({
+  sections = {
+    lualine_c = {
+      {'filename', path = 1},
+      'lsp_progress',
+    },
+  },
+})
 
 -- Comment
 require('Comment').setup()
