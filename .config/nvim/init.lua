@@ -69,8 +69,8 @@ require('packer').startup(function()
 
   -- LSP customizations
   use 'williamboman/nvim-lsp-installer'
-  use 'tami5/lspsaga.nvim'
   use 'onsails/lspkind-nvim'
+  use {'tami5/lspsaga.nvim', requires = {'neovim/nvim-lspconfig'}}
 
   -- Tagbar
   use {'majutsushi/tagbar', cmd = 'TagbarOpenAutoClose'}
@@ -195,17 +195,36 @@ local on_attach = function(_, bufnr)
 
   local opts = {noremap=true, silent=true}
 
-  buf_set_keymap('n', 'K', "<cmd>lua require('lspsaga.hover').render_hover_doc()<CR>", opts)
+  -- jump to definition
   buf_set_keymap('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
-  buf_set_keymap('n', 'gr', '<cmd>lua require("lspsaga.provider").lsp_finder()<CR>', opts)
-  buf_set_keymap('n', '[g', '<cmd>lua vim.diagnostic.goto_prev()<CR>', opts)
-  buf_set_keymap('n', ']g', '<cmd>lua vim.diagnostic.goto_next()<CR>', opts)
+
+  -- Format buffer
   buf_set_keymap('n', '<F3>', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
+
+  -- Jump LSP diagnostics
+  -- NOTE: Currently, there is a bug in lspsaga.diagnostic module. Thus we use
+  -- NOTE: Vim commands to move through diagnostics.
+  buf_set_keymap('n', '[g', ':Lspsaga diagnostic_jump_prev<CR>', opts)
+  buf_set_keymap('n', ']g', ':Lspsaga diagnostic_jump_next<CR>', opts)
+
+  -- Rename symbol
+  buf_set_keymap('n', '<leader>rn', "<cmd>lua require('lspsaga.rename').rename()<CR>", opts)
+
+  -- Find references
+  buf_set_keymap('n', 'gr', '<cmd>lua require("lspsaga.provider").lsp_finder()<CR>', opts)
+
+  -- Doc popup scrolling
+  buf_set_keymap('n', 'K', "<cmd>lua require('lspsaga.hover').render_hover_doc()<CR>", opts)
   buf_set_keymap('n', '<C-f>', "<cmd>lua require('lspsaga.action').smart_scroll_with_saga(1)<CR>", opts)
   buf_set_keymap('n', '<C-b>', "<cmd>lua require('lspsaga.action').smart_scroll_with_saga(-1)<CR>", opts)
-  buf_set_keymap('n', '<leader>rn', "<cmd>lua require('lspsaga.rename').rename()<CR>", opts)
+
+  -- codeaction
   buf_set_keymap('n', '<leader>ac', "<cmd>lua require('lspsaga.codeaction').code_action()<CR>", opts)
-  buf_set_keymap('v', '<leader>a', "<cmd>lua require('lspsaga.codeaction').range_code_action()<CR>", opts)
+  buf_set_keymap('v', '<leader>a', ":<C-U><cmd>lua require('lspsaga.codeaction').range_code_action()<CR>", opts)
+
+  -- Floating terminal
+  buf_set_keymap('n', '<A-d>', "<cmd>lua require('lspsaga.floaterm').open_float_terminal()<CR>", opts)
+  buf_set_keymap('n', '<A-d>', "<C-\\><C-n>:lua require('lspsaga.floaterm').open_float_terminal()<CR>", opts)
 end
 
 -- nvim-cmp supports additional completion capabilities
@@ -382,6 +401,14 @@ cmp.setup.cmdline(':', {
   })
 })
 -- 2}}}
+
+-- lspsaga
+require("lspsaga").init_lsp_saga({
+  finder_action_keys = {
+    open = '<CR>',
+    quit = {'q', '<esc>'},
+  }
+})
 
 -- todo-comments
 require("todo-comments").setup()
