@@ -8,7 +8,7 @@ extension.
 ]]
 
 -- Install packer {{{1
-local install_path = vim.fn.stdpath 'data' .. '/site/pack/packer/start/packer.nvim'
+local install_path = vim.fn.stdpath('data') .. '/site/pack/packer/start/packer.nvim'
 
 if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
   vim.fn.execute('!git clone https://github.com/wbthomason/packer.nvim ' .. install_path)
@@ -16,8 +16,8 @@ end
 
 vim.cmd [[
 augroup Packer
-autocmd!
-autocmd BufWritePost init.lua PackerCompile
+  autocmd!
+  autocmd BufWritePost init.lua PackerCompile
 augroup end
 ]]
 -- 1}}}
@@ -52,11 +52,17 @@ require('packer').startup(function()
   -- surround text with stuff
   use 'tpope/vim-surround'
 
+  -- sensible defaults
+  use 'tpope/vim-sensible'
+
   -- useful mappings
   use 'tpope/vim-unimpaired'
 
   -- editorconfig support for neovim
   use 'editorconfig/editorconfig-vim'
+
+  -- Jump to any location specified by two characters
+  use 'justinmk/vim-sneak'
 
   -- NOTE: colorscheme
   use 'navarasu/onedark.nvim'
@@ -80,6 +86,19 @@ require('packer').startup(function()
   -- Tagbar
   use {'majutsushi/tagbar', cmd = 'TagbarOpenAutoClose'}
 
+  -- Markdown syntax highlighting
+  use {'preservim/vim-markdown', ft = {'markdown'}}
+
+  -- Auto formatting
+  use {'vim-autoformat/vim-autoformat', cmd = 'Autoformat'}
+
+  -- Markdown preview in browser!
+  use {
+    'iamcco/markdown-preview.nvim',
+    run = ':call mkdp#util#install()',
+    ft = {'markdown', 'packer'},
+  }
+
   -- Fancier statusline
   use {
     'nvim-lualine/lualine.nvim',
@@ -96,13 +115,15 @@ require('packer').startup(function()
   }
 
   -- FZF
+  local cmd = {'Files', 'BLines', 'GFiles', 'Rg'}
   use {
     'junegunn/fzf.vim',
     requires = {
       'junegunn/fzf',
       run = ':call fzf#install()',
-      cmd = {'Files', 'BLines', 'GFiles', 'Rg'},
+      cmd = cmd,
     },
+    cmd = cmd,
   }
 
   -- Autocompletion plugin
@@ -127,6 +148,9 @@ end)
 -- 1}}}
 
 -- Neovim settings {{{1
+-- don't show redundant mode
+vim.o.showmode = false
+
 --Make line numbers default
 vim.wo.number = true
 
@@ -165,6 +189,11 @@ augroup end
 vim.cmd [[
 cnoreabbrev W w
 ]]
+
+vim.cmd [[
+nnoremap <leader>p "+p
+vnoremap <leader>y "+y
+]]
 -- 1}}}
 
 -- Plugin settings {{{1
@@ -183,6 +212,8 @@ local servers = {
   "clangd",
   "vimls",
   "emmet_ls",
+  "taplo", -- toml
+  "yamlls",
 }
 
 for _, name in pairs(servers) do
@@ -194,6 +225,7 @@ for _, name in pairs(servers) do
 end
 -- 3}}}
 
+-- Set up keymaps {{{3
 local on_attach = function(_, bufnr)
   local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
   local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
@@ -207,7 +239,7 @@ local on_attach = function(_, bufnr)
   buf_set_keymap('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
 
   -- Format buffer
-  buf_set_keymap('n', '<F3>', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
+  -- buf_set_keymap('n', '<F3>', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
 
   -- Jump LSP diagnostics
   -- NOTE: Currently, there is a bug in lspsaga.diagnostic module. Thus we use
@@ -237,13 +269,18 @@ local on_attach = function(_, bufnr)
   tnoremap <silent> <A-d> <C-\><C-n>:lua require('lspsaga.floaterm').close_float_terminal()<CR>
   ]]
 end
+-- 3}}}
 
--- nvim-cmp supports additional completion capabilities
-local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
+-- Additional server-specific options {{{3
+local server_specific_opts = {
+  clangd = function (opts)
+    opts.cmd = {
+      "clangd",
+      "--clang-tidy",
+      "--inlay-hints",
+    }
+  end,
 
--- Additional server options {{{3
-local enhanced_server_opts = {
   pylsp = function(opts)
     opts.settings = {
       pylsp = {
@@ -263,7 +300,7 @@ local enhanced_server_opts = {
         -- NOTE: This is required for expansion of lua function signatures!
         completion = {callSnippet = "Replace"},
         diagnostics = {
-          globals = { 'vim' }
+          globals = {'vim'}
         }
       }
     }
@@ -275,6 +312,10 @@ local enhanced_server_opts = {
 }
 -- 3}}}
 
+-- nvim-cmp supports additional completion capabilities
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
+
 lsp_installer.on_server_ready(function(server)
   local opts = {
     on_attach = on_attach,
@@ -282,8 +323,8 @@ lsp_installer.on_server_ready(function(server)
     capabilities = capabilities,
   }
 
-  if enhanced_server_opts[server.name] then
-    enhanced_server_opts[server.name](opts)
+  if server_specific_opts[server.name] then
+    server_specific_opts[server.name](opts)
   end
 
   server:setup(opts)
@@ -334,7 +375,7 @@ local cmp_kinds = {
 }
 -- 3}}}
 
-cmp.setup {
+cmp.setup({
   formatting = {
     format = lspkind.cmp_format({
       with_text = true,
@@ -359,7 +400,7 @@ cmp.setup {
   mapping = {
     ['<C-p>'] = cmp.mapping.select_prev_item(),
     ['<C-n>'] = cmp.mapping.select_next_item(),
-    ['<C-d>'] = cmp.mapping.scroll_docs(-4),
+    ['<C-b>'] = cmp.mapping.scroll_docs(-4),
     ['<C-f>'] = cmp.mapping.scroll_docs(4),
     ['<C-Space>'] = cmp.mapping.complete(),
     ['<C-e>'] = cmp.mapping.close(),
@@ -390,11 +431,11 @@ cmp.setup {
   },
 
   sources = {
-    { name = 'nvim_lsp' },
     { name = 'vsnip' },
+    { name = 'nvim_lsp' },
     { name = 'buffer' },
   },
-}
+})
 
 -- Use buffer source for `/` (if you enabled `native_menu`, this won't work anymore).
 cmp.setup.cmdline('/', {
@@ -463,9 +504,19 @@ require("indent_blankline").setup {
 
 -- treesitter
 require('nvim-treesitter.configs').setup {
-  ensure_installed = {"python", "rust", "c", "cpp", "bash", "go", "html"},
+  ensure_installed = {
+    "python",
+    "rust",
+    "c",
+    "cpp",
+    "bash",
+    "go",
+    "html",
+    "toml",
+  },
   highlight = {
     enable = true, -- false will disable the whole extension
+    additional_vim_regex_highlighting = false,
   },
 }
 
@@ -496,4 +547,12 @@ vim.g.AutoPairs = {
   ['`']='`',
   ['<']='>',
 }
+
+-- vim-markdown
+vim.g.vim_markdown_folding_disabled = true
+
+-- vim-autoformat
+vim.cmd [[
+noremap <F3> :Autoformat<CR> :w<CR>
+]]
 -- 1}}}
