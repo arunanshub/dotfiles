@@ -14,12 +14,12 @@ if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
   vim.fn.execute('!git clone https://github.com/wbthomason/packer.nvim ' .. install_path)
 end
 
-vim.cmd [[
-augroup Packer
+vim.cmd([[
+augroup packer_user_config
   autocmd!
-  autocmd BufWritePost init.lua PackerCompile
+  autocmd BufWritePost init.lua source <afile> | :PackerCompile
 augroup end
-]]
+]])
 -- 1}}}
 
 -- Plugins {{{1
@@ -46,14 +46,20 @@ require('packer').startup(function()
   -- "gc" to comment visual regions/lines
   use 'numToStr/Comment.nvim'
 
-  -- Git signs
-  use 'mhinz/vim-signify'
-
   -- surround text with stuff
   use 'tpope/vim-surround'
 
   -- sensible defaults
   use 'tpope/vim-sensible'
+
+  -- repeat a command
+  use 'tpope/vim-repeat'
+
+  -- alignment of text
+  use 'junegunn/vim-easy-align'
+
+  -- easy manipulation of text
+  use 'tpope/vim-abolish'
 
   -- useful mappings
   use 'tpope/vim-unimpaired'
@@ -62,13 +68,16 @@ require('packer').startup(function()
   use 'editorconfig/editorconfig-vim'
 
   -- Jump to any location specified by two characters
-  use 'justinmk/vim-sneak'
+  -- use 'justinmk/vim-sneak'
 
   -- NOTE: colorscheme
   use 'navarasu/onedark.nvim'
 
   -- LSP
   use 'neovim/nvim-lspconfig'
+
+  -- Git signs
+  use 'mhinz/vim-signify'
 
   -- LSP Server installer
   use {
@@ -78,7 +87,10 @@ require('packer').startup(function()
 
   -- LSP customizations
   use 'onsails/lspkind-nvim'
-  use {'tami5/lspsaga.nvim', requires = {'neovim/nvim-lspconfig'}}
+  use {
+    'tami5/lspsaga.nvim',
+    requires = {'neovim/nvim-lspconfig'},
+  }
 
   -- Git commands in nvim
   use {'tpope/vim-fugitive', cmd = {"G", "Git"}}
@@ -88,6 +100,9 @@ require('packer').startup(function()
 
   -- Markdown syntax highlighting
   use {'preservim/vim-markdown', ft = {'markdown'}}
+
+  -- python indent fix
+  use {'Vimjas/vim-python-pep8-indent', ft = {'python'}}
 
   -- Auto formatting
   use {'vim-autoformat/vim-autoformat', cmd = 'Autoformat'}
@@ -148,7 +163,14 @@ end)
 -- 1}}}
 
 -- Neovim settings {{{1
--- don't show redundant mode
+-- fix tab and indent issues
+vim.o.tabstop = 4
+vim.o.shiftwidth = 4
+vim.o.autoindent = true
+vim.o.expandtab = true
+vim.o.smarttab = true
+
+-- do not show the `--INSERT--` line
 vim.o.showmode = false
 
 --Make line numbers default
@@ -166,6 +188,8 @@ vim.o.smartcase = true
 
 --Decrease update time
 vim.o.updatetime = 250
+
+-- show the signcolumn (used by vim-signify)
 vim.wo.signcolumn = 'yes'
 
 --Set colorscheme
@@ -378,7 +402,7 @@ local cmp_kinds = {
 cmp.setup({
   formatting = {
     format = lspkind.cmp_format({
-      with_text = true,
+      mode = 'symbol_text',
       preset = 'codicons',
       symbol_map = cmp_kinds,
       menu = ({
@@ -553,6 +577,19 @@ vim.g.vim_markdown_folding_disabled = true
 
 -- vim-autoformat
 vim.cmd [[
-noremap <F3> :Autoformat<CR> :w<CR>
+nnoremap <F3> :Autoformat<CR> :w<CR>
 ]]
+
+-- markdown-preview
+vim.cmd [[
+nnoremap <M-m> :MarkdownPreview<CR>
+]]
+
+-- vim-signify
+vim.cmd [[
+nnoremap <F3> :SignifyHunkDiff<CR>
+]]
+
+-- vim-python-pep8-indent
+vim.g.python_pep8_indent_multiline_string = -1
 -- 1}}}
