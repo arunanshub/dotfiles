@@ -119,4 +119,4 @@ AG_NO_CONTEXT="true"
 alias vi='nvim'
 alias vim='nvim'
 alias pp='bat'
-alias ls='lsd'
+alias ls='lsd --blocks permission,user,size,name'
