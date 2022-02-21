@@ -1,250 +1,122 @@
-#
-# ~/.bashrc
-#
-
-export GPG_TTY=$(tty)
-
-[[ $- != *i* ]] && return
-
-colors() {
-    local fgc bgc vals seq0
-
-    printf "Color escapes are %s\n" '\e[${value};...;${value}m'
-    printf "Values 30..37 are \e[33mforeground colors\e[m\n"
-    printf "Values 40..47 are \e[43mbackground colors\e[m\n"
-    printf "Value  1 gives a  \e[1mbold-faced look\e[m\n\n"
-
-    # foreground colors
-    for fgc in {30..37}; do
-        # background colors
-        for bgc in {40..47}; do
-            fgc=${fgc#37} # white
-            bgc=${bgc#40} # black
-
-            vals="${fgc:+$fgc;}${bgc}"
-            vals=${vals%%;}
-
-            seq0="${vals:+\e[${vals}m}"
-            printf "  %-9s" "${seq0:-(default)}"
-            printf " ${seq0}TEXT\e[m"
-            printf " \e[${vals:+${vals+$vals;}}1mBOLD\e[m"
-        done
-        echo; echo
-    done
-}
-
-# [ -r /usr/share/bash-completion/bash_completion ] && . /usr/share/bash-completion/bash_completion
-
-# Change the window title of X terminals
-case ${TERM} in
-    xterm*|rxvt*|Eterm*|aterm|kterm|gnome*|interix|konsole*)
-        PROMPT_COMMAND='echo -ne "\033]0;${USER}@${HOSTNAME%%.*}:${PWD/#$HOME/\~}\007"'
-        ;;
-    screen*)
-        PROMPT_COMMAND='echo -ne "\033_${USER}@${HOSTNAME%%.*}:${PWD/#$HOME/\~}\033\\"'
-        ;;
+# Enable the subsequent settings only in interactive sessions
+case $- in
+  *i*) ;;
+    *) return;;
 esac
 
-use_color=true
+# Path to your oh-my-bash installation.
+export OSH=~/.oh-my-bash
 
-# Set colorful PS1 only on colorful terminals.
-# dircolors --print-database uses its own built-in database
-# instead of using /etc/DIR_COLORS.  Try to use the external file
-# first to take advantage of user additions.  Use internal bash
-# globbing instead of external grep binary.
-safe_term=${TERM//[^[:alnum:]]/?}   # sanitize TERM
-match_lhs=""
-[[ -f ~/.dir_colors   ]] && match_lhs="${match_lhs}$(<~/.dir_colors)"
-[[ -f /etc/DIR_COLORS ]] && match_lhs="${match_lhs}$(</etc/DIR_COLORS)"
-[[ -z ${match_lhs}    ]] \
-    && type -P dircolors >/dev/null \
-    && match_lhs=$(dircolors --print-database)
-    [[ $'\n'${match_lhs} == *$'\n'"TERM "${safe_term}* ]] && use_color=true
+# Set name of the theme to load. Optionally, if you set this to "random"
+# it'll load a random theme each time that oh-my-bash is loaded.
+OSH_THEME="agnoster"
 
-    if ${use_color} ; then
-        # Enable colors for ls, etc.  Prefer ~/.dir_colors #64489
-        if type -P dircolors >/dev/null ; then
-            if [[ -f ~/.dir_colors ]] ; then
-                eval $(dircolors -b ~/.dir_colors)
-            elif [[ -f /etc/DIR_COLORS ]] ; then
-                eval $(dircolors -b /etc/DIR_COLORS)
-            fi
-        fi
+# Uncomment the following line to use case-sensitive completion.
+# CASE_SENSITIVE="true"
 
-        if [[ ${EUID} == 0 ]] ; then
-            PS1='\[\033[01;31m\][\h\[\033[01;36m\] \W\[\033[01;31m\]]\$\[\033[00m\] '
-        else
-            PS1='\[\033[01;32m\][\u@\h\[\033[01;37m\] \W\[\033[01;32m\]]\$\[\033[00m\] '
-        fi
+# Uncomment the following line to use hyphen-insensitive completion. Case
+# sensitive completion must be off. _ and - will be interchangeable.
+# HYPHEN_INSENSITIVE="true"
 
-        alias ls='ls --color=auto'
-        alias grep='grep --colour=auto'
-        alias egrep='egrep --colour=auto'
-        alias fgrep='fgrep --colour=auto'
-    else
-        if [[ ${EUID} == 0 ]] ; then
-            # show root@ when we don't have colors
-            PS1='\u@\h \W \$ '
-        else
-            PS1='\u@\h \w \$ '
-        fi
-    fi
+# Uncomment the following line to disable bi-weekly auto-update checks.
+# DISABLE_AUTO_UPDATE="true"
 
-    unset use_color safe_term match_lhs sh
+# Uncomment the following line to change how often to auto-update (in days).
+# export UPDATE_OSH_DAYS=13
 
-    alias cp="cp -i"                          # confirm before overwriting something
-    alias df='df -h'                          # human-readable sizes
-    alias free='free -m'                      # show sizes in MB
-    alias np='nano -w PKGBUILD'
-    alias more=less
+# Uncomment the following line to disable colors in ls.
+# DISABLE_LS_COLORS="true"
 
-    xhost +local:root > /dev/null 2>&1
+# Uncomment the following line to disable auto-setting terminal title.
+# DISABLE_AUTO_TITLE="true"
 
-#complete -cf sudo
+# Uncomment the following line to enable command auto-correction.
+ENABLE_CORRECTION="true"
 
-# Bash won't get SIGWINCH if another process is in the foreground.
-# Enable checkwinsize so that bash will check the terminal size when
-# it regains control.  #65623
-# http://cnswww.cns.cwru.edu/~chet/bash/FAQ (E11)
-shopt -s checkwinsize
+# Uncomment the following line to display red dots whilst waiting for completion.
+COMPLETION_WAITING_DOTS="true"
 
-shopt -s expand_aliases
+# Uncomment the following line if you want to disable marking untracked files
+# under VCS as dirty. This makes repository status check for large repositories
+# much, much faster.
+# DISABLE_UNTRACKED_FILES_DIRTY="true"
 
-# export QT_SELECT=4
+# Uncomment the following line if you want to change the command execution time
+# stamp shown in the history command output.
+# The optional three formats: "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
+# HIST_STAMPS="mm/dd/yyyy"
 
-# Enable history appending instead of overwriting.  #139609
-shopt -s histappend
+# Would you like to use another custom folder than $OSH/custom?
+# OSH_CUSTOM=/path/to/new-custom-folder
 
+# Which completions would you like to load? (completions can be found in ~/.oh-my-bash/completions/*)
+# Custom completions may be added to ~/.oh-my-bash/custom/completions/
+# Example format: completions=(ssh git bundler gem pip pip3)
+# Add wisely, as too many completions slow down shell startup.
+completions=(
+  git
+  composer
+  ssh
+)
+
+# Which aliases would you like to load? (aliases can be found in ~/.oh-my-bash/aliases/*)
+# Custom aliases may be added to ~/.oh-my-bash/custom/aliases/
+# Example format: aliases=(vagrant composer git-avh)
+# Add wisely, as too many aliases slow down shell startup.
+aliases=(
+  general
+)
+
+# Which plugins would you like to load? (plugins can be found in ~/.oh-my-bash/plugins/*)
+# Custom plugins may be added to ~/.oh-my-bash/custom/plugins/
+# Example format: plugins=(rails git textmate ruby lighthouse)
+# Add wisely, as too many plugins slow down shell startup.
+plugins=(
+  git
+  bashmarks
+)
+
+# Which plugins would you like to conditionally load? (plugins can be found in ~/.oh-my-bash/plugins/*)
+# Custom plugins may be added to ~/.oh-my-bash/custom/plugins/
+# Example format:
+#  if [ "$DISPLAY" ] || [ "$SSH" ]; then
+#      plugins+=(tmux-autoattach)
+#  fi
+
+source "$OSH"/oh-my-bash.sh
+
+# User configuration
+# export MANPATH="/usr/local/man:$MANPATH"
+export GPG_TTY=$(tty)
+
+# Do not display the username@hostname for agnoster theme
+AG_NO_CONTEXT="true"
+
+# You may need to manually set your language environment
+# export LANG=en_US.UTF-8
+
+# Preferred editor for local and remote sessions
+# if [[ -n $SSH_CONNECTION ]]; then
+#   export EDITOR='vim'
+# else
+#   export EDITOR='mvim'
+# fi
+
+# Compilation flags
+# export ARCHFLAGS="-arch x86_64"
+
+# ssh
+# export SSH_KEY_PATH="~/.ssh/rsa_id"
+
+# Set personal aliases, overriding those provided by oh-my-bash libs,
+# plugins, and themes. Aliases can be placed here, though oh-my-bash
+# users are encouraged to define aliases within the OSH_CUSTOM folder.
+# For a full list of active aliases, run `alias`.
 #
-# # ex - archive extractor
-# # usage: ex <file>
-ex ()
-{
-    if [ -f $1 ] ; then
-        case $1 in
-            *.tar.bz2)   tar xjf $1   ;;
-            *.tar.gz)    tar xzf $1   ;;
-            *.bz2)       bunzip2 $1   ;;
-            *.rar)       unrar x $1   ;;
-            *.gz)        gunzip $1    ;;
-            *.tar)       tar xf $1    ;;
-            *.tbz2)      tar xjf $1   ;;
-            *.tgz)       tar xzf $1   ;;
-            *.zip)       unzip $1     ;;
-            *.Z)         uncompress $1;;
-            *.7z)        7z x $1      ;;
-            *)           echo "'$1' cannot be extracted via ex()" ;;
-        esac
-    else
-        echo "'$1' is not a valid file"
-    fi
-}
-
-# C/C++ source beautifier
-iblack()
-{
-    local d
-    case $1 in
-        -h|--help)
-            echo "usage: iblack <directory or file>"
-            return 0 ;;
-    esac
-    d=$1
-    if [[ ! $d ]] ; then
-        >&2 echo "No directory given. Stopping..."
-        return 1
-    elif [[ ! -d $d ]]; then
-        >&2 echo "'$d' is a file"
-    fi
-    isort -m 3 $d && black -l 79 -t py39 $d
-}
-
-cindent()
-{
-    case $1 in
-        -h|--help)
-            echo "usage: cindent [directory] [style] [pattern]"
-            return 0 ;;
-    esac
-
-    local dir_=$1 style=$2 pattern=$3
-    if [[ ! $dir_ ]] ; then
-        dir_="."
-    fi
-    if [[ ! $pattern ]] ; then
-        pattern=".*/*\.((c)|(cc)|(cpp)|(h)|(hpp)|(cxx))"
-    fi
-    if [[ ! $style ]] ; then
-        style="Chromium"
-    fi
-
-    for i in $(find "$dir_" -regextype egrep -regex "$pattern" -type f)
-    do
-        echo "$i"
-        clang-format -style="{BasedOnStyle: $style, ColumnLimit: 79, IndentWidth: 4}" -i "$i"
-    done
-}
-
-mkcd() {
-    mkdir -p $1; cd $1
-}
-
-# "gud" aliases
-alias diff="diff --color"
-alias gpp="g++ -Wall -Wextra -pedantic -O3"
-alias gp="gcc -Wall -Wextra -pedantic -O3"
-alias l="lsd -F --group-dirs last"
-alias li="lsd -AF --group-dirs last"
-alias ll="lsd -F --blocks permission,user,size,name --group-dirs last"
-alias la="lsd -AF --blocks permission,user,size,name --group-dirs last"
-alias vi="nvim"
-alias vim="nvim"
-alias pp="bat"
-
-# some useful aliases from garuda linux's bashrc
-alias dir='dir --color=auto'
-alias fixpacman="sudo rm /var/lib/pacman/db.lck"
-alias hw='hwinfo --short'
-alias psmem10='ps auxf | sort -nr -k 4 | head -10'
-alias psmem='ps auxf | sort -nr -k 4'
-alias rmpkg="sudo pacman -Rdd"
-alias tarnow='tar -acf '
-alias untar='tar -zxvf '
-alias vdir='vdir --color=auto'
-alias wget='wget -c '
-alias cleanup='sudo pacman -Rns `pacman -Qtdq`'
-alias jctl="journalctl -p 3 -xb"
-alias rip="expac --timefmt='%Y-%m-%d %T' '%l\t%n %v' | sort | tail -200 | nl"
-alias sudo='sudo ' # allows using other aliases in sudo
-
-if [[ "$(uname -o)" == "Android" ]]; then
-    # Termux doesn't support complex MANPAGER commands
-    export LESS_TERMCAP_mb=$'\e[1;32m'
-    export LESS_TERMCAP_md=$'\e[1;32m'
-    export LESS_TERMCAP_me=$'\e[0m'
-    export LESS_TERMCAP_se=$'\e[0m'
-    export LESS_TERMCAP_so=$'\e[01;33m'
-    export LESS_TERMCAP_ue=$'\e[0m'
-    export LESS_TERMCAP_us=$'\e[1;4;31m'
-else
-    # export MANPAGER="sh -c 'sed -e s/.\\\\x08//g | bat --paging always -l man -p'"
-    export MANPAGER="sh -c 'col -bx | bat --paging always -l man -p'"
-fi
-
-export EDITOR=/bin/nvim
-
-# export PATH=$PATH:~/.local/share/gem/ruby/3.0.0/bin
-export PATH=$PATH:/home/arunanshub/.cargo/bin
-
-# heroku autocomplete setup
-HEROKU_AC_BASH_SETUP_PATH=/home/arunanshub/.cache/heroku/autocomplete/bash_setup && test -f $HEROKU_AC_BASH_SETUP_PATH && source $HEROKU_AC_BASH_SETUP_PATH;
-
-# pip bash completion start
-_pip_completion()
-{
-    COMPREPLY=( $( COMP_WORDS="${COMP_WORDS[*]}" \
-        COMP_CWORD=$COMP_CWORD \
-        PIP_AUTO_COMPLETE=1 $1 2>/dev/null ) )
-    }
-complete -o default -F _pip_completion pip
-# pip bash completion end
+# Example aliases
+# alias bashconfig="mate ~/.bashrc"
+# alias ohmybash="mate ~/.oh-my-bash"
+alias vi='nvim'
+alias vim='nvim'
+alias pp='bat'
+alias ls='lsd'
