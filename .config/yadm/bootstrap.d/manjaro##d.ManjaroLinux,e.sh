@@ -17,5 +17,3 @@ install_required() {
 main() {
     update_mirrorlist_and_packages && install_required
 }
-
-main
