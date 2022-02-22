@@ -3,15 +3,15 @@
 # Font configuration {{{1 #
 font:
   normal:
-    family: 'Fira Mono Medium'
-    style: Regular
+    family: 'FiraMono Nerd Font'
+    style: Medium
 
   bold:
-    family: 'Fira Mono'
+    family: 'FiraMono Nerd Font'
     style: Bold
 
   medium:
-    family: 'Fira Mono'
+    family: 'FiraMono Nerd Font'
     style: Medium
 
   size: 13
