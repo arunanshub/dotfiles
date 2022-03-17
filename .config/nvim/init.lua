@@ -71,7 +71,16 @@ require('packer').startup(function()
   -- use 'justinmk/vim-sneak'
 
   -- NOTE: colorscheme
-  use 'navarasu/onedark.nvim'
+  use {
+      'navarasu/onedark.nvim',
+    config = function ()
+      require("onedark").setup({
+        style = "darker",
+      })
+      require('onedark').load()
+    end
+  }
+
 
   -- LSP
   use 'neovim/nvim-lspconfig'
@@ -186,17 +195,47 @@ vim.o.breakindent = true
 vim.o.ignorecase = true
 vim.o.smartcase = true
 
---Decrease update time
-vim.o.updatetime = 250
-
 -- show the signcolumn (used by vim-signify)
 vim.wo.signcolumn = 'yes'
 
---Set colorscheme
+--Set 24 bit colors
 vim.o.termguicolors = true
 
 -- Set completeopt to have a better completion experience
-vim.o.completeopt = 'menu,menuone'
+vim.o.completeopt = 'menuone,noselect'
+
+-- performance
+vim.o.hidden = true -- Enable background buffers
+vim.o.history = 100 -- Remember N lines in history
+vim.o.lazyredraw = true -- Faster scrolling
+vim.o.synmaxcol = 240 -- Max column for syntax highlight
+vim.o.updatetime = 400 -- ms to wait for trigger 'document_highlight'
+
+-- Disable builtins plugins
+local disabled_built_ins = {
+    "netrw",
+    "netrwPlugin",
+    "netrwSettings",
+    "netrwFileHandlers",
+    "gzip",
+    "zip",
+    "zipPlugin",
+    "tar",
+    "tarPlugin",
+    "getscript",
+    "getscriptPlugin",
+    "vimball",
+    "vimballPlugin",
+    "2html_plugin",
+    "logipat",
+    "rrhelper",
+    "spellfile_plugin",
+    "matchit"
+}
+
+for _, plugin in pairs(disabled_built_ins) do
+    vim.g["loaded_" .. plugin] = 1
+end
 
 --Remap for dealing with word wrap
 vim.api.nvim_set_keymap('n', 'k', "v:count == 0 ? 'gk' : 'k'", { noremap = true, expr = true, silent = true })
@@ -455,8 +494,9 @@ cmp.setup({
   },
 
   sources = {
-    { name = 'vsnip' },
     { name = 'nvim_lsp' },
+    { name = 'vsnip' },
+    { name = 'path' },
     { name = 'buffer' },
   },
 })
@@ -494,12 +534,6 @@ require("lspsaga").init_lsp_saga({
 
 -- todo-comments
 require("todo-comments").setup()
-
--- onedark
-require("onedark").setup({
-  style = "darker",
-})
-require('onedark').load()
 
 -- Lualine
 require('lualine').setup({
@@ -539,8 +573,7 @@ require('nvim-treesitter.configs').setup {
     "toml",
   },
   highlight = {
-    enable = true, -- false will disable the whole extension
-    additional_vim_regex_highlighting = false,
+    enable = true,
   },
 }
 
@@ -582,7 +615,7 @@ nnoremap <F3> :Autoformat<CR> :w<CR>
 
 -- markdown-preview
 vim.cmd [[
-nnoremap <M-m> :MarkdownPreview<CR>
+nnoremap <M-m> :MarkdownPreviewToggle<CR>
 ]]
 
 -- vim-signify
@@ -592,4 +625,10 @@ nnoremap <F3> :SignifyHunkDiff<CR>
 
 -- vim-python-pep8-indent
 vim.g.python_pep8_indent_multiline_string = -1
+
+-- vim-easy-align
+vim.cmd [[
+xmap ga <Plug>(EasyAlign)
+nmap ga <Plug>(EasyAlign)
+]]
 -- 1}}}
