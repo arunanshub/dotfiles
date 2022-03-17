@@ -81,12 +81,20 @@ require('packer').startup(function()
     end
   }
 
-
   -- LSP
   use 'neovim/nvim-lspconfig'
 
   -- Git signs
-  use 'mhinz/vim-signify'
+  use {
+    'lewis6991/gitsigns.nvim',
+    requires =  'nvim-lua/plenary.nvim',
+    config = function()
+      require('gitsigns').setup({
+        yadm = {enable = true},
+      })
+      vim.cmd "nnoremap <F3> :Gitsigns preview_hunk<CR>"
+    end
+  }
 
   -- LSP Server installer
   use {
@@ -616,11 +624,6 @@ nnoremap <F3> :Autoformat<CR> :w<CR>
 -- markdown-preview
 vim.cmd [[
 nnoremap <M-m> :MarkdownPreviewToggle<CR>
-]]
-
--- vim-signify
-vim.cmd [[
-nnoremap <F3> :SignifyHunkDiff<CR>
 ]]
 
 -- vim-python-pep8-indent
