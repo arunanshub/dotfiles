@@ -44,7 +44,13 @@ require('packer').startup(function()
   use 'vim-scripts/auto-pairs-gentle'
 
   -- "gc" to comment visual regions/lines
-  use 'numToStr/Comment.nvim'
+  use {
+    'numToStr/Comment.nvim',
+    tag = 'v0.6',
+    config = function ()
+        require("Comment").setup()
+    end
+  }
 
   -- surround text with stuff
   use 'tpope/vim-surround'
@@ -135,7 +141,7 @@ require('packer').startup(function()
   use {
     'nvim-lualine/lualine.nvim',
     requires = {
-      'kyazdani42/nvim-web-devicons',
+      'ryanoasis/vim-devicons',
       'arkav/lualine-lsp-progress',
     },
   }
@@ -474,7 +480,7 @@ cmp.setup({
     ['<C-b>'] = cmp.mapping.scroll_docs(-4),
     ['<C-f>'] = cmp.mapping.scroll_docs(4),
     ['<C-Space>'] = cmp.mapping.complete(),
-    ['<C-e>'] = cmp.mapping.close(),
+    ['<C-e>'] = cmp.mapping.abort(),
     ['<CR>'] = cmp.mapping.confirm {
       behavior = cmp.ConfirmBehavior.Replace,
       select = true,
@@ -501,16 +507,17 @@ cmp.setup({
     end, { "i", "s" }),
   },
 
-  sources = {
+  sources = cmp.config.sources({
     { name = 'nvim_lsp' },
     { name = 'vsnip' },
-    { name = 'path' },
+  }, {
     { name = 'buffer' },
-  },
+  }),
 })
 
 -- Use buffer source for `/` (if you enabled `native_menu`, this won't work anymore).
 cmp.setup.cmdline('/', {
+  mapping = cmp.mapping.preset.cmdline(),
   sources = {
     { name = 'buffer' }
   }
@@ -518,6 +525,7 @@ cmp.setup.cmdline('/', {
 
 -- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
 cmp.setup.cmdline(':', {
+  mapping = cmp.mapping.preset.cmdline(),
   sources = cmp.config.sources({
     { name = 'path' }
   }, {
@@ -552,9 +560,6 @@ require('lualine').setup({
     },
   },
 })
-
--- Comment
-require('Comment').setup()
 
 -- indent-blankline
 require("indent_blankline").setup {
@@ -610,7 +615,7 @@ vim.g.AutoPairs = {
   ["'"]="'",
   ['"']='"',
   ['`']='`',
-  ['<']='>',
+  -- ['<']='>',
 }
 
 -- vim-markdown
