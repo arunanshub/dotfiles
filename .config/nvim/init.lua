@@ -82,7 +82,13 @@ require("packer").startup(function()
     use({ "vim-autoformat/vim-autoformat", cmd = "Autoformat" })
 
     -- highlight instances of 'todo', 'fixme' etc.
-    use({ "folke/todo-comments.nvim", requires = "nvim-lua/plenary.nvim" })
+    use({
+        "folke/todo-comments.nvim",
+        requires = "nvim-lua/plenary.nvim",
+        config = function()
+            require("todo-comments").setup()
+        end,
+    })
 
     -- "gc" to comment visual regions/lines
     use({
@@ -594,9 +600,6 @@ require("lspsaga").init_lsp_saga({
         quit = "<esc>",
     },
 })
-
--- todo-comments
-require("todo-comments").setup()
 
 -- Lualine
 require("lualine").setup({
