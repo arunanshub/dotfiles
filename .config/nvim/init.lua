@@ -173,6 +173,11 @@ require("packer").startup(function()
             "rafamadriz/friendly-snippets",
         },
     })
+    use({
+        "tzachar/cmp-tabnine",
+        run = "./install.sh",
+        requires = "hrsh7th/nvim-cmp",
+    })
     ---------------------------------------------------------
 
     ---------------------- Git section ----------------------
@@ -293,176 +298,11 @@ vnoremap <leader>y "+y
 
 -- Plugin settings {{{1
 
--- lspconfig and LSP installer {{{2
-local SERVERS = {
-    "bashls",
-    "pyright",
-    "rust_analyzer",
-    "sumneko_lua",
-    "html",
-    "clangd",
-    "vimls",
-    "emmet_ls",
-    "taplo", -- toml
-    "yamlls",
-    "dartls",
-}
-
-local lsp_installer = require "nvim-lsp-installer"
-lsp_installer.setup({ ensure_installed = SERVERS })
-local lspconfig = require "lspconfig"
-
--- Set up keymaps {{{3
-local on_attach = function(_, bufnr)
-    local function buf_set_keymap(...)
-        vim.keymap.set(...)
-    end
-    local function buf_set_option(...)
-        vim.api.nvim_buf_set_option(bufnr, ...)
-    end
-
-    -- Enable completion triggered by <c-x><c-o>
-    buf_set_option("omnifunc", "v:lua.vim.lsp.omnifunc")
-
-    local opts = { noremap = true, silent = true, buffer = bufnr }
-
-    -- jump to definition
-    buf_set_keymap("n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", opts)
-
-    -- Format buffer
-    -- buf_set_keymap('n', '<F3>', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
-
-    -- Jump LSP diagnostics
-    -- NOTE: Currently, there is a bug in lspsaga.diagnostic module. Thus we use
-    -- NOTE: Vim commands to move through diagnostics.
-    buf_set_keymap("n", "[g", ":Lspsaga diagnostic_jump_prev<CR>", opts)
-    buf_set_keymap("n", "]g", ":Lspsaga diagnostic_jump_next<CR>", opts)
-
-    -- Rename symbol
-    buf_set_keymap(
-        "n",
-        "<leader>rn",
-        "<cmd>lua require('lspsaga.rename').rename()<CR>",
-        opts
-    )
-
-    -- Find references
-    buf_set_keymap(
-        "n",
-        "gr",
-        '<cmd>lua require("lspsaga.provider").lsp_finder()<CR>',
-        opts
-    )
-
-    -- Doc popup scrolling
-    buf_set_keymap(
-        "n",
-        "K",
-        "<cmd>lua require('lspsaga.hover').render_hover_doc()<CR>",
-        opts
-    )
-    buf_set_keymap(
-        "n",
-        "<C-f>",
-        "<cmd>lua require('lspsaga.action').smart_scroll_with_saga(1)<CR>",
-        opts
-    )
-    buf_set_keymap(
-        "n",
-        "<C-b>",
-        "<cmd>lua require('lspsaga.action').smart_scroll_with_saga(-1)<CR>",
-        opts
-    )
-
-    -- codeaction
-    buf_set_keymap(
-        "n",
-        "<leader>ac",
-        "<cmd>lua require('lspsaga.codeaction').code_action()<CR>",
-        opts
-    )
-    buf_set_keymap(
-        "v",
-        "<leader>a",
-        ":<C-U>lua require('lspsaga.codeaction').range_code_action()<CR>",
-        opts
-    )
-
-    -- Floating terminal
-    -- NOTE: Use `vim.cmd` since `buf_set_keymap` is not working with `tnoremap...`
-    vim.cmd [[
-  nnoremap <silent> <A-d> <cmd>lua require('lspsaga.floaterm').open_float_terminal()<CR>
-  tnoremap <silent> <A-d> <C-\><C-n>:lua require('lspsaga.floaterm').close_float_terminal()<CR>
-  ]]
-end
--- 3}}}
-
--- server-specific options {{{3
-local SERVER_SPECIFIC_OPTS = {
-    clangd = function(opts)
-        opts.cmd = {
-            "clangd",
-            "--clang-tidy",
-        }
-    end,
-    pylsp = function(opts)
-        opts.settings = {
-            pylsp = {
-                -- configurationSources = {"flake8"},
-                plugins = {
-                    jedi_completion = { include_params = true },
-                    flake8 = { enabled = true },
-                    pycodestyle = { enabled = false },
-                },
-            },
-        }
-    end,
-    sumneko_lua = function(opts)
-        opts.settings = {
-            Lua = {
-                -- NOTE: This is required for expansion of lua function signatures!
-                runtime = { version = "LuaJIT" },
-                workspace = {
-                    library = vim.api.nvim_get_runtime_file("", true),
-                },
-                completion = { callSnippet = "Replace" },
-                diagnostics = {
-                    globals = { "vim", "P" },
-                },
-            },
-        }
-    end,
-    html = function(opts)
-        opts.filetypes = { "html", "htmldjango" }
-    end,
-}
--- 3}}}
-
--- nvim-cmp supports additional completion capabilities
-local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities = require("cmp_nvim_lsp").update_capabilities(capabilities)
-
-for _, server in ipairs(SERVERS) do
-    local opts = {
-        on_attach = on_attach,
-        flags = { debounce_text_changes = 150 },
-        capabilities = capabilities,
-    }
-
-    if SERVER_SPECIFIC_OPTS[server] then
-        SERVER_SPECIFIC_OPTS[server](opts)
-    end
-
-    lspconfig[server].setup(opts)
-end
--- 2}}}
-
 -- nvim-cmp: Autocompletion plugin {{{2
 local lspkind = require "lspkind"
 local cmp = require "cmp"
 
 local has_words_before = function()
-    ---@diagnostic disable-next-line: deprecated
     local line, col = unpack(vim.api.nvim_win_get_cursor(0))
     return col ~= 0
         and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]
@@ -529,9 +369,7 @@ cmp.setup({
             vim.fn["vsnip#anonymous"](args.body)
         end,
     },
-    mapping = {
-        ["<C-p>"] = cmp.mapping.select_prev_item(),
-        ["<C-n>"] = cmp.mapping.select_next_item(),
+    mapping = cmp.mapping.preset.insert({
         ["<C-b>"] = cmp.mapping.scroll_docs(-4),
         ["<C-f>"] = cmp.mapping.scroll_docs(4),
         ["<C-Space>"] = cmp.mapping.complete(),
@@ -548,8 +386,7 @@ cmp.setup({
             elseif has_words_before() then
                 cmp.complete()
             else
-                -- The fallback function sends a already mapped key. In this case, it's probably `<Tab>`.
-                fallback()
+                fallback() -- The fallback function sends a already mapped key. In this case, it's probably `<Tab>`.
             end
         end, { "i", "s" }),
         ["<S-Tab>"] = cmp.mapping(function()
@@ -559,10 +396,11 @@ cmp.setup({
                 feedkey("<Plug>(vsnip-jump-prev)", "")
             end
         end, { "i", "s" }),
-    },
+    }),
     sources = cmp.config.sources({
         { name = "vsnip" },
         { name = "nvim_lsp" },
+        { name = "cmp_tabnine" },
     }, {
         { name = "buffer" },
     }),
@@ -585,6 +423,138 @@ cmp.setup.cmdline(":", {
         { name = "cmdline" },
     }),
 })
+-- 2}}}
+
+-- lspconfig and LSP installer {{{2
+local SERVERS = {
+    "bashls",
+    "pyright",
+    "rust_analyzer",
+    "sumneko_lua",
+    "html",
+    "clangd",
+    "vimls",
+    "emmet_ls",
+    "taplo", -- toml
+    "yamlls",
+}
+
+local lsp_installer = require "nvim-lsp-installer"
+lsp_installer.setup({ ensure_installed = SERVERS })
+local lspconfig = require "lspconfig"
+
+-- Set up keymaps {{{3
+local on_attach = function(_, bufnr)
+    local opts = { noremap = true, silent = true, buffer = bufnr }
+
+    -- Lspsaga based config
+    vim.keymap.set("n", "<leader>rn", require("lspsaga.rename").rename, opts)
+    vim.keymap.set("n", "gr", require("lspsaga.provider").lsp_finder, opts)
+    vim.keymap.set("n", "]g", ":Lspsaga diagnostic_jump_next<CR>", opts)
+    vim.keymap.set("n", "[g", ":Lspsaga diagnostic_jump_prev<CR>", opts)
+    vim.keymap.set("n", "K", require("lspsaga.hover").render_hover_doc, opts)
+    vim.keymap.set("n", "<C-F>", function()
+        require("lspsaga.action").smart_scroll_with_saga(1)
+    end, opts)
+    vim.keymap.set("n", "<C-B>", function()
+        require("lspsaga.action").smart_scroll_with_saga(-1)
+    end, opts)
+    vim.keymap.set(
+        "n",
+        "gD",
+        require("lspsaga.provider").preview_definition,
+        opts
+    )
+    vim.keymap.set(
+        "n",
+        "<leader>ca",
+        require("lspsaga.codeaction").code_action,
+        opts
+    )
+    vim.keymap.set(
+        "v",
+        "<leader>ca",
+        ':<C-U>lua require("lspsaga.codeaction").range_code_action()<CR>',
+        opts
+    )
+
+    vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
+    vim.keymap.set("n", "gi", vim.lsp.buf.implementation, opts)
+    vim.keymap.set("n", "<C-k>", vim.lsp.buf.signature_help, opts)
+    vim.keymap.set("n", "<leader>wa", vim.lsp.buf.add_workspace_folder, opts)
+    vim.keymap.set("n", "<leader>D", vim.lsp.buf.type_definition, opts)
+    vim.keymap.set(
+        "n",
+        "<leader>wr",
+        vim.lsp.buf.remove_workspace_folder,
+        opts
+    )
+    vim.keymap.set("n", "<leader>wl", function()
+        vim.inspect(vim.lsp.buf.list_workspace_folders())
+    end, opts)
+    vim.api.nvim_create_user_command("Format", vim.lsp.buf.formatting, {})
+end
+-- 3}}}
+
+-- server-specific options {{{3
+local SERVER_SPECIFIC_OPTS = {
+    clangd = function(opts)
+        opts.cmd = {
+            "clangd",
+            "--clang-tidy",
+        }
+    end,
+    pylsp = function(opts)
+        opts.settings = {
+            pylsp = {
+                -- configurationSources = {"flake8"},
+                plugins = {
+                    jedi_completion = { include_params = true },
+                    flake8 = { enabled = true },
+                    pycodestyle = { enabled = false },
+                },
+            },
+        }
+    end,
+    sumneko_lua = function(opts)
+        opts.settings = {
+            Lua = {
+                -- NOTE: This is required for expansion of lua function signatures!
+                runtime = { version = "LuaJIT" },
+                workspace = {
+                    library = vim.api.nvim_get_runtime_file("", true),
+                },
+                completion = { callSnippet = "Replace" },
+                diagnostics = {
+                    globals = { "vim", "P" },
+                },
+            },
+        }
+    end,
+    html = function(opts)
+        opts.filetypes = { "html", "htmldjango" }
+    end,
+}
+-- 3}}}
+
+-- nvim-cmp supports additional completion capabilities
+local capabilities = require("cmp_nvim_lsp").update_capabilities(
+    vim.lsp.protocol.make_client_capabilities()
+)
+
+for _, server in ipairs(SERVERS) do
+    local opts = {
+        on_attach = on_attach,
+        -- flags = { debounce_text_changes = 150 },
+        capabilities = capabilities,
+    }
+
+    if SERVER_SPECIFIC_OPTS[server] then
+        SERVER_SPECIFIC_OPTS[server](opts)
+    end
+
+    lspconfig[server].setup(opts)
+end
 -- 2}}}
 
 -- lspsaga
