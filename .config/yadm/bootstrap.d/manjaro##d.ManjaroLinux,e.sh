@@ -4,6 +4,11 @@ REQUIRED=(
     "python-tensorflow"
     "brave-browser"
     "ipython"
+    "bat"
+    "ventoy"
+    "deja-dup"
+    "nodejs"
+    "neovim"
 )
 
 update_mirrorlist_and_packages() {
@@ -17,3 +22,5 @@ install_required() {
 main() {
     update_mirrorlist_and_packages && install_required
 }
+
+main
