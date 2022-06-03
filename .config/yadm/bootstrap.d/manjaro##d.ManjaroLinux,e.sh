@@ -7,8 +7,13 @@ REQUIRED=(
     "bat"
     "ventoy"
     "deja-dup"
-    "nodejs"
+    "npm"
     "neovim"
+    "tlp"
+    "unzip"
+    "bash-completion"
+    "yay"
+    "tk"
 )
 
 update_mirrorlist_and_packages() {
@@ -16,7 +21,7 @@ update_mirrorlist_and_packages() {
 }
 
 install_required() {
-    sudo pacman -S "${REQUIRED[@]}"
+    sudo pacman -Sy --noconfirm --needed "${REQUIRED[@]}"
 }
 
 main() {
