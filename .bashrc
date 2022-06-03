@@ -9,7 +9,7 @@ export OSH=~/.oh-my-bash
 
 # Set name of the theme to load. Optionally, if you set this to "random"
 # it'll load a random theme each time that oh-my-bash is loaded.
-OSH_THEME="agnoster"
+OSH_THEME="brainy"
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
@@ -121,6 +121,7 @@ alias vi='nvim'
 alias vim='nvim'
 alias pp='bat'
 alias ls='lsd --blocks permission,user,size,name'
+alias sudo='sudo '
 
 # Show coloured manpages!
 if [[ "$(uname -o)" == "Android" ]]; then
@@ -136,3 +137,5 @@ else
     # export MANPAGER="sh -c 'sed -e s/.\\\\x08//g | bat --paging always -l man -p'"
     export MANPAGER="sh -c 'col -bx | bat --paging always -l man -p'"
 fi
+
+export PATH=$PATH:~/.cargo/bin
