@@ -178,6 +178,10 @@ require("packer").startup(function()
         run = "./install.sh",
         requires = "hrsh7th/nvim-cmp",
     })
+    use({
+        "lukas-reineke/cmp-under-comparator",
+        requires = "hrsh7th/nvim-cmp",
+    })
     ---------------------------------------------------------
 
     ---------------------- Git section ----------------------
@@ -350,6 +354,18 @@ local CMP_KINDS = {
 -- 3}}}
 
 cmp.setup({
+    sorting = {
+        comparators = {
+            cmp.config.compare.offset,
+            cmp.config.compare.exact,
+            cmp.config.compare.score,
+            require "cmp-under-comparator".under,
+            cmp.config.compare.kind,
+            cmp.config.compare.sort_text,
+            cmp.config.compare.length,
+            cmp.config.compare.order,
+        },
+    },
     formatting = {
         format = lspkind.cmp_format({
             mode = "symbol_text",
@@ -398,8 +414,8 @@ cmp.setup({
         end, { "i", "s" }),
     }),
     sources = cmp.config.sources({
-        { name = "vsnip" },
         { name = "nvim_lsp" },
+        { name = "vsnip" },
         { name = "cmp_tabnine" },
     }, {
         { name = "buffer" },
@@ -603,6 +619,7 @@ require("nvim-treesitter.configs").setup({
         "go",
         "html",
         "toml",
+        "lua",
     },
     highlight = {
         enable = true,
