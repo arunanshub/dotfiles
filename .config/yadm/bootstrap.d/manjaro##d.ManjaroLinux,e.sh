@@ -1,7 +1,7 @@
 #! /bin/sh
 
 REQUIRED=(
-    "python-tensorflow"
+    "python-tensorflow-cuda"
     "brave-browser"
     "ipython"
     "bat"
