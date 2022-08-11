@@ -69,6 +69,9 @@ require("packer").startup(function()
     -- editorconfig support for neovim
     use "editorconfig/editorconfig-vim"
 
+    -- Decrypt GPG encrypted files from within Neovim.
+    use "jamessan/vim-gnupg"
+
     -- Tagbar
     use({ "majutsushi/tagbar", cmd = "TagbarOpenAutoClose" })
 
@@ -144,8 +147,11 @@ require("packer").startup(function()
     use "onsails/lspkind-nvim"
     -- LSP Server installer
     use({
-        "williamboman/nvim-lsp-installer",
-        requires = "neovim/nvim-lspconfig",
+        "williamboman/mason.nvim",
+        requires = {
+            "neovim/nvim-lspconfig",
+            "williamboman/mason-lspconfig.nvim"
+        },
     })
     -- UI for LSP
     use({
@@ -451,12 +457,12 @@ local SERVERS = {
     "clangd",
     "vimls",
     "emmet_ls",
-    "taplo", -- toml
+    -- "taplo", -- toml
     "yamlls",
 }
 
-local lsp_installer = require "nvim-lsp-installer"
-lsp_installer.setup({ ensure_installed = SERVERS })
+require("mason").setup()
+require("mason-lspconfig").setup({ ensure_installed = SERVERS })
 local lspconfig = require "lspconfig"
 
 -- Set up keymaps {{{3
@@ -584,7 +590,7 @@ require("lspsaga").init_lsp_saga({
     },
     rename_action_keys = {
         quit = "<esc>",
-    },
+   },
 })
 
 -- Lualine
