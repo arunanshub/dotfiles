@@ -1,6 +1,6 @@
 #! /bin/sh
 
-REQUIRED=(
+PACKAGES=(
     "python-tensorflow-cuda"
     "brave-browser"
     "ipython"
@@ -14,18 +14,18 @@ REQUIRED=(
     "bash-completion"
     "yay"
     "tk"
+    # AUR packages
+    "nerd-fonts-fira-code"
 )
 
-update_mirrorlist_and_packages() {
-    sudo pacman-mirrors --fasttrack && sudo pacman -Syyu
+sync_and_install_yay() {
+    # sudo pacman-mirrors --fasttrack --api --protocol https &&
+    sudo pacman -Syyu --needed --noconfirm yay
 }
 
-install_required() {
-    sudo pacman -Sy --noconfirm --needed "${REQUIRED[@]}"
+# Installs both the core and AUR packages.
+install_packages() {
+    yay -Syyu --noconfirm --needed "${PACKAGES[@]}"
 }
 
-main() {
-    update_mirrorlist_and_packages && install_required
-}
-
-main
+sync_and_install_yay && install_packages
