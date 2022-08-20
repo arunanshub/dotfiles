@@ -14,6 +14,10 @@ PACKAGES=(
     "bash-completion"
     "yay"
     "tk"
+    "lsd"
+    "ripgrep"
+    "keybase-gui"
+    "iwd"
     # AUR packages
     "nerd-fonts-fira-code"
 )
