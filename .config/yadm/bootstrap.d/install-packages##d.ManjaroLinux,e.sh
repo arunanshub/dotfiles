@@ -18,12 +18,21 @@ PACKAGES=(
     "ripgrep"
     "keybase-gui"
     "iwd"
+    "meson"
+    "tree"
+    "duf"
     # AUR packages
     "nerd-fonts-fira-code"
 )
 
+sync_packages() {
+    echo "Set SYNC_PACKAGES to sync packages"
+    if [[ -n $SYNC_PACKAGES ]]; then
+        sudo pacman-mirrors --fasttrack --api --protocol https
+    fi
+}
+
 sync_and_install_yay() {
-    # sudo pacman-mirrors --fasttrack --api --protocol https &&
     sudo pacman -Syyu --needed --noconfirm yay
 }
 
@@ -32,4 +41,4 @@ install_packages() {
     yay -Syyu --noconfirm --needed "${PACKAGES[@]}"
 }
 
-sync_and_install_yay && install_packages
+sync_packages && sync_and_install_yay && install_packages
