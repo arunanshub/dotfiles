@@ -457,6 +457,7 @@ local SERVERS = {
     "clangd",
     "vimls",
     "emmet_ls",
+    "gopls",
     -- "taplo", -- toml
     "yamlls",
 }

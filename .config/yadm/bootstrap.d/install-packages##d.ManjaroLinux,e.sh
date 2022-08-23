@@ -21,6 +21,7 @@ PACKAGES=(
     "meson"
     "tree"
     "duf"
+    "go"
     # AUR packages
     "nerd-fonts-fira-code"
 )
