@@ -458,7 +458,7 @@ local SERVERS = {
     "vimls",
     "emmet_ls",
     "gopls",
-    -- "taplo", -- toml
+    "taplo", -- toml
     "yamlls",
 }
 
@@ -624,9 +624,11 @@ require("nvim-treesitter.configs").setup({
         "cpp",
         "bash",
         "go",
+        "gomod",
         "html",
         "toml",
         "lua",
+        "yaml",
     },
     highlight = {
         enable = true,
