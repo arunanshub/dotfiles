@@ -1,3 +1,4 @@
+#! /bin/bash
 # Enable the subsequent settings only in interactive sessions
 case $- in
   *i*) ;;
@@ -87,7 +88,8 @@ source "$OSH"/oh-my-bash.sh
 
 # User configuration
 # export MANPATH="/usr/local/man:$MANPATH"
-export GPG_TTY=$(tty)
+GPG_TTY=$(tty)
+export GPG_TTY
 
 # Do not display the username@hostname for agnoster theme
 AG_NO_CONTEXT="true"
