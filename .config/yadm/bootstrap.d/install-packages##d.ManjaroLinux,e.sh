@@ -22,6 +22,7 @@ PACKAGES=(
     "tree"
     "duf"
     "go"
+    "ctags"
     # AUR packages
     "nerd-fonts-fira-code"
 )
