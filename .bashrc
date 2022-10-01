@@ -110,6 +110,7 @@ export EDITOR='nvim'
 
 # ssh
 # export SSH_KEY_PATH="~/.ssh/rsa_id"
+export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
 
 # Set personal aliases, overriding those provided by oh-my-bash libs,
 # plugins, and themes. Aliases can be placed here, though oh-my-bash
@@ -141,3 +142,4 @@ else
 fi
 
 export PATH=$PATH:~/.cargo/bin
+alias ip='ip -color=auto'
