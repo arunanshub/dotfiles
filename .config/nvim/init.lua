@@ -460,6 +460,7 @@ local SERVERS = {
     "gopls",
     "taplo", -- toml
     "yamlls",
+    "jdtls",
 }
 
 require("mason").setup()
