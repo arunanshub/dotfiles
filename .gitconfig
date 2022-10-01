@@ -12,3 +12,5 @@
 	defaultBranch = master
 [credential]
 	helper = netconf -d -q
+[color]
+	ui = true
