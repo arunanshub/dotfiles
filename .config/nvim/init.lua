@@ -30,6 +30,8 @@ require("packer").startup(function()
     -- Package manager (MUST!)
     use "wbthomason/packer.nvim"
 
+    use "tpope/vim-eunuch"
+
     -- Fugitive-companion to interact with github
     -- use 'tpope/vim-rhubarb'
 
@@ -463,6 +465,8 @@ local SERVERS = {
     "taplo", -- toml
     "yamlls",
     "jdtls",
+    "tsserver",
+    "tailwindcss",
 }
 
 require("mason").setup()
@@ -518,7 +522,9 @@ local on_attach = function(_, bufnr)
     vim.keymap.set("n", "<leader>wl", function()
         vim.inspect(vim.lsp.buf.list_workspace_folders())
     end, opts)
-    vim.api.nvim_create_user_command("Format", vim.lsp.buf.format { async = true }, {})
+    vim.api.nvim_create_user_command("Format", function(...)
+        vim.lsp.buf.format({ async = true, ... })
+    end, {})
 end
 -- 3}}}
 
