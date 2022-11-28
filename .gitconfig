@@ -10,7 +10,5 @@
 	signingKey = 80354B75906DDD89F7676D15729D794DBD22DB68
 [init]
 	defaultBranch = master
-[credential]
-	helper = netconf -d -q
 [color]
 	ui = true
