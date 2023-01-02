@@ -16,12 +16,12 @@ if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
     )
 end
 
-vim.cmd([[
+vim.cmd [[
 augroup packer_user_config
-    autocmd!
-    autocmd BufWritePost plugins.lua source <afile> | PackerCompile
+  autocmd!
+  autocmd BufWritePost init.lua source <afile> | :PackerCompile
 augroup end
-]])
+]]
 -- 1}}}
 
 -- Plugins {{{1
@@ -29,8 +29,6 @@ local use = require("packer").use
 require("packer").startup(function()
     -- Package manager (MUST!)
     use "wbthomason/packer.nvim"
-
-    use "tpope/vim-eunuch"
 
     -- Fugitive-companion to interact with github
     -- use 'tpope/vim-rhubarb'
@@ -175,12 +173,9 @@ require("packer").startup(function()
     })
     -- snippets
     use({
-        "saadparwaiz1/cmp_luasnip",
+        "hrsh7th/cmp-vsnip",
         requires = {
-            {
-                "L3MON4D3/LuaSnip",
-                tag = "v1.*",
-            },
+            "hrsh7th/vim-vsnip",
             "rafamadriz/friendly-snippets",
         },
     })
@@ -316,17 +311,22 @@ vnoremap <leader>y "+y
 -- nvim-cmp: Autocompletion plugin {{{2
 local lspkind = require "lspkind"
 local cmp = require "cmp"
-local luasnip = require "luasnip"
-
-require("luasnip.loaders.from_vscode").lazy_load()
 
 local has_words_before = function()
     local line, col = unpack(vim.api.nvim_win_get_cursor(0))
     return col ~= 0
         and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]
-        :sub(col, col)
-        :match "%s"
-        == nil
+                :sub(col, col)
+                :match "%s"
+            == nil
+end
+
+local feedkey = function(key, mode)
+    vim.api.nvim_feedkeys(
+        vim.api.nvim_replace_termcodes(key, true, true, true),
+        mode,
+        true
+    )
 end
 
 -- Fancy Autocompletion popup icons {{{3
@@ -388,7 +388,7 @@ cmp.setup({
     },
     snippet = {
         expand = function(args)
-            require 'luasnip'.lsp_expand(args.body)
+            vim.fn["vsnip#anonymous"](args.body)
         end,
     },
     mapping = cmp.mapping.preset.insert({
@@ -403,27 +403,25 @@ cmp.setup({
         ["<Tab>"] = cmp.mapping(function(fallback)
             if cmp.visible() then
                 cmp.select_next_item()
-            elseif luasnip.expand_or_jumpable() then
-                luasnip.expand_or_jump()
+            elseif vim.fn["vsnip#available"](1) == 1 then
+                feedkey("<Plug>(vsnip-expand-or-jump)", "")
             elseif has_words_before() then
                 cmp.complete()
             else
-                fallback()
+                fallback() -- The fallback function sends a already mapped key. In this case, it's probably `<Tab>`.
             end
         end, { "i", "s" }),
-        ["<S-Tab>"] = cmp.mapping(function(fallback)
+        ["<S-Tab>"] = cmp.mapping(function()
             if cmp.visible() then
                 cmp.select_prev_item()
-            elseif luasnip.jumpable(-1) then
-                luasnip.jump(-1)
-            else
-                fallback()
+            elseif vim.fn["vsnip#jumpable"](-1) == 1 then
+                feedkey("<Plug>(vsnip-jump-prev)", "")
             end
         end, { "i", "s" }),
     }),
     sources = cmp.config.sources({
         { name = "nvim_lsp" },
-        { name = "luasnip" },
+        { name = "vsnip" },
         { name = "cmp_tabnine" },
     }, {
         { name = "buffer" },
@@ -459,15 +457,10 @@ local SERVERS = {
     "clangd",
     "vimls",
     "emmet_ls",
-    "cssls",
-    "esbonio",
     "gopls",
     "taplo", -- toml
     "yamlls",
     "jdtls",
-    "tsserver",
-    "tailwindcss",
-    "dockerls",
 }
 
 require("mason").setup()
@@ -523,9 +516,7 @@ local on_attach = function(_, bufnr)
     vim.keymap.set("n", "<leader>wl", function()
         vim.inspect(vim.lsp.buf.list_workspace_folders())
     end, opts)
-    vim.api.nvim_create_user_command("Format", function(...)
-        vim.lsp.buf.format({ async = true, ... })
-    end, {})
+    vim.api.nvim_create_user_command("Format", vim.lsp.buf.formatting, {})
 end
 -- 3}}}
 
@@ -556,7 +547,6 @@ local SERVER_SPECIFIC_OPTS = {
                 runtime = { version = "LuaJIT" },
                 workspace = {
                     library = vim.api.nvim_get_runtime_file("", true),
-                    checkThirdParty = false,
                 },
                 completion = { callSnippet = "Replace" },
                 diagnostics = {
@@ -572,7 +562,7 @@ local SERVER_SPECIFIC_OPTS = {
 -- 3}}}
 
 -- nvim-cmp supports additional completion capabilities
-local capabilities = require("cmp_nvim_lsp").default_capabilities(
+local capabilities = require("cmp_nvim_lsp").update_capabilities(
     vim.lsp.protocol.make_client_capabilities()
 )
 
@@ -602,7 +592,7 @@ require("lspsaga").init_lsp_saga({
     },
     rename_action_keys = {
         quit = "<esc>",
-    },
+   },
 })
 
 -- Lualine
@@ -640,14 +630,10 @@ require("nvim-treesitter.configs").setup({
         "toml",
         "lua",
         "yaml",
-        "rst",
-        "json",
-        "dockerfile",
     },
     highlight = {
         enable = true,
     },
-    additional_vim_regex_highlighting = false,
 })
 
 -- Tagbar
