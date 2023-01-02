@@ -467,6 +467,7 @@ local SERVERS = {
     "jdtls",
     "tsserver",
     "tailwindcss",
+    "dockerls",
 }
 
 require("mason").setup()
@@ -640,6 +641,8 @@ require("nvim-treesitter.configs").setup({
         "lua",
         "yaml",
         "rst",
+        "json",
+        "dockerfile",
     },
     highlight = {
         enable = true,
