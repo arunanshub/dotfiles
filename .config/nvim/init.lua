@@ -30,6 +30,7 @@ require("packer").startup(function()
     -- Package manager (MUST!)
     use "wbthomason/packer.nvim"
 
+    use "tpope/vim-eunuch"
     -- Fugitive-companion to interact with github
     -- use 'tpope/vim-rhubarb'
 
@@ -461,6 +462,11 @@ local SERVERS = {
     "taplo", -- toml
     "yamlls",
     "jdtls",
+    "cssls",
+    "esbonio",
+    "tsserver",
+    "tailwindcss",
+    "dockerls",
 }
 
 require("mason").setup()
@@ -516,7 +522,9 @@ local on_attach = function(_, bufnr)
     vim.keymap.set("n", "<leader>wl", function()
         vim.inspect(vim.lsp.buf.list_workspace_folders())
     end, opts)
-    vim.api.nvim_create_user_command("Format", vim.lsp.buf.formatting, {})
+    vim.api.nvim_create_user_command("Format", function(...)
+        vim.lsp.buf.format({ async = true, ... })
+    end, {})
 end
 -- 3}}}
 
@@ -547,6 +555,7 @@ local SERVER_SPECIFIC_OPTS = {
                 runtime = { version = "LuaJIT" },
                 workspace = {
                     library = vim.api.nvim_get_runtime_file("", true),
+                    checkThirdParty = false,
                 },
                 completion = { callSnippet = "Replace" },
                 diagnostics = {
@@ -562,7 +571,7 @@ local SERVER_SPECIFIC_OPTS = {
 -- 3}}}
 
 -- nvim-cmp supports additional completion capabilities
-local capabilities = require("cmp_nvim_lsp").update_capabilities(
+local capabilities = require("cmp_nvim_lsp").default_capabilities(
     vim.lsp.protocol.make_client_capabilities()
 )
 
@@ -630,6 +639,9 @@ require("nvim-treesitter.configs").setup({
         "toml",
         "lua",
         "yaml",
+        "rst",
+        "json",
+        "dockerfile",
     },
     highlight = {
         enable = true,
