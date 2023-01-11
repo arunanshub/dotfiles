@@ -31,7 +31,7 @@ PACKAGES=(
 sync_packages() {
     echo "Set SYNC_PACKAGES to sync packages"
     if [[ -n $SYNC_PACKAGES ]]; then
-        sudo pacman-mirrors --fasttrack --api --protocol https
+        sudo pacman-mirrors --api --protocol https
     fi
 }
 
