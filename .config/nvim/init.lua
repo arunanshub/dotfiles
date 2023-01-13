@@ -642,6 +642,8 @@ require("nvim-treesitter.configs").setup({
         "rst",
         "json",
         "dockerfile",
+        "meson",
+        "ninja",
     },
     highlight = {
         enable = true,
