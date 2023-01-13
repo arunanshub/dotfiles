@@ -24,8 +24,8 @@ PACKAGES=(
     "go"
     "ctags"
     "make"
-    # AUR packages
-    "nerd-fonts-fira-code"
+    "ttf-fira-code"
+    "qbittorrent"
 )
 
 sync_packages() {
