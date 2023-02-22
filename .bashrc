@@ -10,7 +10,8 @@ export OSH=~/.oh-my-bash
 
 # Set name of the theme to load. Optionally, if you set this to "random"
 # it'll load a random theme each time that oh-my-bash is loaded.
-OSH_THEME="brainy"
+# OSH_THEME="brainy"
+OSH_THEME="pzq"
 # Do not show sudo and pollute system log
 THEME_SHOW_SUDO="false"
 
@@ -127,6 +128,8 @@ alias vim='nvim'
 alias pp='bat'
 alias ls='lsd --blocks permission,user,size,name'
 alias sudo='sudo '
+alias ip='ip -color=auto'
+alias tree='tree --gitignore -I __pycache__ --filesfirst'
 
 # Show coloured manpages!
 if [[ "$(uname -o)" == "Android" ]]; then
@@ -144,4 +147,3 @@ else
 fi
 
 export PATH=$PATH:~/.cargo/bin
-alias ip='ip -color=auto'
