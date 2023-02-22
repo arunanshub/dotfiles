@@ -14,9 +14,6 @@ local servers = {
   "gopls",
   "jdtls",
 
-  -- sphinx shit
-  "esbonio",
-
   -- shell
   "bashls",
 }
@@ -27,3 +24,10 @@ for _, lsp in ipairs(servers) do
     capabilities = capabilities,
   }
 end
+
+  -- sphinx documentation
+lspconfig["esbonio"].setup {
+  cmd = { "esbonio" },
+  on_attach = on_attach,
+  capabilities = capabilities,
+}
