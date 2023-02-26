@@ -3,6 +3,8 @@ return {
 
   ["tpope/vim-surround"] = {},
 
+  ["Vimjas/vim-python-pep8-indent"] = { ft = { "python" } },
+
   ["neovim/nvim-lspconfig"] = {
     config = function()
       require "plugins.configs.lspconfig"
@@ -24,6 +26,12 @@ return {
   --     }
   --   end,
   -- },
+  ["jose-elias-alvarez/null-ls.nvim"] = {
+    after = "nvim-lspconfig",
+    config = function()
+      require "custom.plugins.null-ls"
+    end,
+  },
 
   ["williamboman/mason.nvim"] = {
     override_options = {
@@ -36,6 +44,7 @@ return {
         "html-lsp",
         "css-lsp",
         "emmet-ls",
+        "prettier",
         -- "typescript-language-server",
         -- "deno",
         -- "cssls",
@@ -43,10 +52,18 @@ return {
         -- "tailwindcss",
         -- "emmet_ls",
 
-        -- programming languages
-        "clangd",
+        -- python
         "pyright",
+        "black",
+        "isort",
+
+        -- C/C++
+        "clangd",
+        "clang-format",
+
+        -- Go
         "gopls",
+
         "jdtls",
         -- "rust-analyzer",
         -- "html",
@@ -62,23 +79,23 @@ return {
         -- "dockerls",
 
         -- shell
-        -- "shfmt",
-        -- "shellcheck",
+        "shfmt",
+        "shellcheck",
         "bash-language-server",
       },
     },
   },
 
   ["nvim-telescope/telescope.nvim"] = {
-    override_options = function ()
+    override_options = function()
       -- close telescope on escape
-      local actions = require("telescope.actions")
+      local actions = require "telescope.actions"
       return {
         defaults = {
           mappings = {
             i = { ["<esc>"] = actions.close },
-          }
-        }
+          },
+        },
       }
     end,
   },
@@ -103,7 +120,10 @@ return {
         "meson",
         "ninja",
         "markdown",
-      }
-    }
+      },
+      indent = {
+        enable = false,
+      },
+    },
   },
 }
