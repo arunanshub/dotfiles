@@ -1,8 +1,8 @@
 #! /bin/bash
 # Enable the subsequent settings only in interactive sessions
 case $- in
-  *i*) ;;
-    *) return;;
+*i*) ;;
+*) return ;;
 esac
 
 # Path to your oh-my-bash installation.
@@ -58,9 +58,9 @@ COMPLETION_WAITING_DOTS="true"
 # Example format: completions=(ssh git bundler gem pip pip3)
 # Add wisely, as too many completions slow down shell startup.
 completions=(
-  git
-  composer
-  ssh
+	git
+	composer
+	ssh
 )
 
 # Which aliases would you like to load? (aliases can be found in ~/.oh-my-bash/aliases/*)
@@ -68,7 +68,7 @@ completions=(
 # Example format: aliases=(vagrant composer git-avh)
 # Add wisely, as too many aliases slow down shell startup.
 aliases=(
-  general
+	general
 )
 
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-bash/plugins/*)
@@ -76,8 +76,8 @@ aliases=(
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
-  git
-  bashmarks
+	git
+	bashmarks
 )
 
 # Which plugins would you like to conditionally load? (plugins can be found in ~/.oh-my-bash/plugins/*)
@@ -133,17 +133,17 @@ alias tree='tree --gitignore -I __pycache__ --filesfirst'
 
 # Show coloured manpages!
 if [[ "$(uname -o)" == "Android" ]]; then
-    # Termux doesn't support complex MANPAGER commands
-    export LESS_TERMCAP_mb=$'\e[1;32m'
-    export LESS_TERMCAP_md=$'\e[1;32m'
-    export LESS_TERMCAP_me=$'\e[0m'
-    export LESS_TERMCAP_se=$'\e[0m'
-    export LESS_TERMCAP_so=$'\e[01;33m'
-    export LESS_TERMCAP_ue=$'\e[0m'
-    export LESS_TERMCAP_us=$'\e[1;4;31m'
+	# Termux doesn't support complex MANPAGER commands
+	export LESS_TERMCAP_mb=$'\e[1;32m'
+	export LESS_TERMCAP_md=$'\e[1;32m'
+	export LESS_TERMCAP_me=$'\e[0m'
+	export LESS_TERMCAP_se=$'\e[0m'
+	export LESS_TERMCAP_so=$'\e[01;33m'
+	export LESS_TERMCAP_ue=$'\e[0m'
+	export LESS_TERMCAP_us=$'\e[1;4;31m'
 else
-    # export MANPAGER="sh -c 'sed -e s/.\\\\x08//g | bat --paging always -l man -p'"
-    export MANPAGER="sh -c 'col -bx | bat --paging always -l man -p'"
+	# export MANPAGER="sh -c 'sed -e s/.\\\\x08//g | bat --paging always -l man -p'"
+	export MANPAGER="sh -c 'col -bx | bat --paging always -l man -p'"
 fi
 
 export PATH=$PATH:~/.cargo/bin

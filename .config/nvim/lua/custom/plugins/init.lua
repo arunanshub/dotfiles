@@ -45,12 +45,10 @@ return {
         "css-lsp",
         "emmet-ls",
         "prettier",
-        -- "typescript-language-server",
+        "typescript-language-server",
+        "json-lsp",
         -- "deno",
-        -- "cssls",
-        -- "tsserver",
         -- "tailwindcss",
-        -- "emmet_ls",
 
         -- python
         "pyright",
@@ -64,19 +62,16 @@ return {
         -- Go
         "gopls",
 
+        -- java
         "jdtls",
         -- "rust-analyzer",
-        -- "html",
         -- "vimls",
 
         -- sphinx
         "esbonio",
 
-        -- config files
-        -- "taplo",
-        -- "yamlls",
-        -- "json-lsp",
-        -- "dockerls",
+        -- docker
+        "dockerfile-language-server",
 
         -- shell
         "shfmt",
@@ -103,23 +98,37 @@ return {
   ["nvim-treesitter/nvim-treesitter"] = {
     override_options = {
       ensure_installed = {
+        -- general langs
         "python",
         "rust",
         "c",
         "cpp",
-        "bash",
-        "go",
-        "gomod",
-        "html",
-        "toml",
         "lua",
+        "go",
+
+        -- configs
+        "gomod",
         "yaml",
-        "rst",
+        "toml",
         "json",
-        "dockerfile",
-        "meson",
         "ninja",
+        "meson",
+
+        -- shell
+        "bash",
+
+        -- docs
         "markdown",
+        "rst",
+
+        -- docker
+        "dockerfile",
+
+        -- webdev
+        "javascript",
+        "typescript",
+        "html",
+        "vue",
       },
       indent = {
         enable = false,

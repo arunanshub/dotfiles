@@ -8,8 +8,8 @@ local b = null_ls.builtins
 
 local sources = {
   -- webdev stuff
-  b.formatting.deno_fmt,
-  b.formatting.prettier,
+  -- b.formatting.deno_fmt,
+  b.formatting.prettierd,
 
   -- python
   b.formatting.black,
@@ -17,6 +17,10 @@ local sources = {
 
   -- c/c++
   b.formatting.clang_format,
+
+  -- golang
+  b.formatting.goimports_reviser,
+  b.formatting.gofumpt,
 
   -- Lua
   b.formatting.stylua,
