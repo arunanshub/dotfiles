@@ -20,7 +20,10 @@ local servers = {
 
   -- docker
   "dockerls",
-  "docker_compose_language_service",
+
+  -- config files
+  -- "yamlls",
+  "taplo",
 
   -- shell
   "bashls",
@@ -36,6 +39,14 @@ end
 -- sphinx documentation
 lspconfig["esbonio"].setup {
   cmd = { "esbonio" },
+  on_attach = on_attach,
+  capabilities = capabilities,
+}
+
+-- docker-compose lsp
+lspconfig["docker_compose_language_service"].setup {
+  -- root_dir = lspconfig.util.root_pattern("compose.y*ml", "docker-compose.y*ml"),
+  -- single_file_support = false,
   on_attach = on_attach,
   capabilities = capabilities,
 }

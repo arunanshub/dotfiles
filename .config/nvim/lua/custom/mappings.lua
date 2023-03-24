@@ -12,7 +12,7 @@ M.disabled = {
 M.general = {
   n = {
     [";"] = { ":", "enter command mode", opts = { nowait = true } },
-    ["<C-L>"] = { "<cmd>nohl <CR>", "clear highlights" },
+
     ["<leader>d"] = {
       function()
         vim.diagnostic.open_float()
@@ -30,6 +30,7 @@ M.telescope = {
     ["gd"] = { "<cmd> Telescope lsp_definitions <CR>", "Find definitions" },
     ["<leader>q"] = { "<cmd> Telescope diagnostics <CR>", "Show workspace diagnostics" },
     ["<leader>s"] = { "<cmd> Telescope lsp_document_symbols <CR>", "Show document symbols" },
+    ["<leader>tk"] = { "<cmd> Telescope keymaps <CR>", "Keymaps" },
   },
 
   v = {
