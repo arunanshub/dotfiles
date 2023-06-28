@@ -1,4 +1,4 @@
-#! /bin/bash
+#!/bin/bash
 # Enable the subsequent settings only in interactive sessions
 case $- in
 *i*) ;;
@@ -10,8 +10,11 @@ export OSH=~/.oh-my-bash
 
 # Set name of the theme to load. Optionally, if you set this to "random"
 # it'll load a random theme each time that oh-my-bash is loaded.
-# OSH_THEME="brainy"
-OSH_THEME="pzq"
+# cooperkid
+# duru
+# sexy
+# gallifrey, garo
+OSH_THEME="brainy"
 # Do not show sudo and pollute system log
 THEME_SHOW_SUDO="false"
 
@@ -43,7 +46,7 @@ COMPLETION_WAITING_DOTS="true"
 # Uncomment the following line if you want to disable marking untracked files
 # under VCS as dirty. This makes repository status check for large repositories
 # much, much faster.
-# DISABLE_UNTRACKED_FILES_DIRTY="true"
+DISABLE_UNTRACKED_FILES_DIRTY="true"
 
 # Uncomment the following line if you want to change the command execution time
 # stamp shown in the history command output.
@@ -59,8 +62,6 @@ COMPLETION_WAITING_DOTS="true"
 # Add wisely, as too many completions slow down shell startup.
 completions=(
 	git
-	composer
-	ssh
 )
 
 # Which aliases would you like to load? (aliases can be found in ~/.oh-my-bash/aliases/*)
@@ -69,6 +70,7 @@ completions=(
 # Add wisely, as too many aliases slow down shell startup.
 aliases=(
 	general
+	docker
 )
 
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-bash/plugins/*)
@@ -77,7 +79,6 @@ aliases=(
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
 	git
-	bashmarks
 )
 
 # Which plugins would you like to conditionally load? (plugins can be found in ~/.oh-my-bash/plugins/*)
@@ -146,4 +147,4 @@ else
 	export MANPAGER="sh -c 'col -bx | bat --paging always -l man -p'"
 fi
 
-export PATH=$PATH:~/.cargo/bin
+export PATH=$PATH:~/.cargo/bin:~/.nimble/bin
