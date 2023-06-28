@@ -1,4 +1,4 @@
-#! /bin/sh
+#!/bin/bash
 
 PACKAGES=(
     "python-tensorflow-cuda"
@@ -24,14 +24,14 @@ PACKAGES=(
     "go"
     "ctags"
     "make"
-    "ttf-fira-code"
+    "ttf-firacode-nerd"
     "qbittorrent"
 )
 
 sync_packages() {
     echo "Set SYNC_PACKAGES to sync packages"
     if [[ -n $SYNC_PACKAGES ]]; then
-        sudo pacman-mirrors --api --protocol https
+        sudo pacman-mirrors --fasttrack 10 --api --protocol https
     fi
 }
 
