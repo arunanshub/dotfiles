@@ -34,6 +34,10 @@ M.treesitter = {
     "typescript",
     "html",
     "vue",
+
+    -- prisma and sql
+    "prisma",
+    "sql",
   },
   indent = {
     enable = true,
@@ -53,10 +57,11 @@ M.mason = {
     "html-lsp",
     "css-lsp",
     "emmet-ls",
-    "prettier",
+    "prettierd",
     "typescript-language-server",
+    "vue-language-server",
     "json-lsp",
-    -- "deno",
+    "deno",
     -- "tailwindcss",
 
     -- python
@@ -89,6 +94,9 @@ M.mason = {
     "shfmt",
     "shellcheck",
     "bash-language-server",
+
+    -- yaml
+    "yamlfmt",
   },
 }
 
@@ -108,18 +116,6 @@ M.nvimtree = {
   },
 }
 
--- local actions = require "telescope.actions"
--- M.telescope = function(_, opts)
---   opts = vim.tbl_deep_extend("force", opts, {
---     defaults = {
---       mappings = {
---         i = { ["<esc>"] = require("telescope.actions").close },
---       },
---     },
---   })
---   return opts
--- end
-
 M.telescope = {
   defaults = {
     mappings = {
@@ -132,10 +128,22 @@ M.telescope = {
   },
 }
 
-M.nvim_cmp = {
-  completion = {
-    completeopt = "menu,menuone,noselect",
-  },
-}
+M.nvim_cmp = function(_, opts)
+  local cmp = require "cmp"
+
+  opts = vim.tbl_deep_extend("force", opts, {
+    mapping = {
+      ["<CR>"] = cmp.mapping.confirm {
+        behavior = cmp.ConfirmBehavior.Replace,
+        select = false,
+      },
+    },
+    completion = {
+      completeopt = "menu,menuone,noselect",
+    },
+    preselect = cmp.PreselectMode.NONE,
+  })
+  return opts
+end
 
 return M

@@ -6,8 +6,9 @@ local servers = {
   -- web dev stuff
   "html",
   "cssls",
-  "emmet_ls",
+  -- "emmet_ls",
   "jsonls",
+  "astro",
   "volar",
 
   -- languages
@@ -15,7 +16,7 @@ local servers = {
   "pyright",
   "gopls",
   "jdtls",
-  "tsserver",
+  -- "tsserver",
   "zls",
 
   -- docker
@@ -27,6 +28,12 @@ local servers = {
 
   -- shell
   "bashls",
+
+  -- prisma db
+  "prismals",
+
+  -- markdown
+  "marksman",
 }
 
 for _, lsp in ipairs(servers) do
@@ -45,8 +52,34 @@ lspconfig["esbonio"].setup {
 
 -- docker-compose lsp
 lspconfig["docker_compose_language_service"].setup {
-  -- root_dir = lspconfig.util.root_pattern("compose.y*ml", "docker-compose.y*ml"),
-  -- single_file_support = false,
+  on_attach = on_attach,
+  capabilities = capabilities,
+}
+
+lspconfig["volar"].setup {
+  filetypes = {
+    "typescript",
+    "javascript",
+    "javascriptreact",
+    "typescriptreact",
+    "vue",
+    "json",
+  },
+  -- on_attach = on_attach,
+  on_attach = function(client, ...)
+    client.server_capabilities.documentFormattingProvider = false -- 0.8 and later
+    return on_attach(client, ...)
+  end,
+  capabilities = capabilities,
+}
+
+-- lspconfig["unocss"].setup {
+--   on_attach = on_attach,
+--   capabilities = capabilities,
+-- }
+
+lspconfig["tsserver"].setup {
+  filetypes = { "javascript" },
   on_attach = on_attach,
   capabilities = capabilities,
 }

@@ -2,9 +2,11 @@ local overrides = require "custom.configs.overrides"
 
 ---@type NvPluginSpec[]
 local plugins = {
-  { "tpope/vim-abolish" },
+  { "tpope/vim-abolish", lazy = false },
 
   { "tpope/vim-surround", lazy = false },
+
+  { "tpope/vim-eunuch", lazy = false },
 
   {
     "Vimjas/vim-python-pep8-indent",
@@ -58,7 +60,7 @@ local plugins = {
   {
     "numToStr/Comment.nvim",
     keys = { "gc" },
-  }
+  },
 }
 
 return plugins
